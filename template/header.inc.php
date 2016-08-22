@@ -1,5 +1,7 @@
 <?php
 	session_start();
+	require_once('config.php');
+	$db = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=UTF8",DB_USER, DB_PASS);
 ?>
 <!DOCTYPE HTML>
 <head>
@@ -27,7 +29,7 @@
 				} else {
 					//Visiteur non authentifié
 					?>
-						<a href="/profile.php">se d&eacute;connecter</a>
+						<a href="/profile.php">s'identifier</a>
 					<?php
 				}
 			?>
