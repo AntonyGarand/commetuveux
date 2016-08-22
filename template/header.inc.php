@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	require_once('config.php');
+	require_once('functions.php');
 	$db = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=UTF8",DB_USER, DB_PASS);
 ?>
 <!DOCTYPE HTML>
@@ -23,7 +24,7 @@
 				} elseif ($_SESSION['role'] === 'user') {
 					//Usager
 					?>
-						<a href="/panier.php">Mon Panier(<?=$_SESSION['panierQte'])?>)</a>
+						<a href="/panier.php">Mon Panier(<?=$_SESSION['panierQte']?>)</a>
 						<a href="/logout.php">se d&eacute;connecter</a>
 					<?php
 				} else {
