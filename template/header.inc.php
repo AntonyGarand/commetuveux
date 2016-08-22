@@ -3,7 +3,7 @@
 ?>
 <!DOCTYPE HTML>
 <head>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
 	<navbar>
@@ -21,7 +21,7 @@
 				} elseif ($_SESSION['role'] === 'user') {
 					//Usager
 					?>
-						<a href="/panier.php">Mon Panier(<?=$_SESSION['panierQte'])?>)</a>
+						<a href="/panier.php">Mon Panier(<?=$_SESSION['panierQte']);?>)</a>
 						<a href="/logout.php">se d&eacute;connecter</a>
 					<?php
 				} else {
