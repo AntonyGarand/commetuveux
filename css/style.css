@@ -1,0 +1,20 @@
+/*
+Couleurs:
+- Rouge : #FF4A07
+- Orange : #FF9F07
+- Bleu : #09AAC1
+- Blanc : #FFFAFB
+- Noir : #000708
+*/
+
+
+* {
+	box-sizing:border-box;
+	display:inline-block;
+}
+
+body {
+	background-color: #FFFFFF;
+	font-family: 'Century Gothic', sans-serif;
+	color: #000708;
+}

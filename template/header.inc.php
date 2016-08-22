@@ -2,7 +2,9 @@
 	session_start();
 ?>
 <!DOCTYPE HTML>
-<head></head>
+<head>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
 <body>
 	<navbar>
 		<span>
