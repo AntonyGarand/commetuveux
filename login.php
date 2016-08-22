@@ -29,7 +29,7 @@ if(isset($_POST['login'])){
                 //Valid email/password!
                 $user = $validUserStmt->fetch();
                 $_SESSION['email'] = $user['courriel'];
-                $_SESSION['role'] = $user['administrateur']===1 ? 'admin' : 'user';
+                $_SESSION['role'] = intval($user['administrateur'])===1 ? 'admin' : 'user';
                 $_SESSION['isLoggedIn'] = true;
                 //TODO: Split header/navbar and send header "Location: index.php"; instead?
                 ?>

@@ -25,7 +25,7 @@
 				} elseif ($_SESSION['role'] === 'user') {
 					//Usager
 					?>
-						<a href="/panier.php">Mon Panier(<?=$_SESSION['panierQte']?>)</a>
+						<a href="/panier.php">Mon Panier(<?=$_SESSION['pannierQte']?>)</a>
 						<a href="/logout.php">se d&eacute;connecter</a>
 					<?php
 				} else {

@@ -1,4 +1,5 @@
 <?php
+
 	define('DB_USER','tia16001');
 	define('DB_PASS','bacode');
 	define('DB_NAME','tia16011');
@@ -10,4 +11,7 @@
 	}
 	if(!isset($_SESSION['isLoggedIn'])){
 		$_SESSION['isLoggedIn'] = 0;
+	}
+	if(!isset($_SESSION['pannierQte'])){
+		$_SESSION['pannierQte'] = 0;
 	}
