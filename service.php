@@ -19,19 +19,20 @@ $products = $db->query($productsQuery)->fetchAll();
 foreach($products as $product){
     ?>
     <div class="service">
-    <span class="serviceImage">
-        <img src="<?=urlencode($product['image'])?>" alt="image de <?=$product['service_titre']?>"/>
+    <span class="serviceImageWrapper">
+        <img class="serviceImage" src="<?=urlencode($product['image'])?>" alt="image de <?=$product['service_titre']?>"/>
     </span>
     <span class="serviceContentAdmin">
         <p class="serviceTitle"><?=htmlspecialchars($product['service_titre'])?></p>
         <p class="serviceDescription"><?=htmlspecialchars($product['service_description'])?></p>
-        <span class="servicePriceWrapper"><p class="servicePrice">Tarif : <?=intval($product['tarif'])?></p></span>
-        <span class="serviceLengthWrapper"><p class="serviceLength">Durée : <?=intval($product['durée'])?> h</p></span>
-        <span class="serviceAddToCartWrapper"><button class="addToCartBtn" onclick="addToCart(<?=intval($product['pk_service'])?>)"></button></span>
+        <span class="servicePriceAndLengthWrapper">
+            <span class="servicePriceWrapper"><p class="servicePrice">Tarif : <?=intval($product['tarif'])?>$</p></span>
+            <span class="serviceLengthWrapper"><p class="serviceLength">Durée : <?=intval($product['durée'])?> h</p></span>
+        </span>
     </span>
     <span class="servicePromoAdmin">
         <span class="servicePromoText">
-            <p class="promotion">Promotions :</p>
+            <p class="promotionTitleText">Promotions :</p>
         </span>
         <span class="servicePromoContent">
             <?php 
@@ -45,16 +46,17 @@ foreach($products as $product){
                     NOW() < date_fin 
                     AND fk_service = ' . intval($product['pk_service']);
             $promotions = $db->query($promotionQuery)->fetchAll();
+            if(count($promotions) > 0){
+            ?><span class="promotionWrapper"><?php
             foreach($promotions as $promotion){
                 ?>
                 <div class="promotion" id="promotion<?=$promotion['id']?>">
                     <p class="promoValue"><?=floatval($promotion['rabais'])*100?>%</p>
-                    <div class="promotionBoxBottom">PROMO CODE</div><?php //TODO: Faire cette boite avec un ::after et content="PROMO CODE" à la place? ?>
+                    <div class="promotionBoxBottom"><p class="promocodeText">PROMO CODE</p></div><?php //TODO: Faire cette boite avec un ::after et content="PROMO CODE" à la place? ?>
                 </div>
-                <?php
-            }
-            ?>
-            <p>＋</p>
+                <?php }} ?>
+            </span>
+            <span class="promoPlusWrapper"><p class="promoPlus">✚</p></span>
             <span class="serviceShareIcons"><!--TODO--></span>
         </span>
     </span>

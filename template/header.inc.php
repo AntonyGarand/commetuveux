@@ -1,5 +1,5 @@
 <?php
-	session_start();
+        session_start();
 	require_once('config.php');
 	require_once('functions.php');
 	$db = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=UTF8",DB_USER, DB_PASS);
@@ -8,14 +8,17 @@
 <head>
 	<meta charset="UTF-8"/>
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <?php if($_SESSION['role'] === 'admin'){?>
+            <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
+        <?php } ?>
 </head>
 <body>
 	<nav>
 		<span>
-			<img src="/TODO/LOGO.png" alt="TODO"/>
+                    <a href="index.php" class="logo">INFO++</a>
 		</span>
 		<span>
-			<div>
+			<div class="menuOption">
 			<?php 
 				if($_SESSION['role'] === 'admin'){
 					//Admin
@@ -36,10 +39,11 @@
 				}
 			?>
 			</div>
-			<div>
-				<a href="catalogue.php">Catalogue</a>
-				<a href="profile.php">Profil</a>
+			<div class="navOption">
+				<a class="nav red" href="catalogue.php">Catalogue</a>
+				<a class="nav yellow" href="profile.php">Profil</a>
 				recherche
 			</div>
 		</span>
 	</nav>
+        <div class="container">
