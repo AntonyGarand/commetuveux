@@ -8,9 +8,9 @@
 /*******************************************************************************************************/
 --><?php 
 require_once('template/header.inc.php');
-if(isset($_POST['isLoggedIn'])){
+if(isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true){ //Already logged in, 
 ?>
-    <script>window.location.href("/index.php");</script>
+    <script>window.location.href("index.php");</script>
 <?php
 }
 if(isset($_POST['login'])){
@@ -21,21 +21,45 @@ if(isset($_POST['login'])){
     if(empty($errors)){
         $validUserQuery = "SELECT * FROM utilisateur WHERE courriel = :email AND mot_de_passe = :password";
         $validUserStmt = $db->prepare($validUserQuery);
-        if($this->validUserStmt->execute(array(
+        if($validUserStmt->execute(array(
             ':email'=>$_POST['email'],
             ':password'=>$_POST['password']))
         ){
-            if($validUserStmt->rowCount === 1){
+            if($validUserStmt->rowCount() === 1){
                 //Valid email/password!
                 $user = $validUserStmt->fetch();
                 $_SESSION['email'] = $user['courriel'];
                 $_SESSION['role'] = $user['administrateur']===1 ? 'admin' : 'user';
+                $_SESSION['isLoggedIn'] = true;
+                //TODO: Split header/navbar and send header "Location: index.php"; instead?
+                ?>
+                    <script>window.location.href("index.php");</script>
+                <?php
+            } else {
+                $errors[] = "Le courriel ou mot de passe est invalide!";
             }
+        } else {
+            $errors[] = "Un problème technique est survenu!<br/>Veuillez réessayer plus tard.";
         }
     } else {
         //Check if the email/pass is missing and show errors accordingly in the form
-
+        $errors[] = "Il faut entrer un courriel et un mot de passe!";
     }
-
 }
 ?>
+<p>Veuillez vous identifier pour avoir la possibilité d'acheter des formations</p>
+<?php if(!empty($errors)){ ?>
+    <p class="error"><?=implode('<br/>',$errors)?></p>
+<?php } ?>
+<form action="login.php" method="post">
+    <input 
+    type="email" name="email" placeholder="Courriel" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required <?php
+    if(isset($_POST['email']) && is_string($_POST['email'])){
+        echo "value=\"" . htmlspecialchars($_POST['email']) . "\" ";
+    }?>/>
+    <input type="password" name="password" placeholder="Mot de passe" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required />
+    <a href="#TODO">Mot de passe oublié</a>
+    <input class="button" name="login" type="submit" value="Connexion"/>
+    <a class="button" href="profile.php">S'inscrire</a>
+    <img src="#facebookTodo" alt="Se connecter avec facebook"/>
+</form>

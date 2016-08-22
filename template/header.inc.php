@@ -10,7 +10,7 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
 </head>
 <body>
-	<navbar>
+	<nav>
 		<span>
 			<img src="/TODO/LOGO.png" alt="TODO"/>
 		</span>
@@ -42,4 +42,4 @@
 				recherche
 			</div>
 		</span>
-		
+	</nav>
