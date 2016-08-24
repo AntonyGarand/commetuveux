@@ -7,13 +7,245 @@ Couleurs:
 - Noir : #000708
 */
 
+/* ---------------- Général ------------------ */
+
 * {
 	box-sizing:border-box;
 	display:inline-block;
 }
 
 body {
+	position:relative;
+	top:-20px;
 	background-color: #FFFFFF;
-	font-family: 'Century Gothic', sans-serif;
+	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 	color: #000708;
+	width:100%;
+	margin: 0;
+    padding: 0;
 }
+
+.container {
+	display:block;
+	position:relative;
+	top: 0;
+	width: 70%;
+	margin: 0 auto; /* Centers the elements in the navigator */
+}
+
+/* ---------------- Navigation ------------------ */
+
+#mainMenu {
+	width:100%;
+	padding-bottom:15px;
+}
+
+nav {
+	position:absolute;
+	top:0px;
+	width:100%;
+	height: 100px; /* Solution temporaire pour avoir un navbar semblable au template */
+	background: linear-gradient(#09AAC1, #fff); /* Standard syntax */
+	padding:0 15px;
+}
+#menuNav {
+	height: 100%;
+	float: right;
+}
+
+#logo {
+	margin:15px 20px;
+}
+.menuOption {
+	text-align: right;
+	font-weight: bold;
+	display: block;
+	vertical-align: top;
+}
+.menuOption a {
+	color: white;
+	margin: 20px;
+	margin-bottom: 5px;
+	margin-right: 3px;
+}
+.navOption {
+	display: block;
+	vertical-align: bottom;
+}
+.nav {
+	font-size: 20pt;
+	text-decoration: none;
+	font-weight: bold;
+	margin: 0 10px 0 5px;
+}
+
+.red {
+	color: #FF4A07;
+}
+.yellow {
+	color: #FF9F07;
+}
+
+/* ---------------- Formulaire ------------------ */
+ input{
+	width:220px;
+	height:30px;
+	padding:5px;
+	border-radius:2pt;
+	background-color:rgba(255,255,255,0);
+	-webkit-appearance: none; 
+    -moz-appearance: none; 
+	border:solix 2px #000708;
+ }
+ 
+ form #loginForm {
+	width:50%;
+	margin:0 auto;
+ }
+
+/* ---------------- Login ----------------------- */
+ 
+.loginWrapper {
+	display:block;
+	width:60%;
+	margin:0 auto;
+}
+
+/* ---------------- Services ------------------ */
+
+.service{
+	padding: 10px;
+	border: 2px solid #FF9F07;
+	margin: 5px;
+	position:relative;
+	width: 820px;
+}
+/* Top right corner triangle */
+.service::before{
+	content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 15px 12.5px 0 12.5px;
+    border-color: #FF9F07 transparent transparent transparent;
+}
+.serviceImageWrapper{
+	display: inline-block;
+    vertical-align:top;
+}
+.serviceImage {
+	width: 200px;
+	height: 175px;
+}
+.serviceContentAdmin {
+	display: inline-block;
+	width: 575px;
+	padding-left: 15px;
+}
+.serviceTitle {
+	font-size: 16pt;
+	margin:0;
+	padding:0;
+    font-weight: bold;
+}
+.serviceDescription {
+    font-weight: bold;
+}
+.servicePriceAndLengthWrapper{
+	width: 100%;
+}
+.servicePriceWrapper{
+	width: 50%;
+}
+.servicePrice {
+	color: #09AAC1;
+    font-weight: bold;
+}
+.serviceLength {
+	color: #FF9F07;
+    font-weight: bold;
+}
+
+.servicePromoAdmin{
+	display: inline-block;
+}
+.servicePromoText{
+	width: 200px;
+	color: #FF4A07;
+	vertical-align: top;
+    font-weight: bold;
+}
+.promotionTitleText {
+	margin:0;
+}
+.promotion {
+	width:75px;
+	height:75px;
+	border: 1px solid black;
+	display: inline-block;
+	position:relative;
+}
+.promotion::before {
+	content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 15px 12.5px 0 12.5px;
+    border-color: #FF9F07 transparent transparent transparent;
+}
+.promoValue{
+	width: 100%;
+	font-weight:bold;
+	color: #FF9F07;
+	font-size: 18pt;
+	margin:0;
+	padding-top:15px;
+	text-align: center;
+	height: 70%;
+}
+.promotionBoxBottom{
+	width:100%;
+	height: 29%;
+	margin:0;
+	text-align:center;
+	color: #fff;
+	display:inline-block;
+	vertical-align: middle;
+	background-color: #FF9F07;
+}
+.promocodeText{
+	font-weight: bold;
+	font-size: 7.5pt;
+	padding:0;
+	margin:0;
+}
+.promotionWrapper + .promoPlusWrapper {
+	margin-top: -20px;
+}
+.promoPlusWrapper {
+	width: 75px;
+	height: 75px;
+	display: inline-block;
+	text-align: center;
+	vertical-align: middle;
+	
+}
+.promoPlus {
+	font-size: 25pt;
+	margin:0;
+	vertical-align: middle;
+	color: #09AAC1;
+}
+
+
+
+
+
+
+
+
+

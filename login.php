@@ -47,19 +47,22 @@ if(isset($_POST['login'])){
     }
 }
 ?>
-<p>Veuillez vous identifier pour avoir la possibilité d'acheter des formations</p>
-<?php if(!empty($errors)){ ?>
-    <p class="error"><?=implode('<br/>',$errors)?></p>
-<?php } ?>
-<form action="login.php" method="post">
-    <input 
-    type="email" name="email" placeholder="Courriel" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required <?php
-    if(isset($_POST['email']) && is_string($_POST['email'])){
-        echo "value=\"" . htmlspecialchars($_POST['email']) . "\" ";
-    }?>/>
-    <input type="password" name="password" placeholder="Mot de passe" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required />
-    <a href="#TODO">Mot de passe oublié</a>
-    <input class="button" name="login" type="submit" value="Connexion"/>
-    <a class="button" href="profile.php">S'inscrire</a>
-    <img src="#facebookTodo" alt="Se connecter avec facebook"/>
-</form>
+<div class="loginWrapper">
+	<h2>Veuillez vous identifier pour avoir la possibilité d'acheter des formations</h2>
+	<?php if(!empty($errors)){ ?>
+		<p class="error"><?=implode('<br/>',$errors)?></p>
+	<?php } ?>
+	<form id="loginForm" action="login.php" method="post">
+		<input 
+		type="email" name="email" placeholder="Courriel" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required <?php
+		if(isset($_POST['email']) && is_string($_POST['email'])){
+			echo "value=\"" . htmlspecialchars($_POST['email']) . "\" ";
+		}?>/> <br/>
+		<input type="password" name="password" placeholder="Mot de passe" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required /> <br/>
+		<a href="#TODO">Mot de passe oublié</a> <br/>
+		<input class="button" name="login" type="submit" value="Connexion"/>
+		<a class="button" href="profile.php">S'inscrire</a> <br/>
+		<img src="#facebookTodo" alt="Se connecter avec facebook"/>
+	</form>
+</div> <!-- end .loginWrapper-->
+<?php include ('template/footer.inc.php'); ?>

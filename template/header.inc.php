@@ -1,26 +1,41 @@
 <?php
-        session_start();
+    session_start();
+	
+	/* TODO: Move to config. Put there for debugging purposes */
+	define('DB_USER','root');
+	define('DB_PASS','');
+	define('DB_NAME','infoplusplus');
+	define('DB_HOST','127.0.0.1');
+	
 	require_once('config.php');
 	require_once('functions.php');
-	//$db = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=UTF8",DB_USER, DB_PASS);
+	$db = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=UTF8",DB_USER, DB_PASS);
 ?>
 <!DOCTYPE HTML>
 <head>
 	<meta charset="UTF-8"/>
+	<!--<link rel="stylesheet" type="text/css" href="css/reset.css"/>-->
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
-        <?php if($_SESSION['role'] === 'admin'){?>
+        <?php /*if($_SESSION['role'] === 'admin'){?>
             <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
-        <?php } ?>
+        <?php }*/ ?>
 </head>
 <body>
+
 	<nav>
-		<span>
-                    <a href="index.php" class="logo">INFO++</a>
-		</span>
-		<span>
+		<!-- Puts the header BG at 100% -->
+	</nav>
+	
+	<div class="container">
+	
+	<div id="mainMenu">
+		<div id="logo">
+            <a href="index.php" class="logo"><img src="img/graphiques/logo.png" alt="Info++" /></a>
+		</div> <!-- end #logo -->
+		<div id="menuNav">
 			<div class="menuOption">
-			<?php 
-				/*if($_SESSION['role'] === 'admin'){
+			<?php /*
+				if($_SESSION['role'] === 'admin'){
 					//Admin
 					?>
 						<a href="/logout.php">se d&eacute;connecter</a>
@@ -36,16 +51,15 @@
 					?>
 						<a href="/profile.php">s'identifier</a>
 					<?php
-				}*/
+				} */
 			?>
-						<a href="/panier.php">Mon Panier(1)</a>
-						<a href="/logout.php">se d&eacute;connecter</a>
+						<a href="/panier.php">Mon Panier (1)</a>
+						<a href="/logout.php">Se d&eacute;connecter</a>
 			</div>
 			<div class="navOption">
 				<a class="nav red" href="catalogue.php">Catalogue</a>
-				<a class="nav yellow" href="profile.php">Profil</a>
-				recherche
+				<a class="nav yellow" href="profil.php">Profil</a>
+				<input type="text" name="search" value="Recherche"/>
 			</div>
-		</span>
-	</nav>
-        <div class="container">
+		</div> <!-- end #menuNav -->
+		</div> <!-- end #mainMenu -->
