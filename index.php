@@ -1,2 +1,2 @@
 <?php
-    header("Location: index.php");
+    die(header('Location: catalogue.php'));
