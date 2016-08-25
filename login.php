@@ -1,12 +1,4 @@
-<!-- /**************************************************************************************************/
-/* Fichier ...................... : login.php */
-/* Titre ........................ : Lab Web */
-/* Auteur ....................... : Amélie Frappier et Antony Garand */
-/* Date de création ............. : 2016-08-22 */
-/* Date de mise en ligne ........ : Jamais */
-/* Date de mise à jour .......... : 2016-08-22 */
-/*******************************************************************************************************/
---><?php 
+<?php 
 require_once('template/header.inc.php');
 if(isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true){ //Already logged in, 
     die(header("Location: index.php"));
@@ -45,6 +37,15 @@ if(isset($_POST['login'])){
 }
 require_once("template/navbar.inc.php");
 ?>
+<!-- /**************************************************************************************************/
+/* Fichier ...................... : login.php */
+/* Titre ........................ : Lab Web */
+/* Auteur ....................... : Amélie Frappier et Antony Garand */
+/* Date de création ............. : 2016-08-22 */
+/* Date de mise en ligne ........ : Jamais */
+/* Date de mise à jour .......... : 2016-08-22 */
+/*******************************************************************************************************/
+-->
 <div class="loginWrapper">
 	<h2>Veuillez vous identifier pour avoir la possibilité d'acheter des formations</h2>
 	<?php if(!empty($errors)){ ?>

@@ -1,14 +1,7 @@
 <?php
     session_start();
-	
-	/* TODO: Move to config. Put there for debugging purposes */
-	define('DB_USER','root');
-	define('DB_PASS','');
-	define('DB_NAME','infoplusplus');
-	define('DB_HOST','127.0.0.1');
-	
-	require_once('config.php');
-	require_once('functions.php');
+	require_once(__DIR__ . '/config.php');
+	require_once(__DIR__ . '/functions.php');
 	$db = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=UTF8",DB_USER, DB_PASS);
 ?>
 <!DOCTYPE HTML>
