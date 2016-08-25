@@ -136,7 +136,7 @@ if(isset($_POST['profil'])){
 	<form method="post" action="profil.php">
 		<fieldset>
                         <?php if(!empty($errorsClean)){ echo '<p class="warning">' . implode("<br/>",$errorsClean) . '</p>';} ?>
-			<h2>Remplissez ce formulaire pour créer votre profil</h2>
+			<h2>Remplissez ce formulaire pour créer votre profil</h2> <br/>
 			<h3>Tous les champs sont obligatoires</h3>
                         <input type="text" name="lastName" placeholder="Nom"<?php 
                             if(isset($_POST['lastName']) && is_string($_POST['lastName'])){echo' value="'.htmlspecialchars($_POST['lastName']) . '"';}?>/>
@@ -163,7 +163,7 @@ if(isset($_POST['profil'])){
 		</fieldset>
 		
 		<fieldset>
-			<h2>Votre courriel servira à vous identifier lors de votre prochaine visite</h2>
+			<h2>Votre courriel servira à vous identifier lors de votre prochaine visite</h2> <br/>
 			<h3>Votre mot de passe doit contenir un minimum de 8 caractères.</h3>
 			<input type="text" name="email" placeholder="Courriel"<?php 
                             if(isset($_POST['email']) && is_string($_POST['email'])){echo' value="'.htmlspecialchars($_POST['email']) . '"';}?>/>

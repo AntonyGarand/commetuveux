@@ -52,17 +52,24 @@ if(isset($_POST['login'])){
 	<?php if(!empty($errors)){ ?>
 		<p class="error"><?=implode('<br/>',$errors)?></p>
 	<?php } ?>
+	
 	<form id="loginForm" action="login.php" method="post">
-		<input 
-		type="email" name="email" placeholder="Courriel" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required <?php
-		if(isset($_POST['email']) && is_string($_POST['email'])){
-			echo "value=\"" . htmlspecialchars($_POST['email']) . "\" ";
-		}?>/> <br/>
-		<input type="password" name="password" placeholder="Mot de passe" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required /> <br/>
-		<a href="#TODO">Mot de passe oublié</a> <br/>
-		<input class="button" name="login" type="submit" value="Connexion"/>
-		<a class="button" href="profile.php">S'inscrire</a> <br/>
-		<img src="#facebookTodo" alt="Se connecter avec facebook"/>
+		
+		<div>
+			<input type="email" name="email" placeholder="Courriel" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required <?php
+			if(isset($_POST['email']) && is_string($_POST['email'])){
+				echo "value=\"" . htmlspecialchars($_POST['email']) . "\" ";
+			}?>/> <br/>
+			<input type="password" name="password" placeholder="Mot de passe" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required /> <br/>
+			<a href="#TODO">Mot de passe oublié</a>
+		</div>
+		
+		<div>
+			<input class="button" name="login" type="submit" value="Connexion"/>
+			<input class="button" href="profile.php" type="button" value="S'inscrire'"><br/>
+			<img id="facebook" src="img/graphiques/facebook.png" alt="Se connecter avec facebook"/>
+		</div>
 	</form>
+	
 </div> <!-- end .loginWrapper-->
 <?php include ('template/footer.inc.php'); ?>

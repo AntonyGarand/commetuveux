@@ -14,7 +14,7 @@
 <!DOCTYPE HTML>
 <head>
 	<meta charset="UTF-8"/>
-	<!--<link rel="stylesheet" type="text/css" href="css/reset.css"/>-->
+	<link rel="stylesheet" type="text/css" href="css/reset.css"/>
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
         <?php /*if($_SESSION['role'] === 'admin'){?>
             <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
@@ -53,13 +53,13 @@
 					<?php
 				} */
 			?>
-						<a href="/panier.php">Mon Panier (1)</a>
-						<a href="/logout.php">Se d&eacute;connecter</a>
+						<a href="panier.php">Mon Panier (1)</a>
+						<a href="logout.php">Se d&eacute;connecter</a>
 			</div>
 			<div class="navOption">
 				<a class="nav red" href="catalogue.php">Catalogue</a>
 				<a class="nav yellow" href="profil.php">Profil</a>
-				<input type="text" name="search" value="Recherche"/>
+				<input id="search" type="text" name="search" value="Recherche"/>
 			</div>
 		</div> <!-- end #menuNav -->
 		</div> <!-- end #mainMenu -->

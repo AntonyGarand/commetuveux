@@ -17,7 +17,7 @@ Couleurs:
 body {
 	position:relative;
 	top:-20px;
-	background-color: #FFFFFF;
+	background-color: #FFFAFB;
 	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
 	color: #000708;
 	width:100%;
@@ -25,12 +25,35 @@ body {
     padding: 0;
 }
 
+img {
+	max-width:100%;
+}
+
+h2 {
+	font-size:26px;
+	font-weight:bold;
+	color:#000708;
+}
+
+h3 {
+	color:#FF4A07;
+}
+
 .container {
 	display:block;
 	position:relative;
 	top: 0;
 	width: 70%;
+	min-width:830px;
 	margin: 0 auto; /* Centers the elements in the navigator */
+}
+
+a, a:visited, a:active {
+	color:#FF4A07;
+}
+
+a:hover, a:focus {
+	color:#FF9F07;
 }
 
 /* ---------------- Navigation ------------------ */
@@ -38,14 +61,16 @@ body {
 #mainMenu {
 	width:100%;
 	padding-bottom:15px;
+	height:150px;
+	padding-top:20px;
 }
 
 nav {
 	position:absolute;
 	top:0px;
 	width:100%;
-	height: 100px; /* Solution temporaire pour avoir un navbar semblable au template */
-	background: linear-gradient(#09AAC1, #fff); /* Standard syntax */
+	height: 130px;
+	background: linear-gradient(#09AAC1, #FFFAFB); /* Standard syntax */
 	padding:0 15px;
 }
 #menuNav {
@@ -62,12 +87,17 @@ nav {
 	display: block;
 	vertical-align: top;
 }
-.menuOption a {
-	color: white;
+.menuOption a, .menuOption a:visited, .menuOption a:active {
+	color: #FFFAFB;
 	margin: 20px;
 	margin-bottom: 5px;
 	margin-right: 3px;
 }
+
+.menuOption a:hover, .menuOption a:focus {
+	color: #FF9F07;
+}
+
 .navOption {
 	display: block;
 	vertical-align: bottom;
@@ -79,37 +109,94 @@ nav {
 	margin: 0 10px 0 5px;
 }
 
-.red {
-	color: #FF4A07;
+.red{
+	color: #FF4A07 !important;
 }
 .yellow {
-	color: #FF9F07;
+	color: #FF9F07 !important;
 }
 
 /* ---------------- Formulaire ------------------ */
- input{
-	width:220px;
+ input, select{
+	width:240px;
 	height:30px;
 	padding:5px;
 	border-radius:2pt;
 	background-color:rgba(255,255,255,0);
-	-webkit-appearance: none; 
-    -moz-appearance: none; 
-	border:solix 2px #000708;
+	border:solid 1px #000708;
+	font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+	color:#FF9F07;
+	margin:8px 0;
  }
  
- form #loginForm {
-	width:50%;
-	margin:0 auto;
+ input:focus{
+	border:solid 1px #FF9F07;
  }
+ 
+ input:-webkit-autofill {  /* Removes default autofill calors in Chrome */
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+	color:color:#FF9F07 !important;
+}
 
+input[type="button"], input[type="submit"]{
+	background-image:url('../img/graphiques/bouton.png');
+	background-position:center;
+	background-size:contain;
+	background-repeat:no-repeat;
+	border:none;
+	width:120px;
+	height:37px;
+	color:#FFFAFB;
+}
+
+input[name="search"]{
+	width:220px;
+	color: #FFFAFB !important;
+	background-image:url('../img/graphiques/loupe.png');
+	background-position:right;
+	background-repeat:no-repeat;
+}
+
+fieldset {
+	
+}
+ 
 /* ---------------- Login ----------------------- */
  
 .loginWrapper {
 	display:block;
 	width:60%;
+	min-width:520px;
 	margin:0 auto;
+	text-align:center;
 }
+
+#loginForm {
+	display:block;
+	width:50%;
+	min-width:300px;
+	margin:0 auto;
+	padding-top:20px;
+}
+
+#loginForm input[type="password"] {
+	margin-bottom:20px;
+}
+
+#loginForm > div:first-of-type{
+	width:100%;
+	text-align:left;
+	margin-bottom:20px;
+}
+ 
+ #loginForm input[type="email"], #loginForm input[type="password"]  {
+	width:100%;
+ }
+ 
+ #facebook {
+	width:227px;
+	height:47px;
+ }
 
 /* ---------------- Services ------------------ */
 
@@ -118,7 +205,6 @@ nav {
 	border: 2px solid #FF9F07;
 	margin: 5px;
 	position:relative;
-	width: 820px;
 }
 /* Top right corner triangle */
 .service::before{
