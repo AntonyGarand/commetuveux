@@ -1,4 +1,14 @@
-<!-- /**************************************************************************************************/
+<?php 
+require_once 'template/header.inc.php';
+if ($_SESSION['role'] !== 'admin') {
+    //TODO: Replace header with head and navbar, then do send a location header to redirect
+    echo 'Forbidden';
+    header 'Location: index.php';
+}
+$productsQuery = 'SELECT * FROM service ORDER BY pk_service';
+$products = $db->query($productsQuery)->fetchAll();
+require_once 'template/navbar.inc.php';?>
+<!--/**************************************************************************************************/
 /* Fichier ...................... : service.php */
 /* Titre ........................ : Lab Web */
 /* Auteur ....................... : Amélie Frappier et Antony Garand */
@@ -6,17 +16,7 @@
 /* Date de mise en ligne ........ : Jamais */
 /* Date de mise à jour .......... : 2016-08-22 */
 /*******************************************************************************************************/
--->
-<?php 
-require_once 'template/header.inc.php';
-if ($_SESSION['role'] !== 'admin') {
-    //TODO: Replace header with head and navbar, then do send a location header to redirect
-    echo 'Forbidden';
-    die('<script>window.location.href="index.php"</script>');
-}
-$productsQuery = 'SELECT * FROM service ORDER BY pk_service';
-$products = $db->query($productsQuery)->fetchAll();
-require_once 'template/navbar.inc.php';
+--><?php
 foreach ($products as $product) {
     ?>
     <div class="service">

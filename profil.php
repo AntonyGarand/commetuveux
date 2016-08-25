@@ -1,12 +1,3 @@
-<!-- /**************************************************************************************************/
-/* Fichier ...................... : profil.php */
-/* Titre ........................ : Lab Web */
-/* Auteur ....................... : Amélie Frappier et Antony Garand */
-/* Date de création ............. : 2016-08-22 */
-/* Date de mise en ligne ........ : Jamais */
-/* Date de mise à jour .......... : 2016-08-22 */
-/*******************************************************************************************************/
--->
 <?php require_once 'template/header.inc.php';
 function generateErrorMessage($suffix)
 {
@@ -212,7 +203,15 @@ require_once 'template/navbar.inc.php';
  * To optimize the following, we could create a function createInput($name, $type, $placeholder, $autoFill = true, $otherAttributes) to automatically manage these.
  */
 ?>
-
+<!-- /**************************************************************************************************/
+/* Fichier ...................... : profil.php */
+/* Titre ........................ : Lab Web */
+/* Auteur ....................... : Amélie Frappier et Antony Garand */
+/* Date de création ............. : 2016-08-22 */
+/* Date de mise en ligne ........ : Jamais */
+/* Date de mise à jour .......... : 2016-08-22 */
+/*******************************************************************************************************/
+-->
 <div class="profile-form">
 	<form method="post" action="profil.php">
 		<fieldset>

@@ -1,4 +1,10 @@
-<!-- /**************************************************************************************************/
+<?php 
+require_once 'template/header.inc.php';
+$productsQuery = 'SELECT * FROM service ORDER BY pk_service';
+$products = $db->query($productsQuery)->fetchAll();
+
+require_once 'template/navbar.inc.php';
+?><!-- /**************************************************************************************************/
 /* Fichier ...................... : catalogue.php */
 /* Titre ........................ : Lab Web */
 /* Auteur ....................... : Amélie Frappier et Antony Garand */
@@ -6,13 +12,7 @@
 /* Date de mise en ligne ........ : Jamais */
 /* Date de mise à jour .......... : 2016-08-22 */
 /*******************************************************************************************************/
--->
-<?php 
-require_once 'template/header.inc.php';
-$productsQuery = 'SELECT * FROM service ORDER BY pk_service';
-$products = $db->query($productsQuery)->fetchAll();
-
-require_once 'template/navbar.inc.php';
+--><?php
 foreach ($products as $product) {
     ?>
     <div class="service">
@@ -27,7 +27,4 @@ foreach ($products as $product) {
         <span class="serviceAddToCartWrapper"><button class="addToCartBtn" onclick="addToCart(<?=intval($product['pk_service'])?>)"></button></span>
     </span>
     </div>
-    <?php
-
-}
-?>
+<?php } ?>
