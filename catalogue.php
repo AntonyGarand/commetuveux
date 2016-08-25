@@ -8,12 +8,12 @@
 /*******************************************************************************************************/
 -->
 <?php 
-require_once('template/header.inc.php');
-$productsQuery = "SELECT * FROM service ORDER BY pk_service";
+require_once 'template/header.inc.php';
+$productsQuery = 'SELECT * FROM service ORDER BY pk_service';
 $products = $db->query($productsQuery)->fetchAll();
 
-require_once('template/navbar.inc.php');
-foreach($products as $product){
+require_once 'template/navbar.inc.php';
+foreach ($products as $product) {
     ?>
     <div class="service">
     <span class="serviceImage">
@@ -28,5 +28,6 @@ foreach($products as $product){
     </span>
     </div>
     <?php
+
 }
 ?>

@@ -19,24 +19,27 @@
 		<div id="menuNav">
 			<div class="menuOption">
 			<?php 
-				if($_SESSION['role'] === 'admin'){
-					//Admin
-					?>
+                if ($_SESSION['role'] === 'admin') {
+                    //Admin
+                    ?>
 						<a href="logout.php">se d&eacute;connecter</a>
 					<?php
-				} elseif ($_SESSION['role'] === 'user') {
-					//Usager
-					?>
+
+                } elseif ($_SESSION['role'] === 'user') {
+                    //Usager
+                    ?>
 						<a href="panier.php">Mon Panier(<?=$_SESSION['pannierQte']?>)</a>
 						<a href="logout.php">se d&eacute;connecter</a>
 					<?php
-				} else {
-					//Visiteur non authentifié
-					?>
+
+                } else {
+                    //Visiteur non authentifié
+                    ?>
 						<a href="login.php">s'identifier</a>
 					<?php
-				} 
-			?>
+
+                }
+            ?>
 			</div>
 			<div class="navOption">
 				<a class="nav red" href="catalogue.php">Catalogue</a>

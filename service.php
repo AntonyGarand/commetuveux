@@ -8,16 +8,16 @@
 /*******************************************************************************************************/
 -->
 <?php 
-require_once('template/header.inc.php');
-if($_SESSION['role'] !== 'admin'){
+require_once 'template/header.inc.php';
+if ($_SESSION['role'] !== 'admin') {
     //TODO: Replace header with head and navbar, then do send a location header to redirect
-    echo "Forbidden";
+    echo 'Forbidden';
     die('<script>window.location.href="index.php"</script>');
 }
-$productsQuery = "SELECT * FROM service ORDER BY pk_service";
+$productsQuery = 'SELECT * FROM service ORDER BY pk_service';
 $products = $db->query($productsQuery)->fetchAll();
-require_once("template/navbar.inc.php");
-foreach($products as $product){
+require_once 'template/navbar.inc.php';
+foreach ($products as $product) {
     ?>
     <div class="service">
     <span class="serviceImageWrapper">
@@ -45,17 +45,19 @@ foreach($products as $product){
                     ta_promotion_service ON fk_promotion = pk_promotion 
                 WHERE 
                     NOW() < date_fin 
-                    AND fk_service = ' . intval($product['pk_service']);
-            $promotions = $db->query($promotionQuery)->fetchAll();
-            if(count($promotions) > 0){
-            ?><span class="promotionWrapper"><?php
-            foreach($promotions as $promotion){
+                    AND fk_service = ' .intval($product['pk_service']);
+    $promotions = $db->query($promotionQuery)->fetchAll();
+    if (count($promotions) > 0) {
+        ?><span class="promotionWrapper"><?php
+            foreach ($promotions as $promotion) {
                 ?>
                 <div class="promotion" id="promotion<?=$promotion['id']?>">
-                    <p class="promoValue"><?=floatval($promotion['rabais'])*100?>%</p>
-                    <div class="promotionBoxBottom"><p class="promocodeText">PROMO CODE</p></div><?php //TODO: Faire cette boite avec un ::after et content="PROMO CODE" à la place? ?>
+                    <p class="promoValue"><?=floatval($promotion['rabais']) * 100?>%</p>
+                    <div class="promotionBoxBottom"><p class="promocodeText">PROMO CODE</p></div><?php //TODO: Faire cette boite avec un ::after et content="PROMO CODE" à la place??>
                 </div>
-                <?php }} ?>
+                <?php 
+            }
+    } ?>
             </span>
             <span class="promoPlusWrapper"><p class="promoPlus">✚</p></span>
             <span class="serviceShareIcons"><!--TODO--></span>
@@ -63,5 +65,6 @@ foreach($products as $product){
     </span>
     </div>
     <?php
+
 }
 ?>

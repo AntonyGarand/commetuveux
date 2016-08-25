@@ -1,8 +1,8 @@
 <?php
     session_start();
-	require_once(__DIR__ . '/config.php');
-	require_once(__DIR__ . '/functions.php');
-	$db = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=UTF8",DB_USER, DB_PASS);
+    require_once __DIR__.'/config.php';
+    require_once __DIR__.'/functions.php';
+    $db = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=UTF8', DB_USER, DB_PASS);
 ?>
 <!DOCTYPE HTML>
 <head>
@@ -28,24 +28,24 @@
 		<div id="menuNav">
 			<div class="menuOption">
 			<?php /*
-				if($_SESSION['role'] === 'admin'){
-					//Admin
-					?>
-						<a href="/logout.php">se d&eacute;connecter</a>
-					<?php
-				} elseif ($_SESSION['role'] === 'user') {
-					//Usager
-					?>
-						<a href="/panier.php">Mon Panier(<?=$_SESSION['pannierQte']?>)</a>
-						<a href="/logout.php">se d&eacute;connecter</a>
-					<?php
-				} else {
-					//Visiteur non authentifié
-					?>
-						<a href="/profile.php">s'identifier</a>
-					<?php
-				} */
-			?>
+                if($_SESSION['role'] === 'admin'){
+                    //Admin
+                    ?>
+                        <a href="/logout.php">se d&eacute;connecter</a>
+                    <?php
+                } elseif ($_SESSION['role'] === 'user') {
+                    //Usager
+                    ?>
+                        <a href="/panier.php">Mon Panier(<?=$_SESSION['pannierQte']?>)</a>
+                        <a href="/logout.php">se d&eacute;connecter</a>
+                    <?php
+                } else {
+                    //Visiteur non authentifié
+                    ?>
+                        <a href="/profile.php">s'identifier</a>
+                    <?php
+                } */
+            ?>
 						<a href="panier.php">Mon Panier (1)</a>
 						<a href="logout.php">Se d&eacute;connecter</a>
 			</div>
