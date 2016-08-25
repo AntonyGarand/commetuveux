@@ -9,9 +9,7 @@
 --><?php 
 require_once('template/header.inc.php');
 if(isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true){ //Already logged in, 
-?>
-    <script>window.location.href("index.php");</script>
-<?php
+    die(header("Location: index.php"));
 }
 if(isset($_POST['login'])){
     //User trying to log in, we need to validate the form then try logging him in
@@ -31,10 +29,9 @@ if(isset($_POST['login'])){
                 $_SESSION['email'] = $user['courriel'];
                 $_SESSION['role'] = intval($user['administrateur'])===1 ? 'admin' : 'user';
                 $_SESSION['isLoggedIn'] = true;
-                //TODO: Split header/navbar and send header "Location: index.php"; instead?
-                ?>
-                    <script>window.location.href("index.php");</script>
-                <?php
+                $_SESSION['userId'] = $user['pk_utilisateur'];
+                header("Location: index.php");
+                die();
             } else {
                 $errors[] = "Le courriel ou mot de passe est invalide!";
             }
@@ -46,15 +43,15 @@ if(isset($_POST['login'])){
         $errors[] = "Il faut entrer un courriel et un mot de passe!";
     }
 }
+require_once("template/navbar.inc.php");
 ?>
 <div class="loginWrapper">
 	<h2>Veuillez vous identifier pour avoir la possibilité d'acheter des formations</h2>
 	<?php if(!empty($errors)){ ?>
 		<p class="error"><?=implode('<br/>',$errors)?></p>
 	<?php } ?>
-	
 	<form id="loginForm" action="login.php" method="post">
-		
+			
 		<div>
 			<input type="email" name="email" placeholder="Courriel" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required <?php
 			if(isset($_POST['email']) && is_string($_POST['email'])){
@@ -70,6 +67,5 @@ if(isset($_POST['login'])){
 			<img id="facebook" src="img/graphiques/facebook.png" alt="Se connecter avec facebook"/>
 		</div>
 	</form>
-	
 </div> <!-- end .loginWrapper-->
 <?php include ('template/footer.inc.php'); ?>

@@ -27,13 +27,31 @@ function generateErrorMessage($suffix){
 $citiesQuery = "SELECT * FROM ville ORDER BY pk_ville";
 $cities = $db->query($citiesQuery)->fetchAll();
 
+$user = false;
+if(isset($_POST['userId']) && is_numeric($_POST['userId'])){
+    if(intval($_POST['userId']) !== intval($_SESSION['userId'])){
+        require_once("template/navbar.inc.php");
+        die('<h1>Erreurs lors de la mise à jour!</h1><h3>Veuillez vous reconnecter.</h3>');
+    }
+    else {
+        die("WIP");
+    }
+}
+if($_SESSION['userId'] !== 0){
+    $userSelectQuery = "SELECT * FROM utilisateur JOIN client ON client.fk_utilisateur = pk_utilisateur JOIN adresse ON adresse.pk_adresse = client.fk_adresse WHERE pk_utilisateur = {$_SESSION['userId']}";
+    $userSelectStmt = $db->query($userSelectQuery);
+    if($userSelectStmt->rowCount() === 1){
+        $user=$userSelectStmt->fetch();
+    }
+}
+
 if(isset($_POST['profil'])){
     //Form is being sent, validate the content and try to create a user
     $required = array('firstName','lastName','civicNo','street','city','zipCode','phone','email','confirmEmail', 'password','confirmPassword');
     $errors = validatePost($required);
     if(empty($errors)){
         //All values are present and strings, let's keep checking them
-        $emailCheckQuery = "SELECT * FROM utilisateur WHERE courriel = :courriel";
+        $emailCheckQuery = "SELECT * FROM utilisateur WHERE courriel = :courriel AND pk_utilisateur is not {$_SESSION['userId']}";
         $emailCheckStmt = $db->prepare($emailCheckQuery);
         //Server error!
         if(!$emailCheckStmt->execute(array(':courriel'=>$_POST['email']))){
@@ -124,6 +142,29 @@ if(isset($_POST['profil'])){
     } //End of profile validation
 } //End of profile confirmation
 
+if(empty($_POST)){
+    $firstName = htmlspecialchars(htmlspecialchars_decode($user['prenom']));
+    $lastName = htmlspecialchars(htmlspecialchars_decode($user['nom']));
+    $civicNo = htmlspecialchars(htmlspecialchars_decode($user['no_civique']));
+    $street = htmlspecialchars(htmlspecialchars_decode($user['rue']));
+    $cityId = htmlspecialchars(htmlspecialchars_decode($user['fk_ville']));
+    $zipCode = htmlspecialchars(htmlspecialchars_decode($user['code_postal']));
+    $phone = htmlspecialchars(htmlspecialchars_decode($user['telephone']));
+    $email = htmlspecialchars(htmlspecialchars_decode($user['courriel']));
+    $emailConfirm = htmlspecialchars(htmlspecialchars_decode($user['courriel']));
+} else {
+    //If data has been sent, save it to repopulate the form
+    if(isset($_POST['lastName']) && is_string($_POST['lastName'])){$lastName=htmlspecialchars($_POST['lastName']);}else{$lastName='';}
+    if(isset($_POST['firstName']) && is_string($_POST['firstName'])){$firstName=htmlspecialchars($_POST['firstName']);}else{$firstName='';}
+    if(isset($_POST['civicNo']) && is_string($_POST['civicNo'])){$civicNo = htmlspecialchars($_POST['civicNo']);}else{$civicNo ='';}
+    if(isset($_POST['street']) && is_string($_POST['street'])){$street = htmlspecialchars($_POST['street']);}else{$street ='';}
+    if(isset($_POST['cityId']) && is_string($_POST['cityId'])){$cityId = htmlspecialchars($_POST['cityId']);}else{$cityId ='';}
+    if(isset($_POST['zipCode']) && is_string($_POST['zipCode'])){$zipCode = htmlspecialchars($_POST['zipCode']);}else{$zipCode ='';}
+    if(isset($_POST['phone']) && is_string($_POST['phone'])){$phone = htmlspecialchars($_POST['phone']);}else{$phone ='';}
+    if(isset($_POST['email']) && is_string($_POST['email'])){$email = htmlspecialchars($_POST['email']);}else{$email ='';}
+    if(isset($_POST['emailConfirm']) && is_string($_POST['emailConfirm'])){$emailConfirm = htmlspecialchars($_POST['emailConfirm']);}else{$emailConfirm ='';}
+}
+require_once("template/navbar.inc.php");
 
 /*
  * For the following form, all fields will be saved if an error occured (Format not respected, didn't enter value, ...)
@@ -136,39 +177,33 @@ if(isset($_POST['profil'])){
 	<form method="post" action="profil.php">
 		<fieldset>
                         <?php if(!empty($errorsClean)){ echo '<p class="warning">' . implode("<br/>",$errorsClean) . '</p>';} ?>
+                        <?php if(is_numeric($_SESSION['userId']) && $_SESSION['userId'] !== 0){?>
+                        <input type="hidden" name="userId" value="<?=$_SESSION['userId']?>"/><?php } ?>
 			<h2>Remplissez ce formulaire pour créer votre profil</h2> <br/>
 			<h3>Tous les champs sont obligatoires</h3>
-                        <input type="text" name="lastName" placeholder="Nom"<?php 
-                            if(isset($_POST['lastName']) && is_string($_POST['lastName'])){echo' value="'.htmlspecialchars($_POST['lastName']) . '"';}?>/>
-			<input type="text" name="firstName" placeholder="Prénom"<?php 
-                            if(isset($_POST['firstName']) && is_string($_POST['firstName'])){echo' value="'.htmlspecialchars($_POST['firstName']) . '"';}?>/>
-			<input type="text" name="civicNo" placeholder="No. civique"<?php 
-                            if(isset($_POST['civicNo']) && is_string($_POST['civicNo'])){echo' value="'.htmlspecialchars($_POST['civicNo']) . '"';}?>/>
-			<input type="text" name="street" placeholder="Rue"<?php 
-                            if(isset($_POST['street']) && is_string($_POST['street'])){echo' value="'.htmlspecialchars($_POST['street']) . '"';}?>/>
+                        <input type="text" name="lastName" placeholder="Nom" value="<?=$lastName?>"/>
+                        <input type="text" name="firstName" placeholder="Prénom" value="<?=$firstName?>"/>
+                        <input type="text" name="civicNo" placeholder="No. civique" value="<?=$civicNo?>"/>
+                        <input type="text" name="street" placeholder="Rue" value="<?=$street?>"/>
                         <select name="city"><?php foreach($cities as $city){
                                 //Populating the cities with the database-fetched values
                                 echo '<option value="' . $city['pk_ville'] . '"';
                                 //If the current city is the selected one, keep its value
-                                if(isset($_POST['city']) && is_string($_POST['city']) && $_POST['city'] === $city['pk_ville']){
+                                if($cityId == $city['pk_ville']){
                                     echo ' selected';
                                 }
                                 echo '>' . $city['ville'] . '</option>';
                             }?>
 			</select>
-			<input type="text" name="zipCode" placeholder="Code postal"<?php 
-                            if(isset($_POST['zipCode']) && is_string($_POST['zipCode'])){echo' value="'.htmlspecialchars($_POST['zipCode']) . '"';}?>/>
-			<input type="text" name="phone" placeholder="Numéro de téléphone"<?php 
-                            if(isset($_POST['phone']) && is_string($_POST['phone'])){echo' value="'.htmlspecialchars($_POST['phone']) . '"';}?>/>
+                        <input type="text" name="zipCode" placeholder="Code postal" value="<?=$zipCode?>"/>
+                        <input type="text" name="phone" placeholder="Numéro de téléphone" value="<?=$phone?>"/>
 		</fieldset>
 		
 		<fieldset>
 			<h2>Votre courriel servira à vous identifier lors de votre prochaine visite</h2> <br/>
 			<h3>Votre mot de passe doit contenir un minimum de 8 caractères.</h3>
-			<input type="text" name="email" placeholder="Courriel"<?php 
-                            if(isset($_POST['email']) && is_string($_POST['email'])){echo' value="'.htmlspecialchars($_POST['email']) . '"';}?>/>
-			<input type="text" name="confirmEmail" placeholder="Confirmation du email"<?php 
-                            if(isset($_POST['confirmEmail']) && is_string($_POST['confirmEmail'])){echo' value="'.htmlspecialchars($_POST['confirmEmail']) . '"';}?>/>
+                        <input type="text" name="email" placeholder="Courriel" value="<?=$email?>"/>
+                        <input type="text" name="confirmEmail" placeholder="Confirmation du email" value="<?=isset($emailConfirm)?$emailConfirm:""?>"/>
 			<input type="password" name="password" placeholder="Mot de passe"/>
 			<input type="password" name="confirmPassword" placeholder="Confirmation du mot de passe"/>
 			<input type="checkbox" name="sendPromo" value="send" checked="checked"> Souhaitez-vous recevoir les promotions et les nouveautés?
@@ -180,4 +215,4 @@ if(isset($_POST['profil'])){
 	
 </div>
 
-<?php include('template/footer.inc.php'); ?>
+<?php include('template/footer.inc.php');
