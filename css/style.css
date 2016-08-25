@@ -33,6 +33,8 @@ h2 {
 	font-size:26px;
 	font-weight:bold;
 	color:#000708;
+	margin:0;
+	padding:0;
 }
 
 h3 {
@@ -42,7 +44,7 @@ h3 {
 .container {
 	display:block;
 	position:relative;
-	top: 0;
+	top: 0px;
 	width: 70%;
 	min-width:830px;
 	margin: 0 auto; /* Centers the elements in the navigator */
@@ -158,7 +160,9 @@ input[name="search"]{
 }
 
 fieldset {
-	
+	border:none;
+	padding:5px;
+	margin-bottom:20px;
 }
  
 /* ---------------- Login ----------------------- */
@@ -197,6 +201,43 @@ fieldset {
 	width:227px;
 	height:47px;
  }
+ 
+ /* --------------- Profil -------------------- */
+ .profile-form {
+	border:1px solid #FF9F07;
+	padding:30px;
+ }
+ 
+ fieldset .left-column, fieldset .right-column {
+	width:50%;
+ }
+ 
+ fieldset input[type="text"], fieldset input[type="email"], fieldset input[type="password"], fieldset select{
+	width:100%;
+ }
+ 
+ fieldset .left-column {
+	float:left;
+	padding-right:10px;
+ }
+ 
+ fieldset .right-column {
+	float:right;
+	padding-left:10px;
+ }
+ 
+ fieldset #civicNo {
+	width:30%;
+ }
+ 
+ fieldset #street {
+	width:68%;
+ }
+ 
+ fieldset::after {
+	clear:both;
+ }
+ 
 
 /* ---------------- Services ------------------ */
 

@@ -223,32 +223,48 @@ require_once 'template/navbar.inc.php';
                         <input type="hidden" name="userId" value="<?=$_SESSION['userId']?>"/><?php 
 } ?>
 			<h2>Remplissez ce formulaire pour créer votre profil</h2> <br/>
-			<h3>Tous les champs sont obligatoires</h3>
-                        <input type="text" name="lastName" placeholder="Nom" value="<?=$lastName?>"/>
-                        <input type="text" name="firstName" placeholder="Prénom" value="<?=$firstName?>"/>
-                        <input type="text" name="civicNo" placeholder="No. civique" value="<?=$civicNo?>"/>
-                        <input type="text" name="street" placeholder="Rue" value="<?=$street?>"/>
-                        <select name="city"><?php foreach ($cities as $city) {
-    //Populating the cities with the database-fetched values
-                                echo '<option value="'.$city['pk_ville'].'"';
-                                //If the current city is the selected one, keep its value
-                                if ($cityId == $city['pk_ville']) {
-                                    echo ' selected';
-                                }
-    echo '>'.$city['ville'].'</option>';
-}?>
-			</select>
-                        <input type="text" name="zipCode" placeholder="Code postal" value="<?=$zipCode?>"/>
-                        <input type="text" name="phone" placeholder="Numéro de téléphone" value="<?=$phone?>"/>
+			<h3>Tous les champs sont obligatoires</h3> <br/>
+                       <div class="left-column">
+							<input type="text" name="lastName" placeholder="Nom" value="<?=$lastName?>"/>
+							<input id="civicNo" type="text" name="civicNo" placeholder="No. civique" value="<?=$civicNo?>"/>
+							<input id="street" type="text" name="street" placeholder="Rue" value="<?=$street?>"/>  
+							<input type="text" name="zipCode" placeholder="Code postal" value="<?=$zipCode?>"/>
+						</div>
+						
+						<div class="right-column">
+							
+							<input type="text" name="firstName" placeholder="Prénom" value="<?=$firstName?>"/>
+							<select name="city"><?php foreach ($cities as $city) {
+							//Populating the cities with the database-fetched values
+									echo '<option value="'.$city['pk_ville'].'"';
+									//If the current city is the selected one, keep its value
+									if ($cityId == $city['pk_ville']) {
+										echo ' selected';
+									}
+									echo '>'.$city['ville'].'</option>';
+								}?>
+							</select>
+							<input type="text" name="phone" placeholder="Numéro de téléphone" value="<?=$phone?>"/>
+						</div>
+                       
+                        
 		</fieldset>
 		
 		<fieldset>
 			<h2>Votre courriel servira à vous identifier lors de votre prochaine visite</h2> <br/>
-			<h3>Votre mot de passe doit contenir un minimum de 8 caractères.</h3>
-                        <input type="text" name="email" placeholder="Courriel" value="<?=$email?>"/>
-                        <input type="text" name="confirmEmail" placeholder="Confirmation du email" value="<?=isset($emailConfirm) ? $emailConfirm : ''?>"/>
-			<input type="password" name="password" placeholder="Mot de passe"/>
-			<input type="password" name="confirmPassword" placeholder="Confirmation du mot de passe"/>
+			<h3>Votre mot de passe doit contenir un minimum de 8 caractères.</h3> <br/>
+			
+			<div class="left-column">
+				<input type="email" name="email" placeholder="Courriel" value="<?=$email?>"/>
+				<input type="password" name="password" placeholder="Mot de passe"/>
+			</div>
+			
+			<div class="right-column">
+				 <input type="text" name="confirmEmail" placeholder="Confirmation du email" value="<?=isset($emailConfirm) ? $emailConfirm : ''?>"/>
+				<input type="password" name="confirmPassword" placeholder="Confirmation du mot de passe"/>
+			</div>
+                        
+                       
 			<input type="checkbox" name="sendPromo" value="send" checked="checked"> Souhaitez-vous recevoir les promotions et les nouveautés?
 		</fieldset>
 		
