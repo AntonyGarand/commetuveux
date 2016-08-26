@@ -162,7 +162,12 @@ input[name="search"]{
 fieldset {
 	border:none;
 	padding:5px;
+        width: 100%;
 	margin-bottom:20px;
+}
+option {
+    /*Prevent horizontal selection in firefox*/
+    display: block;
 }
  
 /* ---------------- Login ----------------------- */

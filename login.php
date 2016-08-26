@@ -48,11 +48,9 @@ require_once 'template/navbar.inc.php';
 -->
 <div class="loginWrapper">
 	<h2>Veuillez vous identifier pour avoir la possibilité d'acheter des formations</h2>
-	<?php if (!empty($errors)) {
-    ?>
-		<p class="error"><?=implode('<br/>', $errors)?></p>
-	<?php 
-} ?>
+	<?php if (!empty($errors)) { ?>
+            <p class="error"><?=implode('<br/>', $errors)?></p>
+	<?php } ?>
 	<form id="loginForm" action="login.php" method="post">
 			
 		<div>
@@ -66,7 +64,7 @@ require_once 'template/navbar.inc.php';
 		
 		<div>
 			<input class="button" name="login" type="submit" value="Connexion"/>
-			<input class="button" href="profile.php" type="button" value="S'inscrire'"><br/>
+			<a href="profil.php"><input class="button" type="button" value="S'inscrire'"></a><br/>
 			<img id="facebook" src="img/graphiques/facebook.png" alt="Se connecter avec facebook"/>
 		</div>
 	</form>

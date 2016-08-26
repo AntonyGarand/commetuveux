@@ -1,0 +1,12 @@
+UPDATE `service` SET `image` = 'img/services/CoursAccess.png' WHERE `service`.`pk_service` = 1;
+UPDATE `service` SET `image` = 'img/services/coursexcel.png' WHERE `service`.`pk_service` = 2;
+UPDATE `service` SET `image` = 'img/services/photo.gif' WHERE `service`.`pk_service` = 3;
+UPDATE `service` SET `image` = 'img/services/hardware-cours.png' WHERE `service`.`pk_service` = 4;
+UPDATE `service` SET `image` = 'img/services/linux-cours.png' WHERE `service`.`pk_service` = 5;
+UPDATE `service` SET `image` = 'img/services/coursoutlook.png' WHERE `service`.`pk_service` = 6;
+UPDATE `service` SET `image` = 'img/services/cours-windows.png' WHERE `service`.`pk_service` = 7;
+UPDATE `service` SET `image` = 'img/services/cours-windows.png' WHERE `service`.`pk_service` = 8;
+UPDATE `service` SET `image` = 'img/services/Office-365.png' WHERE `service`.`pk_service` = 9;
+UPDATE `service` SET `image` = 'img/services/coursword.png' WHERE `service`.`pk_service` = 10;
+UPDATE `service` SET `image` = 'img/services/cours.gif' WHERE `service`.`pk_service` = 11;
+UPDATE `service` SET `image` = 'img/services/coursexcel.png' WHERE `service`.`pk_service` = 12;

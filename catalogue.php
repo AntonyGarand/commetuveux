@@ -17,7 +17,7 @@ foreach ($products as $product) {
     ?>
     <div class="service">
     <span class="serviceImage">
-        <img src="<?=urlencode($product['image'])?>" alt="image de <?=$product['service_titre']?>"/>
+        <img src="<?=$product['image']?>" alt="image de <?=$product['service_titre']?>"/>
     </span>
     <span class="serviceContent">
         <p class="serviceTitle"><?=htmlspecialchars($product['service_titre'])?></p>
