@@ -1,5 +1,13 @@
-/*
-Couleurs:
+/**************************************************************************************************/
+/* Fichier ...................... : style.css */
+/* Titre ........................ : Lab Web */
+/* Auteur ....................... : Amélie Frappier et Antony Garand */
+/* Date de création ............. : 2016-08-22 */
+/* Date de mise en ligne ........ : Jamais */
+/* Date de mise à jour .......... : 2016-08-22 */
+/*******************************************************************************************************/
+
+/*Couleurs:
 - Rouge : #FF4A07
 - Orange : #FF9F07
 - Bleu : #09AAC1
@@ -227,7 +235,7 @@ option {
 	width:50%;
  }
  
- fieldset input[type="text"], fieldset input[type="email"], fieldset input[type="password"], fieldset select{
+ fieldset input[type="text"], fieldset input[type="email"], fieldset input[type="password"], fieldset select, fieldset .profileAddress{
 	width:100%;
  }
  
@@ -246,7 +254,8 @@ option {
  }
  
  fieldset #street {
-	width:68%;
+	box-sizing:border-box;
+	width:68.90%;
  }
  
  fieldset::after {
@@ -265,14 +274,14 @@ option {
 	clear:both;
  }
  
+/* ----------- Catalogue/Services ------------- */
 
-/* ---------------- Services ------------------ */
-
-.service{
+ .service, .catalogue{
 	padding: 10px;
 	border: 2px solid #FF9F07;
 	margin: 5px;
 	position:relative;
+	width:100%;
 }
 /* Top right corner triangle */
 .service::before{
@@ -285,48 +294,87 @@ option {
     border-width: 15px 12.5px 0 12.5px;
     border-color: #FF9F07 transparent transparent transparent;
 }
+
+.serviceDescWrapper::after {
+	clear:both;
+}
+
+.serviceDescWrapper {
+	width:100%;
+}
+
 .serviceImageWrapper{
 	display: inline-block;
-    vertical-align:top;
+	float:left;
+	width:20%;
 }
 .serviceImage {
-	width: 200px;
-	height: 175px;
+	width:100%;
+	height:100%;
+	max-width: 200px;
+	max-height: 175px;
 }
-.serviceContentAdmin {
+.serviceContentAdmin, .serviceContent {
 	display: inline-block;
-	width: 575px;
+	width:80%;
+	min-width: 575px;
 	padding-left: 15px;
 }
 .serviceTitle {
 	font-size: 16pt;
-	margin:0;
-	padding:0;
     font-weight: bold;
 }
 .serviceDescription {
     font-weight: bold;
+	padding-right:30px;
 }
 .servicePriceAndLengthWrapper{
+	padding-top:30px;
 	width: 100%;
 }
 .servicePriceWrapper{
-	width: 50%;
+	width: 45%;
 }
 .servicePrice {
 	color: #09AAC1;
     font-weight: bold;
+}
+
+.serviceLengthWrapper {
+	width:45%;
 }
 .serviceLength {
 	color: #FF9F07;
     font-weight: bold;
 }
 
+.addToCartWrapper {
+	width:10%;
+}
+
+.addToCartBtn {
+	background-color:rgba(255,255,255,0);
+	background-image:url('../img/icones/panier.png');
+	background-size:contain;
+	border:none;
+	width:31px;
+	height:31px;
+}
+
+.serviceShareIcons img {
+	width:82px;
+	height:82px;
+}
+
+/* ----------- Promotions ------------- */
+
 .servicePromoAdmin{
 	display: inline-block;
+	padding-top:30px;
+	width:100%;
 }
 .servicePromoText{
-	width: 200px;
+	width: 30%;
 	color: #FF4A07;
 	vertical-align: top;
     font-weight: bold;
@@ -392,7 +440,7 @@ option {
 	font-size: 25pt;
 	margin:0;
 	vertical-align: middle;
-	color: #09AAC1;
+	color: #09AAC1
 }
 
 

@@ -225,16 +225,18 @@ require_once 'template/navbar.inc.php';
 			<h2>Remplissez ce formulaire pour créer votre profil</h2> <br/>
 			<h3>Tous les champs sont obligatoires</h3> <br/>
                        <div class="left-column">
-							<input type="text" name="lastName" placeholder="Nom" value="<?=$lastName?>"/>
-							<input id="civicNo" type="text" name="civicNo" placeholder="No. civique" value="<?=$civicNo?>"/>
-							<input id="street" type="text" name="street" placeholder="Rue" value="<?=$street?>"/>  
-							<input type="text" name="zipCode" placeholder="Code postal" value="<?=$zipCode?>"/>
+							<input tabIndex="1" type="text" name="lastName" placeholder="Nom" value="<?=$lastName?>"/>
+							<div class="profileAddress">
+								<input tabIndex="3" id="civicNo" type="text" name="civicNo" placeholder="No. civique" value="<?=$civicNo?>"/>
+								<input tabIndex="4" id="street" type="text" name="street" placeholder="Rue" value="<?=$street?>"/>  
+							</div>
+							<input tabIndex="6" type="text" name="zipCode" placeholder="Code postal" value="<?=$zipCode?>"/>
 						</div>
 						
 						<div class="right-column">
 							
-							<input type="text" name="firstName" placeholder="Prénom" value="<?=$firstName?>"/>
-							<select name="city"><?php foreach ($cities as $city) {
+							<input tabIndex="2" type="text" name="firstName" placeholder="Prénom" value="<?=$firstName?>"/>
+							<select tabIndex="5" name="city"><?php foreach ($cities as $city) {
 							//Populating the cities with the database-fetched values
 									echo '<option value="'.$city['pk_ville'].'"';
 									//If the current city is the selected one, keep its value
@@ -244,7 +246,7 @@ require_once 'template/navbar.inc.php';
 									echo '>'.$city['ville'].'</option>';
 								}?>
 							</select>
-							<input type="text" name="phone" placeholder="Numéro de téléphone" value="<?=$phone?>"/>
+							<input tabIndex="7" type="text" name="phone" placeholder="Numéro de téléphone" value="<?=$phone?>"/>
 						</div>
                        
                         
@@ -255,20 +257,20 @@ require_once 'template/navbar.inc.php';
 			<h3>Votre mot de passe doit contenir un minimum de 8 caractères.</h3> <br/>
 			
 			<div class="left-column">
-				<input type="email" name="email" placeholder="Courriel" value="<?=$email?>"/>
-				<input type="password" name="password" placeholder="Mot de passe"/>
+				<input tabIndex="8" type="email" name="email" placeholder="Courriel" value="<?=$email?>"/>
+				<input tabIndex="10" type="password" name="password" placeholder="Mot de passe"/>
 			</div>
 			
 			<div class="right-column">
-				 <input type="text" name="confirmEmail" placeholder="Confirmation du email" value="<?=isset($emailConfirm) ? $emailConfirm : ''?>"/>
-				<input type="password" name="confirmPassword" placeholder="Confirmation du mot de passe"/>
+				 <input tabIndex="9" type="text" name="confirmEmail" placeholder="Confirmation du email" value="<?=isset($emailConfirm) ? $emailConfirm : ''?>"/>
+				<input tabIndex="11" type="password" name="confirmPassword" placeholder="Confirmation du mot de passe"/>
 			</div>
                         
                        
-			<input type="checkbox" name="sendPromo" value="send" checked="checked"> <span class="receivePromo">Souhaitez-vous recevoir les promotions et les nouveautés?</span>
+			<input tabIndex="12" type="checkbox" name="sendPromo" value="send" checked="checked"> <span class="receivePromo">Souhaitez-vous recevoir les promotions et les nouveautés?</span>
 		</fieldset>
 		
-		<input name="profil" class="profileSubmit" type="submit" value="Confirmer"/>
+		<input tabIndex="13" name="profil" class="profileSubmit" type="submit" value="Confirmer"/>
 		
 	</form>
 	
