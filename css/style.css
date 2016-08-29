@@ -29,11 +29,14 @@ img {
 	max-width:100%;
 }
 
+h1, h2, h3, h4, h5, h6 {
+	margin:5px 0;
+}
+
 h2 {
 	font-size:26px;
 	font-weight:bold;
 	color:#000708;
-	margin:0;
 	padding:0;
 }
 
@@ -151,6 +154,13 @@ input[type="button"], input[type="submit"]{
 	color:#FFFAFB;
 }
 
+input[type="checkbox"] {
+	width:20px;
+	height:20px;
+	margin-right:5px;
+	color: #09AAC1;
+}
+
 input[name="search"]{
 	width:220px;
 	color: #FFFAFB !important;
@@ -240,6 +250,18 @@ option {
  }
  
  fieldset::after {
+	clear:both;
+ }
+ 
+ .receivePromo {
+	color: #09AAC1;
+ }
+ 
+ .profileSubmit {
+	float:right;
+ }
+ 
+ .profileSubmit::after {
 	clear:both;
  }
  

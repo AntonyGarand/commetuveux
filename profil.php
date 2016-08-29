@@ -265,10 +265,10 @@ require_once 'template/navbar.inc.php';
 			</div>
                         
                        
-			<input type="checkbox" name="sendPromo" value="send" checked="checked"> Souhaitez-vous recevoir les promotions et les nouveautés?
+			<input type="checkbox" name="sendPromo" value="send" checked="checked"> <span class="receivePromo">Souhaitez-vous recevoir les promotions et les nouveautés?</span>
 		</fieldset>
 		
-		<input name="profil" type="submit" value="Confirmer"/>
+		<input name="profil" class="profileSubmit" type="submit" value="Confirmer"/>
 		
 	</form>
 	
