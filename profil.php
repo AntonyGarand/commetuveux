@@ -332,16 +332,16 @@ require_once 'template/navbar.inc.php';
             'password' => array('minLength' => 8, 'maxLength' => 100, 'type' => 'string'),
             -->
             <div class="left-column">
-                <input tabIndex="1" type="text" name="lastName" placeholder="Nom" value="<?=$lastName?>"/>
+                <input tabIndex="1" type="text" name="lastName" placeholder="Nom" value="<?=$lastName?>" pattern=".{2,75}" title="Le nom doit contenir entre 2 et 75 caractères inclusivement!" required/>
                 <div class="profileAddress">
-                    <input tabIndex="3" id="civicNo" type="text" name="civicNo" placeholder="No. civique" value="<?=$civicNo?>"/>
-                    <input tabIndex="4" id="street" type="text" name="street" placeholder="Rue" value="<?=$street?>"/>  
+                    <input tabIndex="3" id="civicNo" type="text" name="civicNo" placeholder="No. civique" value="<?=$civicNo?>" pattern="[0-9]{1,10}" title="Le numéro civique doit être composé de 1 à 10 chiffres!" required/>
+                    <input tabIndex="4" id="street" type="text" name="street" placeholder="Rue" value="<?=$street?>" pattern=".{2,27}" title="Le nom de la rue doit contenir entre 2 et 75 caractères inclusivement!"/>  
                 </div>
-                <input tabIndex="6" type="text" name="zipCode" placeholder="Code postal" value="<?=$zipCode?>"/>
+                <input tabIndex="6" type="text" name="zipCode" placeholder="Code postal" value="<?=$zipCode?>" pattern="[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ][0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]" title="Le code postal doit être sous le format A1B2C3! Certains caractères sont restreints afin de respecter le format des codes postaux." required/>
             </div>
             <div class="right-column">
-                <input tabIndex="2" type="text" name="firstName" placeholder="Prénom" value="<?=$firstName?>"/>
-                <select tabIndex="5" name="city"><?php foreach ($cities as $city) {
+                <input tabIndex="2" type="text" name="firstName" placeholder="Prénom" value="<?=$firstName?>" pattern=".{2,75}" title="Le prénom doit contenir entre 2 et 75 caractères inclusivement!" required/>
+                <select tabIndex="5" name="city" required><?php foreach ($cities as $city) {
                     //Populating the cities with the database-fetched values
                     echo '<option value="'.$city['pk_ville'].'"';
                     //If the current city is the selected one, keep its value
@@ -350,23 +350,34 @@ require_once 'template/navbar.inc.php';
                     }
                     echo '>'.$city['ville'].'</option>';
                 }?></select>
-                <input tabIndex="7" type="text" name="phone" placeholder="Numéro de téléphone" value="<?=$phone?>"/>
+                <input tabIndex="7" type="text" name="phone" placeholder="Numéro de téléphone" value="<?=$phone?>" pattern="^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$" title="Le numéro de telephone doit être composé de trois suites de trois, trois et quatre chiffres respectivement séparés par un espace, un point, un trait-d'union ou rien. Il peut être précédé d'un indicatif et avoir un extension ayant le mot-clé 'ext.' ou 'extension' suivi du numéro d'extension." required/>
             </div>
         </fieldset>
         <fieldset>
             <h2>Votre courriel servira à vous identifier lors de votre prochaine visite</h2> <br/>
             <h3>Votre mot de passe doit contenir un minimum de 8 caractères.</h3> <br/>
             <div class="left-column">
-                <input tabIndex="8" type="email" name="email" placeholder="Courriel" value="<?=$email?>"/>
-                <input tabIndex="10" type="password" name="password" placeholder="Mot de passe"/>
+                <input tabIndex="8" type="email" name="email" id="email" placeholder="Courriel" value="<?=$email?>" required/>
+                <input tabIndex="10" type="password" name="password"  id="password" placeholder="Mot de passe" pattern=".{8,100}" title="Le mot de passe doit contenir entre 8 et 100 caractères!" required />
             </div>
             <div class="right-column">
-                <input tabIndex="9" type="text" name="confirmEmail" placeholder="Confirmation du email" value="<?=isset($emailConfirm) ? $emailConfirm : ''?>"/>
-                <input tabIndex="11" type="password" name="confirmPassword" placeholder="Confirmation du mot de passe"/>
+                <input tabIndex="9" type="text" name="confirmEmail" id="confirmEmail" placeholder="Confirmation du email" value="<?=isset($emailConfirm) ? $emailConfirm : ''?>" oninput="validateSameInput(this, 'email', 'courriel')" required/>
+                <input tabIndex="11" type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirmation du mot de passe" oninput="validateSameInput(this,'password','mot de passe')" required/>
             </div>
             <input tabIndex="12" type="checkbox" name="sendPromo" value="send" checked="checked"> <span class="receivePromo">Souhaitez-vous recevoir les promotions et les nouveautés?</span>
         </fieldset>
         <input tabIndex="13" name="profil" class="profileSubmit" type="submit" value="Confirmer"/>
     </form>
 </div>
+<script>
+    function validateSameInput(input, copyId, fieldName){
+        if(input.value != document.getElementById(copyId).value){
+            console.log(document.getElementById(copyId).value);
+            console.log(input.value);
+            input.setCustomValidity("Ce champ doit correspondre au champ " + fieldName + "!");
+        } else {
+            input.setCustomValidity('');
+        }
+    }
+</script>
 <?php include 'template/footer.inc.php';
