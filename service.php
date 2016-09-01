@@ -7,7 +7,7 @@ if ($_SESSION['role'] !== 'admin') {
 }
 $productsQuery = 'SELECT * FROM service ORDER BY pk_service';
 $products = $db->query($productsQuery)->fetchAll();
-require_once 'template/navbar.inc.php';?>
+require_once 'template/navbar.inc.php'; ?>
 <!--/**************************************************************************************************/
 /* Fichier ...................... : service.php */
 /* Titre ........................ : Lab Web */
@@ -39,7 +39,7 @@ foreach ($products as $product) {
 			</span>
 			<span class="servicePromoContent">
 				<?php 
-				$promotionQuery = 'SELECT 
+                $promotionQuery = 'SELECT 
 						pk_promotion as id, 
 						promotion_titre as titre,
 						rabais  
@@ -48,18 +48,18 @@ foreach ($products as $product) {
 					WHERE 
 						NOW() < date_fin 
 						AND fk_service = ' .intval($product['pk_service']);
-		$promotions = $db->query($promotionQuery)->fetchAll();
-		if (count($promotions) > 0) {
-			?><span class="promotionWrapper"><?php
-				foreach ($promotions as $promotion) {
-					?>
+    $promotions = $db->query($promotionQuery)->fetchAll();
+    if (count($promotions) > 0) {
+        ?><span class="promotionWrapper"><?php
+                foreach ($promotions as $promotion) {
+                    ?>
 					<div class="promotion" id="promotion<?=$promotion['id']?>">
 						<p class="promoValue"><?=floatval($promotion['rabais']) * 100?>%</p>
 						<div class="promotionBoxBottom"><p class="promocodeText">PROMO CODE</p></div><?php //TODO: Faire cette boite avec un ::after et content="PROMO CODE" à la place??>
 					</div>
 					<?php 
-				}
-		} ?>
+                }
+    } ?>
 				</span>
 				<span class="promoPlusWrapper"><p class="promoPlus">✚</p></span>
 				<div class="serviceShareIcons"><a href="http://facebook.com" target="_blank"><img src="img/icones/medias sociaux.jpeg" alt="Partager sur les médias sociaux..."/></a></div>

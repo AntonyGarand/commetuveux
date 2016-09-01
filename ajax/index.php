@@ -1,6 +1,6 @@
-<?php 
-    if(!isset($_GET['url'])){
+<?php
+
+    if (!isset($_GET['url'])) {
         die('Invalid action');
     } else {
-        
     }
