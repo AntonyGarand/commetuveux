@@ -22,6 +22,10 @@
 	display:inline-block;
 }
 
+script {
+	display:none;
+}
+
 body {
 	position:relative;
 	top:-20px;
@@ -361,9 +365,19 @@ option {
 	height:31px;
 }
 
+.serviceShareIcons {
+	float:right;
+}
+
 .serviceShareIcons img {
 	width:82px;
 	height:82px;
+}
+
+.addNewService {
+	text-align:right;
+	width:100%;
+	margin-bottom:15px;
 }
 
 /* ----------- Promotions ------------- */
@@ -442,6 +456,8 @@ option {
 	vertical-align: middle;
 	color: #09AAC1
 }
+
+/* ------------- Factures -------------- */
 
 
 
