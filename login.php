@@ -48,11 +48,9 @@ require_once 'template/navbar.inc.php';
 -->
 <div class="loginWrapper">
 	<h2>Veuillez vous identifier pour avoir la possibilité d'acheter des formations</h2>
-	<?php if (!empty($errors)) {
-    ?>
+	<?php if (!empty($errors)) { ?>
             <p class="error"><?=implode('<br/>', $errors)?></p>
-	<?php 
-} ?>
+	<?php } ?>
 	<form id="loginForm" action="login.php" method="post">
 			
 		<div>

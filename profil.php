@@ -12,25 +12,21 @@ function generateErrorMessage($suffix)
         'email' => "Le courriel $suffix",
         'confirmEmail' => "Le courriel de confirmation $suffix",
         'password' => "Le mot de passe $suffix",
-        'confirmPassword' => "Le mot de passe de confirmation $suffix",
+        'confirmPassword' => "Le mot de passe de confirmation $suffix"
     );
 }
-//Admins don't have a profile! redirect them to prevent bugs and errors
-if ($_SESSION['role'] == 'admin') {
-    die(header('Location: index.php'));
-}
 $cleanNames = array(
-    'firstName' => 'Le prénom',
-    'lastName' => 'le nom',
-    'civicNo' => 'Le numéro civique',
-    'street' => 'Le nom de la rue',
+    'firstName' => "Le prénom",
+    'lastName' => "le nom",
+    'civicNo' => "Le numéro civique",
+    'street' => "Le nom de la rue",
     'city' => 'La ville choisie est manquante ou invalide',
-    'zipCode' => 'Le code postal',
-    'phone' => 'Le numéro de telephone',
-    'email' => 'Le courriel',
-    'confirmEmail' => 'Le courriel de confirmation',
-    'password' => 'Le mot de passe',
-    'confirmPassword' => 'Le mot de passe de confirmation',
+    'zipCode' => "Le code postal",
+    'phone' => "Le numéro de telephone",
+    'email' => "Le courriel",
+    'confirmEmail' => "Le courriel de confirmation",
+    'password' => "Le mot de passe",
+    'confirmPassword' => "Le mot de passe de confirmation"
 );
 
 //Loading the cities first as we need them in the profile validation (Check if id exists)
@@ -44,24 +40,26 @@ if ($_SESSION['userId'] !== 0) {
     $userSelectStmt = $db->query($userSelectQuery);
     if ($userSelectStmt->rowCount() === 1) {
         $user = $userSelectStmt->fetch();
+        //Admins don't have a profile! redirect them to prevent bugs and errors
+        if($user['administrateur'] == 1){
+            die(header("Location: index.php"));
+        }
     }
 }
 
 if (isset($_POST['profil'])) {
-    function validateInformation()
-    {
+    function validateInformation(){
         global $db, $cities, $cleanNames;
         //Form is being sent, validate the content and try to create a user
         $required = array('firstName', 'lastName', 'civicNo', 'street', 'city', 'zipCode', 'phone', 'email', 'confirmEmail', 'password', 'confirmPassword');
         $errors = validatePost($required);
-        if (!empty($errors)) {
+        if(!empty($errors)){
             $suffix = 'est manquant ou invalide';
             $errorMessage = generateErrorMessage($suffix);
             $errorsClean = array();
             foreach ($errors as $error) {
                 $errorsClean[] = $errorMessage[$error];
             }
-
             return $errorsClean;
         }
         //All values are present and strings, let's keep checking them
@@ -71,13 +69,11 @@ if (isset($_POST['profil'])) {
         if (!$emailCheckStmt->execute(array(':courriel' => $_POST['email']))) {
             $errorsClean = array('Erreur du serveur! Veuillez réessayer.');
             die(var_dump($emailCheckStmt));
-
             return $errorsClean;
         }
         //The email already exists in the database
         if ($emailCheckStmt->rowCount() > 0) {
             $errorsClean = array('Le courriel est déjà pris! Veuillez réessayer.');
-
             return $errorsClean;
         }
         //Validating the info sent by the client
@@ -92,7 +88,6 @@ if (isset($_POST['profil'])) {
         }
         if (!$cityExists) {
             $errorsClean = array("La cité n'existe pas! Veuillez réessayer");
-
             return $errorsClean;
         }
         //City exists, now check the lengths and values sent
@@ -101,9 +96,9 @@ if (isset($_POST['profil'])) {
             'lastName' => array('minLength' => 2, 'maxLength' => 75, 'type' => 'string'),
             'civicNo' => array('minLength' => 1, 'maxLength' => 10, 'type' => 'string'),
             //Regex: As postal code can't contain  D, F, I, O, Q, or U, and cannot start with W or Z, make a manual regex with the charcters
-            'zipCode' => array('minLength' => 6, 'maxLength' => 6, 'type' => 'string', 'regex' => '/^[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ][0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]/'),
+            'zipCode' => array('minLength' => 6, 'maxLength' => 6, 'type' => 'string', 'regex'=>'/^[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ][0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]/'),
             'street' => array('minLength' => 2, 'maxLength' => 75, 'type' => 'string'),
-            'phone' => array('minLength' => 10, 'maxLength' => 20, 'type' => 'string', 'regex' => '/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/'),
+            'phone' => array('minLength' => 10, 'maxLength' => 20, 'type' => 'string', 'regex'=>'/^(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:\(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})(?:\s*(?:#|x\.?|ext\.?|extension)\s*(\d+))?$/'),
             'email' => array('minLength' => 5, 'maxLength' => 100, 'type' => 'string'),
             'password' => array('minLength' => 8, 'maxLength' => 100, 'type' => 'string'),
         );
@@ -116,7 +111,7 @@ if (isset($_POST['profil'])) {
             $errorsClean[] = 'Les deux courriels ne correspondent pas!';
         }
         //Email format validation
-        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        if(!filter_var($_POST['email'],FILTER_VALIDATE_EMAIL)){
             $errorsClean[] = 'Le courriel ne respecte pas le format demandé!';
         }
         foreach ($lengthAndTypeValidator as $key => $validation) {
@@ -124,20 +119,18 @@ if (isset($_POST['profil'])) {
             if ($length < $validation['minLength'] || $length > $validation['maxLength']) {
                 $errorsClean[] = $errorMessage[$key];
             }
-            if (isset($validation['regex'])) {
-                if (preg_match($validation['regex'], $_POST[$key]) !== 1) {
-                    $errorsClean[] = $cleanNames[$key].' ne respecte pas le format demandé!';
-                }
+            if(isset($validation['regex'])){
+                if(preg_match($validation['regex'],$_POST[$key]) !== 1){
+                    $errorsClean[] = $cleanNames[$key] . ' ne respecte pas le format demandé!';
+                };
             }
         } //End of foreach key validation
-        if (!empty($errorsClean)) {
+        if(!empty($errorsClean)){
             return $errorsClean;
         }
-
         return array();
     }
-    function createNewUser()
-    {
+    function createNewUser(){
         global $db;
         //User creation!
         //TODO: Salt+Hash the password! Plaintext is bad
@@ -171,59 +164,58 @@ if (isset($_POST['profil'])) {
             ':wantSpam' => empty($_POST['sendPromo']) ? 0 : 1,
         ));
         //New account created
-        header('Location: index.php');
+        header("Location: index.php");
     }
 
-    function updateUser()
-    {
+    function updateUser(){
         global $db;
         $selectCompleteUserStmt = "SELECT * from client JOIN utilisateur on utilisateur.pk_utilisateur = client.fk_utilisateur JOIN adresse ON adresse.pk_adresse = client.fk_adresse WHERE utilisateur.pk_utilisateur = {$_SESSION['userId']}";
         $user = $db->query($selectCompleteUserStmt)->fetch();
 
         $fields = array(
-            'firstName' => 'prenom',
-            'lastName' => 'nom',
-            'phone' => 'telephone',
-            'email' => 'courriel',
-            'sendPromo' => 'infolettre',
-            'password' => 'mot_de_passe',
-            'civicNo' => 'no_civique',
-            'street' => 'rue',
-            'zipCode' => 'code_postal',
+            'firstName'=>'prenom',
+            'lastName'=>'nom',
+            'phone'=>'telephone',
+            'email'=>'courriel',
+            'sendPromo'=>'infolettre',
+            'password'=>'mot_de_passe',
+            'civicNo'=>'no_civique',
+            'street'=>'rue',
+            'zipCode'=>'code_postal'
         );
 
         $clientUpdateQuery = "UPDATE `client` SET `prenom` = :firstName, `nom` = :lastName, `telephone` = :phone WHERE `client`.`pk_client` = {$user['pk_client']}";
         $adressUpdateQuery = "UPDATE `adresse` SET `no_civique` = :civicNo, `rue` = :street, `code_postal` = :zipCode, `fk_ville` = :ville WHERE `adresse`.`pk_adresse` = {$user['pk_adresse']}";
         $userUpdateQuery = "UPDATE `utilisateur` SET `courriel` = :email, `mot_de_passe` = :password WHERE `utilisateur`.`pk_utilisateur` = {$user['pk_utilisateur']}";
-        $clientUpdateStmt = $db->prepare($clientUpdateQuery);
+        $clientUpdateStmt=$db->prepare($clientUpdateQuery);
         $clientUpdateStmt->execute(array(
-            ':firstName' => $_POST['firstName'],
-            ':lastName' => $_POST['lastName'],
-            ':phone' => $_POST['phone'],
+            ':firstName'=>$_POST['firstName'],
+            ':lastName'=>$_POST['lastName'],
+            ':phone'=>$_POST['phone']
         ));
-        $adressUpdateStmt = $db->prepare($adressUpdateQuery);
+        $adressUpdateStmt=$db->prepare($adressUpdateQuery);
         $adressUpdateStmt->execute(array(
-            ':civicNo' => $_POST['civicNo'],
-            ':street' => $_POST['street'],
-            ':ville' => $_POST['ville'],
-            ':zipCode' => $_POST['zipCode'],
+            ':civicNo'=>$_POST['civicNo'],
+            ':street'=>$_POST['street'],
+            ':ville'=>$_POST['ville'],
+            ':zipCode'=>$_POST['zipCode']
         ));
-        $userUpdateStmt = $db->prepare($userUpdateQuery);
+        $userUpdateStmt=$db->prepare($userUpdateQuery);
         $userUpdateStmt->execute(array(
-            ':email' => $_POST['email'],
-            ':password' => $_POST['password'],
+            ':email'=>$_POST['email'],
+            ':password'=>$_POST['password']
         ));
-        header('Location: index.php');
+        header("Location: index.php");
         die();
     }
     $errorsClean = validateInformation();
 
-    if (empty($errorsClean)) {
+    if(empty($errorsClean)){
         if (isset($_POST['userId']) && is_numeric($_POST['userId'])) {
             if (intval($_POST['userId']) !== intval($_SESSION['userId'])) {
                 require_once 'template/navbar.inc.php';
                 echo'<h1>Erreurs lors de la mise à jour!</h1><h3>Veuillez vous reconnecter.</h3>';
-                require_once 'template/footer.inc.php';
+                require_once'template/footer.inc.php';
                 die();
             } else {
                 updateUser();
@@ -232,6 +224,7 @@ if (isset($_POST['profil'])) {
             createNewUser();
         }
     }
+
 } //End of profile confirmation
 
 if (empty($_POST) && $user !== false) {
@@ -292,7 +285,9 @@ if (empty($_POST) && $user !== false) {
         $emailConfirm = '';
     }
 }
+
 require_once 'template/navbar.inc.php';
+
 /*
  * For the following form, all fields will be saved if an error occured (Format not respected, didn't enter value, ...)
  * Excluding the password fields
@@ -309,53 +304,67 @@ require_once 'template/navbar.inc.php';
 /*******************************************************************************************************/
 -->
 <div class="profile-form">
-    <form method="post" action="profil.php">
-        <fieldset>
-            <?php if (!empty($errorsClean)) {
-                echo '<p class="warning">'.implode('<br/>', $errorsClean).'</p>';
-            } 
-            if (is_numeric($_SESSION['userId']) && $_SESSION['userId'] !== 0) {
-            ?>
-                <input type="hidden" name="userId" value="<?=$_SESSION['userId']?>"/><?php 
-            } ?>
-            <h2>Remplissez ce formulaire pour créer votre profil</h2> <br/>
-            <h3>Tous les champs sont obligatoires</h3> <br/>
-            <div class="left-column">
-                <input tabIndex="1" type="text" name="lastName" placeholder="Nom" value="<?=$lastName?>"/>
-                <div class="profileAddress">
-                    <input tabIndex="3" id="civicNo" type="text" name="civicNo" placeholder="No. civique" value="<?=$civicNo?>"/>
-                    <input tabIndex="4" id="street" type="text" name="street" placeholder="Rue" value="<?=$street?>"/>  
-                </div>
-                <input tabIndex="6" type="text" name="zipCode" placeholder="Code postal" value="<?=$zipCode?>"/>
-            </div>
-            <div class="right-column">
-                <input tabIndex="2" type="text" name="firstName" placeholder="Prénom" value="<?=$firstName?>"/>
-                <select tabIndex="5" name="city"><?php foreach ($cities as $city) {
-                    //Populating the cities with the database-fetched values
-                    echo '<option value="'.$city['pk_ville'].'"';
-                    //If the current city is the selected one, keep its value
-                    if ($cityId == $city['pk_ville']) {
-                        echo ' selected';
-                    }
-                    echo '>'.$city['ville'].'</option>';
-                }?></select>
-                <input tabIndex="7" type="text" name="phone" placeholder="Numéro de téléphone" value="<?=$phone?>"/>
-            </div>
-        </fieldset>
-        <fieldset>
-            <h2>Votre courriel servira à vous identifier lors de votre prochaine visite</h2> <br/>
-            <h3>Votre mot de passe doit contenir un minimum de 8 caractères.</h3> <br/>
-            <div class="left-column">
-                <input tabIndex="8" type="email" name="email" placeholder="Courriel" value="<?=$email?>"/>
-                <input tabIndex="10" type="password" name="password" placeholder="Mot de passe"/>
-            </div>
-            <div class="right-column">
-                <input tabIndex="9" type="text" name="confirmEmail" placeholder="Confirmation du email" value="<?=isset($emailConfirm) ? $emailConfirm : ''?>"/>
-                <input tabIndex="11" type="password" name="confirmPassword" placeholder="Confirmation du mot de passe"/>
-            </div>
-            <input tabIndex="12" type="checkbox" name="sendPromo" value="send" checked="checked"> <span class="receivePromo">Souhaitez-vous recevoir les promotions et les nouveautés?</span>
-        </fieldset>
-        <input tabIndex="13" name="profil" class="profileSubmit" type="submit" value="Confirmer"/>
-    </form>
+	<form method="post" action="profil.php">
+		<fieldset>
+                        <?php if (!empty($errorsClean)) {
+    echo '<p class="warning">'.implode('<br/>', $errorsClean).'</p>';
+} ?>
+                        <?php if (is_numeric($_SESSION['userId']) && $_SESSION['userId'] !== 0) {
+    ?>
+                        <input type="hidden" name="userId" value="<?=$_SESSION['userId']?>"/><?php 
+} ?>
+			<h2>Remplissez ce formulaire pour créer votre profil</h2> <br/>
+			<h3>Tous les champs sont obligatoires</h3> <br/>
+                       <div class="left-column">
+							<input tabIndex="1" type="text" name="lastName" placeholder="Nom" value="<?=$lastName?>"/>
+							<div class="profileAddress">
+								<input tabIndex="3" id="civicNo" type="text" name="civicNo" placeholder="No. civique" value="<?=$civicNo?>"/>
+								<input tabIndex="4" id="street" type="text" name="street" placeholder="Rue" value="<?=$street?>"/>  
+							</div>
+							<input tabIndex="6" type="text" name="zipCode" placeholder="Code postal" value="<?=$zipCode?>"/>
+						</div>
+						
+						<div class="right-column">
+							
+							<input tabIndex="2" type="text" name="firstName" placeholder="Prénom" value="<?=$firstName?>"/>
+							<select tabIndex="5" name="city"><?php foreach ($cities as $city) {
+							//Populating the cities with the database-fetched values
+									echo '<option value="'.$city['pk_ville'].'"';
+									//If the current city is the selected one, keep its value
+									if ($cityId == $city['pk_ville']) {
+										echo ' selected';
+									}
+									echo '>'.$city['ville'].'</option>';
+								}?>
+							</select>
+							<input tabIndex="7" type="text" name="phone" placeholder="Numéro de téléphone" value="<?=$phone?>"/>
+						</div>
+                       
+                        
+		</fieldset>
+		
+		<fieldset>
+			<h2>Votre courriel servira à vous identifier lors de votre prochaine visite</h2> <br/>
+			<h3>Votre mot de passe doit contenir un minimum de 8 caractères.</h3> <br/>
+			
+			<div class="left-column">
+				<input tabIndex="8" type="email" name="email" placeholder="Courriel" value="<?=$email?>"/>
+				<input tabIndex="10" type="password" name="password" placeholder="Mot de passe"/>
+			</div>
+			
+			<div class="right-column">
+				 <input tabIndex="9" type="text" name="confirmEmail" placeholder="Confirmation du email" value="<?=isset($emailConfirm) ? $emailConfirm : ''?>"/>
+				<input tabIndex="11" type="password" name="confirmPassword" placeholder="Confirmation du mot de passe"/>
+			</div>
+                        
+                       
+			<input tabIndex="12" type="checkbox" name="sendPromo" value="send" checked="checked"> <span class="receivePromo">Souhaitez-vous recevoir les promotions et les nouveautés?</span>
+		</fieldset>
+		
+		<input tabIndex="13" name="profil" class="profileSubmit" type="submit" value="Confirmer"/>
+		
+	</form>
+	
 </div>
+
 <?php include 'template/footer.inc.php';
