@@ -3,7 +3,7 @@ require_once 'template/header.inc.php';
 if ($_SESSION['role'] !== 'admin') {
     //TODO: Replace header with head and navbar, then do send a location header to redirect
     echo 'Forbidden';
-    header('Location: index.php');
+    die(header('Location: index.php'));
 }
 $productsQuery = 'SELECT * FROM service ORDER BY pk_service';
 $products = $db->query($productsQuery)->fetchAll();
@@ -67,7 +67,6 @@ foreach ($products as $product) {
                 if($startDate < $now && $endDate > $now){
                     $class = "active";
                 }
-                
                 ?>
                 <div class="promotion <?=$class?>" id="promotion<?=$promotion['id']?>">
                     <p class="promoValue"><?=floatval($promotion['rabais']) * 100?>%</p>
