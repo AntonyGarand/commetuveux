@@ -7,15 +7,14 @@ if ($_SESSION['role'] !== 'admin') {
 }
 
 $baseInvoicesQuery = 'SELECT facture.pk_facture, facture.date_service, facture.no_confirmation, 
-				client.prenom, client.nom, 
-				ta_facture_service.tarif_facture 
+				client.prenom, client.nom 
 				FROM facture
-				INNER JOIN client ON client.pk_client=facture.fk_client 
-				INNER JOIN ta_facture_service ON ta_facture_service.fk_facture=facture.pk_facture 
+				INNER JOIN client ON client.pk_client=facture.fk_client  
 				ORDER BY facture.date_service DESC';
 $baseInvoices = $db->query($baseInvoicesQuery)->fetchAll();
 for ($i = 0; $i < count($baseInvoices); $i++) {
-	$serviceQuery = 'SELECT service.service_titre, service.tarif,
+	$serviceQuery = 'SELECT service.service_titre, service.tarif, 
+					ta_facture_service.tarif_facture, 
 					ta_promotion_service.code, 
 					promotion.rabais 
 					FROM service
@@ -41,7 +40,7 @@ for ($i = 0; $i < count($baseInvoices); $i++) {
 // $invoices = $db->query($invoiceQuery)->fetchAll();
 require_once 'template/navbar.inc.php';
 
-// print_r($baseInvoices); //TODO: Remove when debug is done ?>
+//print_r($baseInvoices); //TODO: Remove when debug is done ?>
 
 <!-- /**************************************************************************************************/
 /* Fichier ...................... : facture.php */
@@ -54,19 +53,97 @@ require_once 'template/navbar.inc.php';
 -->
 
 <?php
-	foreach ($invoices as $invoice) {
+	foreach ($baseInvoices as $invoice) {
 	?>
-	<div class="invoiceContent">
-		
-		<span class="invoiceNb"><?=$invoice['pk_facture']?></span>
-		<span class="invoiceClient"><?=$invoice['prenom'] . ' ' . $invoice['nom']; ?></span>
-		<span class="invoiceConfirmation"><?=$invoice['no_confirmation'] ?></span>
-		<span class="invoiceDate"><?= date('d/m/Y',strtotime($invoice['date_service'])); ?></span>
-		<span class="invoiceTarif"><?=$invoice['tarif_facture']?>$</span>
-		<a href="#">Détail</a>
-		<div class="invoiceDetail">
-			
-		</div>
-	</div>
 
+		<div class="invoiceContent">
+		
+		<div class="invoiceNbWrapper">
+			<span class="invoiceNb"><?=$invoice['pk_facture']?></span>
+		</div>
+		
+		<div class="invoiceClientWrapper">
+			<span class="invoiceClient"><?=$invoice['prenom'] . ' ' . $invoice['nom']; ?></span> <br/>
+			<span class="invoiceConfirmation"><?=strtoupper($invoice['no_confirmation']) ?></span> 
+		</div>
+		
+		<div class="invoiceDateWrapper">
+			<span class="invoiceDate"><?= date('d/m/Y',strtotime($invoice['date_service'])); ?></span> <br/>
+			<?php 
+				$invoiceTotal = 0;
+				foreach ($invoice['services'] as $service) {
+					$invoiceTotal += $service['tarif_facture'];
+				}
+			?>
+			<span class="invoiceTarif"><?=$invoiceTotal?>$</span>
+		</div>
+		
+		
+		<div class="invoiceDetail" id="invoiceDetail">
+		
+			<?php foreach ($invoice['services'] as $service) {?>
+				<div class="invoiceService" id="invoiceService">
+					
+					<?php 
+					if ($service['code'] != NULL) {
+					
+						//Promotion title
+						switch ($service['code']) {
+							case "rentree2016":
+								$promoTitle = "Grand solde de la rentrée";
+								break;
+							case "noel2016":
+								$promoTitle = "Grand solde de Noël";
+								break;
+							case "o365":
+								$promoTitle = "Promotion spéciale Office 365";
+								break;
+							default:
+								$promoTitle = "Promotion";
+								break;
+							}
+						
+						//Rebate on the promotion
+						$promoTarif = $service['tarif'] * $service['rabais'];
+						
+						} ?>
+						
+						<div class="invoiceServiceTitleWrapper">
+							<span class="invoiceServiceTitle"><?=$service['service_titre']?></span> <br/>
+							<?php if($service['code'] != NULL) { ?>
+								<span class="invoiceServicePromoTitle"><?=$promoTitle . '(' . $service['rabais'] * 100 . '%)'?></span>
+							<?php } ?>
+						</div>
+						
+						<div class="invoiceServiceRabaisWrapper">
+							<span class="invoiceServiceTarif"><?=number_format($service['tarif'], 2) . '$'?></span> <br/>
+							<?php if($service['code'] != NULL) { ?>
+								<span class="invoiceServicePromoTarif"><?='-' . number_format($promoTarif, 2) . '$'?></span>
+							<?php } ?>
+						</div>
+						
+					</div>
+			<?php } ?>
+			
+			<div class="invoiceToggleWrapper">
+				<a class="invoiceToggle" href="#" onclick="toggleDetail();">Détail</a>
+			</div>
+			
+		
+	</div>
+		
+	</div>
+	
 <?php } ?>
+
+<script>
+		// function toggleDetail() {
+			// var div = document.getElementById('invoiceService');
+			// if (div.style.display === 'none') {
+				// div.style.display = 'inline-block';
+			// }
+			// else {
+				// div.style.display = 'none';
+			// }
+		// }
+	// </script>
