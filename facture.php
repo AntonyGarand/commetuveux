@@ -79,7 +79,7 @@ require_once 'template/navbar.inc.php';
 		</div>
 		
 		
-		<div class="invoiceDetail" id="invoiceDetail">
+		<div class="invoiceDetail" id="<?=$invoice['pk_facture']?>">
 		
 			<?php foreach ($invoice['services'] as $service) {?>
 				<div class="invoiceService" id="invoiceService">
@@ -124,26 +124,29 @@ require_once 'template/navbar.inc.php';
 						
 					</div>
 			<?php } ?>
-			
-			<div class="invoiceToggleWrapper">
-				<a class="invoiceToggle" href="#" onclick="toggleDetail();">Détail</a>
-			</div>
-			
 		
 	</div>
-		
+	
+		<div class="invoiceToggleWrapper">
+				<a class="invoiceToggle" href="#" id="href<?=$invoice['pk_facture']?>" onclick="toggleDetail(<?=$invoice['pk_facture']?>);">Détail</a>
+			</div>
+			
 	</div>
 	
 <?php } ?>
 
 <script>
-		// function toggleDetail() {
-			// var div = document.getElementById('invoiceService');
-			// if (div.style.display === 'none') {
-				// div.style.display = 'inline-block';
-			// }
-			// else {
-				// div.style.display = 'none';
-			// }
-		// }
-	// </script>
+		function toggleDetail(elemId) {
+			elem = document.getElementById(elemId);
+			display = (getComputedStyle(elem, null).display);
+			link = document.getElementById('href' + elemId);
+			if (display === 'none') {
+				elem.style.display = 'inline-block';
+				link.innerHTML = 'Réduire';
+			}
+			else if (display === 'inline-block'){
+				elem.style.display = 'none';
+				link.innerHTML = 'Détail';
+			}
+		}
+	</script>

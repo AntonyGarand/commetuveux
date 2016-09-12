@@ -507,6 +507,7 @@ option {
 	width:100%;
 	padding-left:150px;
 	padding-top:13px;
+	display:none;
 }
 
 .invoiceToggleWrapper {
@@ -519,7 +520,6 @@ option {
 }
 
 .invoiceService {
-	/*display:none;*/
 	width:100%;
 	margin-bottom:5px;
 }
