@@ -8,18 +8,38 @@ if (isset($_POST['resetPassword'])) {
 	$required = array('email');
     $errors = validatePost($required);
 	if (empty($errors)) {
-		//TODO: Validate if user exists in database
-		//TODO: Send password reset notification by email
-		 echo '<script language="javascript">';
-		 echo 'alert("Un nouveau mot de passe temporaire vous sera envoyé par courriel. Veuillez vous reconnecter et choisir un nouveau mot de passe lorsque vous vous serez identifié de nouveau.")'; 
-		 //echo 'document.location="login.php"';
-		 echo '</script>';
+		//Validate if user exists in database
+		$mailQuery = "SELECT pk_utilisateur, courriel FROM utilisateur WHERE courriel='" . $_POST['email'] . "'";
+		$mail = $db->query($mailQuery)->fetchAll();
+		if (count($mail) > 0) {
+			
+			//Generates unique token and send mail to user for password reset
+			$pass = generatePassword($mail[0]);
+			if ($pass != null) {
+				if (sendMail($mail[0])) {
+				//Redirect to login page
+				 echo '<script language="javascript">';
+				 echo 'alert("Un nouveau mot de passe temporaire vous sera envoyé par courriel. Veuillez vous reconnecter et choisir un nouveau mot de passe lorsque  vous vous serez identifié de nouveau.");'; 
+				 echo 'document.location.href="login.php";';
+				 echo '</script>';
+				}
+				else {
+					$errors[] = "Courriel non envoyé";
+				}
+			}
+			
+			
+			
+		}
+		else {
+			$errors[] = "Cet utilisateur n'existe pas dans notre base de données. Si vous êtes un nouvel utilisateur, veuillez vous inscrire.";
+		};
+		
 	}
 	else {
 		$errors[] = "Veuillez saisir votre courriel";
 	}
 }
-
 require_once 'template/navbar.inc.php';
 ?>
 <!-- /**************************************************************************************************/

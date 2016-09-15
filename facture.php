@@ -27,17 +27,7 @@ for ($i = 0; $i < count($baseInvoices); $i++) {
 	//$invoice = array_merge($invoice, );
 }
 
-// array_walk($baseInvoices, function($invoice){var_dump($invoice);echo "<br/>";});
-// die('Done'); 
-// /*$serviceQuery = 'SELECT 
-				// service.service_titre, service.tarif, 
-				// ta_promotion_service.code, 
-				// promotion.rabais
-				// FROM facture 
-				// INNER JOIN service ON ta_facture_service.fk_service=service.pk_service 
-				 
-				// ';*/
-// $invoices = $db->query($invoiceQuery)->fetchAll();
+
 require_once 'template/navbar.inc.php';
 
 //print_r($baseInvoices); //TODO: Remove when debug is done ?>
@@ -104,7 +94,7 @@ require_once 'template/navbar.inc.php';
 							}
 						
 						//Rebate on the promotion
-						$promoTarif = $service['tarif'] * $service['rabais'];
+						$promoTarif = $service['tarif_facture'] * $service['rabais'];
 						
 						} ?>
 						
@@ -116,7 +106,7 @@ require_once 'template/navbar.inc.php';
 						</div>
 						
 						<div class="invoiceServiceRabaisWrapper">
-							<span class="invoiceServiceTarif"><?=number_format($service['tarif'], 2) . '$'?></span> <br/>
+							<span class="invoiceServiceTarif"><?=number_format($service['tarif_facture'], 2) . '$'?></span> <br/>
 							<?php if($service['code'] != NULL) { ?>
 								<span class="invoiceServicePromoTarif"><?='-' . number_format($promoTarif, 2) . '$'?></span>
 							<?php } ?>
