@@ -21,7 +21,7 @@ foreach ($products as $product) {
     ?>
     <div class="service">
         <div class="serviceMenu">
-            <div class="cornerContentWrapper" id="cornerMenu<?=$product['pk_service']?>" tabindex="<?=$product['pk_service'] /*For the onblur to work*/?>" onblur="console.log('hide!');this.style.display='none';">
+            <div class="cornerContentWrapper" id="cornerMenu<?=$product['pk_service']?>" tabindex="<?=$product['pk_service'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},100, this);">
                 <a href="/modifierService.php?serviceId=<?=$product['pk_service']?>">Modifier le service</a><br/>
                 <a href="/desactiverService.php?serviceId=<?=$product['pk_service']?>">Désactiver le service</a>
             </div>
