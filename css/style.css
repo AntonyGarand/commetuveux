@@ -74,6 +74,10 @@ a:hover, a:focus {
     color:#FF9F07;
 }
 
+.hidden {
+	display:none;
+}
+
 /* ---------------- Navigation ------------------ */
 
 #mainMenu {
@@ -607,9 +611,33 @@ fieldset::after {
     text-align:right;
 }
 
+/* --------------- Gestion des promotions -------------- */
+.gestionPromoContent {
+	padding: 10px;
+    border: 2px solid #FF9F07;
+    margin: 5px;
+    position:relative;
+    width:100%;
+}
 
+.addNewPromo {
+	text-align:right;
+    width:100%;
+    margin-bottom:15px;
+}
 
+.gestionPromoTitre, .input[name="newPromoTitle"] {
+	width:58.5% !important;
+	font-weight:bold;
+}
 
+.gestionPromoRabais, .input[name="newPromoRebate"] {
+	color:#FF9F07;
+}
+
+.addPromo input[type="submit"] {
+	float:right;
+}
 
 
 
