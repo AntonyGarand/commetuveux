@@ -12,23 +12,23 @@ require_once 'template/navbar.inc.php';
 /* Date de mise en ligne ........ : Jamais */
 /* Date de mise à jour .......... : 2016-08-22 */
 /*******************************************************************************************************/
---><?php
+    --><?php
 foreach ($products as $product) {
-    ?>
+?>
     <div class="catalogue">
-		<div class="serviceImageWrapper">
-			<img class="serviceImage" src="<?=$product['image']?>" alt="Image de <?=$product['service_titre']?>"/>
-		</div>
-		<div class="serviceContent">
-			<h2 class="serviceTitle"><?=htmlspecialchars($product['service_titre'])?></h2>
-			<p class="serviceDescription"><?=htmlspecialchars($product['service_description'])?></p>
-			<div class="servicePriceAndLengthWrapper">
-				<span class="servicePriceWrapper"><p class="servicePrice">Tarif : <?=intval($product['tarif'])?>$</p></span>
-				<span class="serviceLengthWrapper"><p class="serviceLength">Durée : <?=intval($product['durée'])?> h</p></span>
-				<div class="serviceAddToCartWrapper">
-					<button class="addToCartBtn" onclick="addToCart(<?=intval($product['pk_service'])?>)"></button>
-				</div>
-			</div>
-		</div>
+                <div class="serviceImageWrapper">
+                        <img class="serviceImage" src="<?=$product['image']?>" alt="Image de <?=$product['service_titre']?>"/>
+                </div>
+                <div class="serviceContent">
+                        <h2 class="serviceTitle"><?=htmlspecialchars($product['service_titre'])?></h2>
+                        <p class="serviceDescription"><?=htmlspecialchars($product['service_description'])?></p>
+                        <div class="servicePriceAndLengthWrapper">
+                                <span class="servicePriceWrapper"><p class="servicePrice">Tarif : <?=intval($product['tarif'])?>$</p></span>
+                                <span class="serviceLengthWrapper"><p class="serviceLength">Durée : <?=intval($product['duree'])?> h</p></span>
+                                <div class="serviceAddToCartWrapper">
+                                        <button class="addToCartBtn" onclick="addToCart(<?=intval($product['pk_service'])?>)"></button>
+                                </div>
+                        </div>
+                </div>
     </div>
 <?php } ?>

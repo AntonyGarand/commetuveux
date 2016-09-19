@@ -23,7 +23,7 @@ foreach ($products as $product) {
         <div class="serviceMenu">
             <div class="cornerContentWrapper" id="cornerMenu<?=$product['pk_service']?>" tabindex="<?=$product['pk_service'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},100, this);">
                 <a href="/modifierService.php?serviceId=<?=$product['pk_service']?>">Modifier le service</a><br/>
-                <a href="/desactiverService.php?serviceId=<?=$product['pk_service']?>">Désactiver le service</a>
+                <a href="/modifierService.php?serviceId=<?=$product['pk_service']?>&inactive=true">Désactiver le service</a>
             </div>
             <div class="corner" onclick="showMenu(<?=$product['pk_service']?>)"></div>
         </div>
@@ -36,7 +36,7 @@ foreach ($products as $product) {
                 <p class="serviceDescription"><?=htmlspecialchars($product['service_description'])?></p>
                 <span class="servicePriceAndLengthWrapper">
                     <span class="servicePriceWrapper"><p class="servicePrice">Tarif : <?=intval($product['tarif'])?>$</p></span>
-                    <span class="serviceLengthWrapper"><p class="serviceLength">Durée : <?=intval($product['durée'])?> h</p></span>
+                    <span class="serviceLengthWrapper"><p class="serviceLength">Durée : <?=intval($product['duree'])?> h</p></span>
                 </span>
             </div>
         </div>
