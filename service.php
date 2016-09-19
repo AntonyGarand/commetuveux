@@ -1,8 +1,6 @@
 <?php 
 require_once 'template/header.inc.php';
 if ($_SESSION['role'] !== 'admin') {
-    //TODO: Replace header with head and navbar, then do send a location header to redirect
-    echo 'Forbidden';
     die(header('Location: index.php'));
 }
 $productsQuery = 'SELECT * FROM service ORDER BY pk_service';
@@ -22,6 +20,13 @@ require_once 'template/navbar.inc.php'; ?>
 foreach ($products as $product) {
     ?>
     <div class="service">
+        <div class="serviceMenu">
+            <div class="cornerContentWrapper" id="cornerMenu<?=$product['pk_service']?>" tabindex="<?=$product['pk_service'] /*For the onblur to work*/?>" onblur="console.log('hide!');this.style.display='none';">
+                <a href="/modifierService.php?serviceId=<?=$product['pk_service']?>">Modifier le service</a><br/>
+                <a href="/desactiverService.php?serviceId=<?=$product['pk_service']?>">Désactiver le service</a>
+            </div>
+            <div class="corner" onclick="showMenu(<?=$product['pk_service']?>)"></div>
+        </div>
         <div class="serviceDescWrapper">
             <div class="serviceImageWrapper">
                 <img class="serviceImage" src="<?=$product['image']?>" alt="image de <?=$product['service_titre']?>"/>
@@ -41,7 +46,9 @@ foreach ($products as $product) {
         </span>
     <?php 
     $promotionQuery = 'SELECT 
-                            pk_promotion as id, 
+                            pk_promotion_service as id,
+                            pk_promotion, 
+                            code,
                             promotion_titre as titre,
                             rabais,
                             date_debut,
@@ -69,15 +76,24 @@ foreach ($products as $product) {
                 }
                 ?>
                 <div class="promotion <?=$class?>" id="promotion<?=$promotion['id']?>">
-                    <p class="promoValue"><?=floatval($promotion['rabais']) * 100?>%</p>
-                    <div class="promotionBoxBottom"><p class="promocodeText">PROMO CODE</p></div><?php 
-                    //TODO: Faire cette boite avec un ::after et content="PROMO CODE" à la place??>
+                    <div class="promotionMenuWrapper">
+                        <div class="promoCornerContentWrapper" id="cornerPromo<?=$promotion['id']?>" tabindex="<?=$promotion['id']+1000 /*For the onblur to work*/?>" onblur="this.style.display='none';">
+                            <a href="/modifierPromotion.php?promoId=<?=$promotion['id']?>">Modifier la promotion</a><br/>
+                            <a href="/desactiverPromotion.php?promoId=<?=$promotion['id']?>">Désactiver la promotion</a>
+                        </div>
+                        <div class="corner" onclick="showPromo(<?=$promotion['id']?>)"></div>
+                    </div>
+                    <div class="promotionValue">
+                        <p class="promoValue"><?=floatval($promotion['rabais']) * 100?>%</p>
+                        <div class="promotionBoxBottom"><p class="promocodeText"><?=$promotion['code']?></p></div>
+                    </div> 
                 </div>
                 <?php } ?></span></span><?php } ?>
             <span class="promoPlusWrapper"><p class="promoPlus">✚</p></span>
             <div class="serviceShareIcons"><a href="http://facebook.com" target="_blank"><img src="img/icones/medias sociaux.jpeg" alt="Partager sur les médias sociaux..."/></a></div>
         </div>
     </div>
+    <script src="/script/service.js"></script>
     <?php } 
     include("template/footer.inc.php");
 ?>
