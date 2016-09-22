@@ -172,17 +172,20 @@ require_once('template/navbar.inc.php');
             <div class="serviceImageWrapper">
                 <img src="<?=$image?>" class="serviceImage" alt="Service image"/>
             </div>
-            <div class="serviceUploadImage">Mettre à jour la photo</div>
-            <input type="hidden" name="imageChanged" value="false" id="imageChanged"/>
-            <input type="file" name="image" onchange="document.getElementById('imageChanged').value = 'true';"/>
+            <div class="serviceUploadWrapper">
+                <div class="serviceUploadImage">Mettre à jour la photo</div>
+                <input type="hidden" name="imageChanged" value="false" id="imageChanged"/>
+                <label for="imageUpload"><img src="img/icones/camera.png" alt="camera icon"/></label>
+                <input type="file" name="image" onchange="document.getElementById('imageChanged').value = 'true';" id="imageUpload"/>
+            </div>
         </div>
         <div class="serviceInformationSection">
-            <input name="titre" type="text" placeholder="Titre du service" value="<?=htmlspecialchars($titre)?>"/>
-            <textarea name="description" placeholder="Description du service"><?=htmlspecialchars($description)?></textarea>
-            <input name="duree" type="number" placeholder="Durée du service" value="<?=intval($duree)?>"/>
-            <input name="tarif" type="number" placeholder="Tarif du service" value="<?=intval($tarif)?>"/>
-            <div id="showService"><input name="actif" type="checkbox" <?php if($actif) { echo "Checked"; }?>/><span id="showServiceLabel">Ce service sera affiché dans le catalogue</span></div>
+            <input name="titre" type="text" placeholder="Titre du service" value="<?=htmlspecialchars($titre)?>" id="titre"/>
+            <textarea name="description" placeholder="Description du service" id="description"><?=htmlspecialchars($description)?></textarea>
+            <input name="duree" type="number" placeholder="Durée du service" value="<?=intval($duree)?>" id="duree"/>
+            <input name="tarif" type="number" placeholder="Tarif du service" value="<?=intval($tarif)?>" id="tarif"/>
+            <div id="showService"><input name="actif" id="actif" type="checkbox" <?php if($actif) { echo "Checked"; }?>/><label for="actif"><span></span>Ce service sera affiché dans le catalogue</label></div>
+            <div class="serviceSubmit"><input type="submit" name="serviceUpdate" value="Confirmer"/></div>
         </div>
-        <div class="serviceSubmit"><input type="submit" name="serviceUpdate" value="Confirmer"/></div>
     </form>
 </div>

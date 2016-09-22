@@ -4,7 +4,7 @@
 /* Auteur ....................... : Amélie Frappier et Antony Garand */
 /* Date de création ............. : 2016-08-22 */
 /* Date de mise en ligne ........ : Jamais */
-/* Date de mise à jour .......... : 2016-08-22 */
+/* Date de mise à jour .......... : 2016-09-22 */
 /*******************************************************************************************************/
 
 /*Couleurs:
@@ -362,8 +362,8 @@ fieldset::after {
     width:20%;
 }
 .serviceImage {
-    width:100%;
-    height:100%;
+    margin-left: auto;
+    margin-right: auto;
     max-width: 200px;
     max-height: 175px;
 }
@@ -639,9 +639,112 @@ fieldset::after {
 	float:right;
 }
 
+/* ---------------- Gestion des services ---------------- */
+.service {
+    padding: 25px;
+}
+#serviceHeader {
+    font-size: 24px;
+    font-weight: 800;
+}
+#serviceAllRequiredHeader {
+    color: #FF4A07;
+    font-size: 18px;
+    font-weight: 600;
+}
 
+.serviceImageSection {
+    width: 15%;
+    display: inline-block;
+}
+.serviceImageSection > .serviceImageWrapper {
+    position: relative;
+    text-align: center;
+    display: block;
+    border: 1px solid #000;
+    margin: 5px 1px 0 1px;
+    width: 99%;
+    background-color: #fff;
+    z-index: 2;
+}
+.serviceUploadWrapper {
+    position: relative;
+    z-index: 1;
+    border: 1px solid #000;
+    max-width: 100%;
+    margin: -3px 0 0 0;
+    padding: 3px 3px;
+}
+.serviceUploadImage {
+    display: inline-block;
+    width: 60%;
+    margin: 5px;
+    font-weight: 600;
+}
+#imageUpload{
+    display: none;
+}
+#imageChanged + label {
+    padding: 5px;
+    float: right;
+}
+#imageChanged + label:hover {
+    cursor: pointer;
+}
 
+.serviceInformationSection{
+    display: inline-block;
+    float: right;
+    width: 85%;
+    padding-left: 15px;
+}
 
-
-
-
+#titre, #description {
+    width: 100%;
+    height: 35px;
+    color: #000;
+    font-size: 24px;
+    font-weight: 600;
+    padding: 9px;
+}
+#description {
+    height: 135px;
+    font-weight: normal;
+    resize: none;
+}
+#tarif, #duree {
+    display: inline-block;
+    width: 48%;
+    font-size: 20px;
+    font-weight: bold;
+    height: 35px;
+}
+#tarif {
+    color: #09aac1;
+    float: right;
+}
+input[type="checkbox"] {
+    display:none;
+}
+input[type="checkbox"] + label span {
+    display:inline-block;
+    width:30px;
+    height:30px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    background:url(../img/icones/checkbox.png) left top no-repeat;
+    cursor:pointer;
+    margin-right: 20px;
+}
+input[type="checkbox"]:checked + label span {
+    background:url(../img/icones/checkbox.png) -29px top no-repeat;
+}
+#actif + label {
+    color: #09aac1;
+    font-size: 20px;
+    font-weight: 600;
+}
+.serviceSubmit{
+    display: block;
+    float: right;
+}
