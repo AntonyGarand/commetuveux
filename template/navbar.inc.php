@@ -32,14 +32,14 @@
                     <a class="nav yellow" href="facture.php">Facture</a>
                     <form action="search.php" method="get">
                         <input type="text" name="search" placeholder="Recherche"/>
-                        <img class="searchIcon" src="/img/graphiques/loupe.png" onclick="document.forms[0].submit()"/>
+                        <img class="searchIcon" src="img/graphiques/loupe.png" onclick="document.forms[0].submit()"/>
                     </form>
                 <?php } elseif ($_SESSION['role'] === 'user') { //Usager ?>
                     <a class="nav red" href="catalogue.php">Catalogue</a>
                     <a class="nav yellow" href="profil.php">Profil</a>
                     <form action="search.php" method="get">
                         <input type="text" name="search" placeholder="Recherche"/>
-                        <img class="searchIcon" src="/img/graphiques/loupe.png" onclick="document.forms[0].submit()"/>
+                        <img class="searchIcon" src="img/graphiques/loupe.png" onclick="document.forms[0].submit()"/>
                     </form>
                 <?php } ?>
             </div>
