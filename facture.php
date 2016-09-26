@@ -62,7 +62,12 @@ require_once 'template/navbar.inc.php';
 			<?php 
 				$invoiceTotal = 0;
 				foreach ($invoice['services'] as $service) {
-					$invoiceTotal += $service['tarif_facture'];
+					if (isset($service['rabais'])) {
+						$invoiceTotal += $service['tarif_facture'] - ($service['tarif_facture'] * $service['rabais']); 
+					}
+					else {
+						$invoiceTotal += $service['tarif_facture'];
+					}
 				}
 			?>
 			<span class="invoiceTarif"><?=$invoiceTotal?>$</span>
@@ -81,14 +86,14 @@ require_once 'template/navbar.inc.php';
 						
 						<div class="invoiceServiceTitleWrapper">
 							<span class="invoiceServiceTitle"><?=$service['service_titre']?></span> <br/>
-							<?php if($service['code'] != NULL) { ?>
+							<?php if(isset($service['rabais'])) { ?>
 								<span class="invoiceServicePromoTitle"><?=$service['promotion_titre'] . '(' . $service['rabais'] * 100 . '%)'?></span>
 							<?php } ?>
 						</div>
 						
 						<div class="invoiceServiceRabaisWrapper">
 							<span class="invoiceServiceTarif"><?=number_format($service['tarif_facture'], 2) . '$'?></span> <br/>
-							<?php if($service['code'] != NULL) { ?>
+							<?php if(isset($service['rabais'])) { ?>
 								<span class="invoiceServicePromoTarif"><?='-' . number_format($promoTarif, 2) . '$'?></span>
 							<?php } ?>
 						</div>

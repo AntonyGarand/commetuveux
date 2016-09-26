@@ -11,8 +11,22 @@ function showItem(selector){
 }
 
 function deleteItem(id) {
-alert("test");
 	if (confirm("Souhaitez-vous désactiver cette promotion?")) {
 		//send ajax post request to delete date with service id
+		jQuery.ajax({
+		  url: "promos.php",
+		  type: "POST",
+		  data: {deletedID:id},
+		  success: function(result, textStatus, jqXHR)
+			{
+			    console.log(result + "\n" + textStatus);//)
+				//data - response from server
+			},
+			error: function (jqXHR, textStatus, errorThrown)
+			{
+			console.log(errorThrown);//)
+		 
+			}
+		});
 	}
 }

@@ -7,8 +7,15 @@ if ($_SESSION['role'] !== 'admin') {
 }
 
 //If user deletes promotion
-if (isset($_POST['deletePromo'])) {
-	die("AJAX DONE.");
+if (isset($_POST['deletedID'])) {
+	$today = date('d-m-Y h:i:s');
+	$deactivatePromoQuery = 'UPDATE ta_promotion_service SET date_fin=:date WHERE fk_promotion=:promoID';
+	$stmt = $db->prepare($deactivatePromoQuery);
+	$stmt->bindParam(':date', $today);
+	$stmt->bindParam(':promoID', $_POST['deletedID']);
+	if (!($stmt->execute())) {
+		$errors[] = "Impossible de désactiver la promotion dans la base de données.";
+	}
 }
 
 //If user adds new promotion to DB
@@ -64,7 +71,7 @@ require_once 'template/navbar.inc.php'; ?>
 	?>
 		<div class="gestionPromoContent">
 			<div class="gestionPromoMenu">
-				<div class="cornerContentWrapper" id="cornerMenu<?=$promotion['pk_promotion']?>" tabindex="<?=$promotion['pk_promotion'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},100, this);">
+				<div class="cornerContentWrapper" id="cornerMenu<?=$promotion['pk_promotion']?>" tabindex="<?=$promotion['pk_promotion'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},10000, this);">
 					<a href="/modifierPromo.php?promoId=<?=$promotion['pk_promotion']?>">Modifier la promotion</a><br/>
 					<a href="" onclick="deleteItem(<?=$promotion['pk_promotion']?>);return false;">Désactiver la promotion</a>
 				</div>
