@@ -27,13 +27,19 @@
             <div class="navOption">
                 <?php if ($_SESSION['role'] === 'admin') { //Admin ?>
                     <a class="nav red" href="service.php">Service</a>
-					<a class="nav yellow" href="promos.php">Promotions</a>
+                    <a class="nav yellow" href="promos.php">Promotions</a>
                     <a class="nav yellow" href="facture.php">Facture</a>
-                    <input type="text" name="search" value="Recherche"/>
+                    <form action="search.php" method="get">
+                        <input type="text" name="search" placeholder="Recherche"/>
+                        <img class="searchIcon" src="/img/graphiques/loupe.png" onclick="document.forms[0].submit()"/>
+                    </form>
                 <?php } elseif ($_SESSION['role'] === 'user') { //Usager ?>
                     <a class="nav red" href="catalogue.php">Catalogue</a>
                     <a class="nav yellow" href="profil.php">Profil</a>
-                    <input type="text" name="search" value="Recherche"/>
+                    <form action="search.php" method="get">
+                        <input type="text" name="search" placeholder="Recherche"/>
+                        <img class="searchIcon" src="/img/graphiques/loupe.png" onclick="document.forms[0].submit()"/>
+                    </form>
                 <?php } ?>
             </div>
         </div> <!-- end #menuNav -->

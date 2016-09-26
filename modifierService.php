@@ -19,15 +19,16 @@ function getErrorMessageFromField($field){
 function updateService(){
     global $db; 
     $requiredFields = array(
-        'serviceId','titre','description','duree','tarif','actif','imageChanged'
+        'serviceId','titre','description','duree','tarif'
     );
     $missingFields = validatePost($requiredFields);
     if(!empty($missingFields)){
+        die(var_dump($missingFields));
         return $missingFields;
     }
     $customErrors = array();
 
-    if($_POST['imageChanged'] == true){
+    if(isset($_POST['imageChanged']) && $_POST['imageChanged'] == 'true'){
         $imageName = validateAndUploadImage();
         if($imageName === false){
             $customErrors[] = 'image';
@@ -58,7 +59,7 @@ function updateService(){
         ':actif' => $_POST['actif'] == 'on' ? '1' : '0',
         ':serviceId' => intval($_POST['serviceId'])
     );
-    if($_POST['imageChanged'] == true){
+    if(isset($imageName) && $imageName !== false){
         $params[':image'] = 'img/uploads/' . $imageName;
         $variables[] = '`image`=:image';
     }
