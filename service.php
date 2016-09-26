@@ -89,7 +89,7 @@ foreach ($products as $product) {
                     </div> 
                 </div>
                 <?php } ?></span></span><?php } ?>
-            <span class="promoPlusWrapper"><p class="promoPlus">✚</p></span>
+            <span class="promoPlusWrapper"><p class="promoPlus"><a href="addPromo.php?id=<?=$product['pk_service']?>">✚</a></p></span>
             <div class="serviceShareIcons"><a href="http://facebook.com" target="_blank"><img src="img/icones/medias sociaux.jpeg" alt="Partager sur les médias sociaux..."/></a></div>
         </div>
     </div>

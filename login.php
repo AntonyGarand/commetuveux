@@ -59,7 +59,7 @@ require_once 'template/navbar.inc.php';
                 echo 'value="'.htmlspecialchars($_POST['email']).'" ';
             }?>/> <br/>
 			<input type="password" name="password" placeholder="Mot de passe" pattern=".{5,100}" title="Veuillez entre 5 et 100 caractères" required /> <br/>
-			<a href="#TODO">Mot de passe oublié</a>
+			<a href="resetpassword.php">Mot de passe oublié</a>
 		</div>
 		
 		<div>
