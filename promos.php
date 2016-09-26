@@ -6,6 +6,11 @@ if ($_SESSION['role'] !== 'admin') {
     header('Location: index.php');
 }
 
+//If user deletes promotion
+if (isset($_POST['deletePromo'])) {
+	die("AJAX DONE.");
+}
+
 //If user adds new promotion to DB
 if (isset($_POST['addPromo'])) {
 	$required = array('newPromoTitle', 'newPromoRebate');
@@ -57,8 +62,15 @@ require_once 'template/navbar.inc.php'; ?>
 <?php
 	foreach ($promotions as $promotion) {
 	?>
-
 		<div class="gestionPromoContent">
+			<div class="gestionPromoMenu">
+				<div class="cornerContentWrapper" id="cornerMenu<?=$promotion['pk_promotion']?>" tabindex="<?=$promotion['pk_promotion'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},100, this);">
+					<a href="/modifierPromo.php?promoId=<?=$promotion['pk_promotion']?>">Modifier la promotion</a><br/>
+					<a href="" onclick="deleteItem(<?=$promotion['pk_promotion']?>);return false;">Désactiver la promotion</a>
+				</div>
+				<div class="corner" onclick="showMenu(<?=$promotion['pk_promotion']?>)"></div>
+			</div>
+			
 			<span class="hidden"><?=$promotion['pk_promotion']?></span> 
 			<span class="gestionPromoTitre"><?=$promotion['promotion_titre']?></span>
 			<span class="gestionPromoRabais"><?=($promotion['rabais'] * 100) . '%'?></span>
@@ -75,3 +87,5 @@ require_once 'template/navbar.inc.php'; ?>
 		</form>
 	</div>
 <?php } ?>
+
+<script src="script/promos.js"></script>
