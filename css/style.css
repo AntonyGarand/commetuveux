@@ -138,6 +138,13 @@ nav {
     color: #FF9F07 !important;
 }
 
+.searchIcon {
+    margin-left: -30px;
+}
+.searchIcon:hover{
+    cursor: pointer;
+}
+
 /* ---------------- Formulaire ------------------ */
 input, select{
     width:240px;
@@ -181,7 +188,6 @@ input[type="checkbox"] {
 input[name="search"]{
     width:220px;
     color: #FFFAFB !important;
-    background-image:url('../img/graphiques/loupe.png');
     background-position:right;
     background-repeat:no-repeat;
 }
@@ -364,8 +370,6 @@ fieldset::after {
 .serviceImage {
     margin-left: auto;
     margin-right: auto;
-    max-width: 200px;
-    max-height: 175px;
 }
 .serviceContentAdmin, .serviceContent {
     display: inline-block;
@@ -680,16 +684,22 @@ fieldset::after {
     padding: 3px 3px;
 }
 .serviceUploadImage {
+    font-size: 14px;
     display: inline-block;
     width: 60%;
-    margin: 5px;
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 0px;
     font-weight: 600;
 }
 #imageUpload{
     display: none;
 }
 #imageChanged + label {
-    padding: 5px;
+    padding-right: 5px;
+    padding-left: 0;
+    margin-top: 5px;
     float: right;
 }
 #imageChanged + label:hover {
@@ -709,7 +719,7 @@ fieldset::after {
     color: #000;
     font-size: 24px;
     font-weight: 600;
-    padding: 9px;
+    padding-left: 9px;
 }
 #description {
     height: 135px;
