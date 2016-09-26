@@ -16,7 +16,7 @@ for ($i = 0; $i < count($baseInvoices); $i++) {
 	$serviceQuery = 'SELECT service.service_titre, service.tarif, 
 					ta_facture_service.tarif_facture, 
 					ta_promotion_service.code, 
-					promotion.rabais 
+					promotion.rabais, promotion.promotion_titre 
 					FROM service
 					LEFT JOIN ta_promotion_service ON ta_promotion_service.fk_service=service.pk_service
 					INNER JOIN ta_facture_service ON service.pk_service=ta_facture_service.fk_service 
@@ -75,33 +75,14 @@ require_once 'template/navbar.inc.php';
 				<div class="invoiceService" id="invoiceService">
 					
 					<?php 
-					if ($service['code'] != NULL) {
-					
-						//Promotion title
-						switch ($service['code']) {
-							case "rentree2016":
-								$promoTitle = "Grand solde de la rentrée";
-								break;
-							case "noel2016":
-								$promoTitle = "Grand solde de Noël";
-								break;
-							case "o365":
-								$promoTitle = "Promotion spéciale Office 365";
-								break;
-							default:
-								$promoTitle = "Promotion";
-								break;
-							}
-						
 						//Rebate on the promotion
 						$promoTarif = $service['tarif_facture'] * $service['rabais'];
-						
-						} ?>
+					?>
 						
 						<div class="invoiceServiceTitleWrapper">
 							<span class="invoiceServiceTitle"><?=$service['service_titre']?></span> <br/>
 							<?php if($service['code'] != NULL) { ?>
-								<span class="invoiceServicePromoTitle"><?=$promoTitle . '(' . $service['rabais'] * 100 . '%)'?></span>
+								<span class="invoiceServicePromoTitle"><?=$service['promotion_titre'] . '(' . $service['rabais'] * 100 . '%)'?></span>
 							<?php } ?>
 						</div>
 						

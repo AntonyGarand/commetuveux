@@ -529,7 +529,11 @@ fieldset::after {
     font-size: 25pt;
     margin:0;
     vertical-align: middle;
-    color: #09AAC1
+    color: #09AAC1;
+}
+.promoPlus a, .promoPlus a:hover, .promoPlus a:visited, .promoPlus a:focus, .promoPlus a:active {
+	color: #09AAC1 !important;
+	text-decoration: none !important;
 }
 
 /* ------------- Factures -------------- */
