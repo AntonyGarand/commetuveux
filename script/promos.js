@@ -31,3 +31,24 @@ function deleteItem(id) {
 		});
 	}
 }
+
+function applyToAll(id) {
+	if (confirm("Souhaitez-vous appliquer cette promotion à tous les services?")) {
+		//send ajax post request to delete date with service id
+		jQuery.ajax({
+		  url: "promos.php",
+		  type: "POST",
+		  data: {applyPromoId:id},
+		  success: function(result, textStatus, jqXHR)
+			{
+			    console.log(result + "\n" + textStatus);//)
+				
+			},
+			error: function (jqXHR, textStatus, errorThrown)
+			{
+			console.log(errorThrown);//)
+		 
+			}
+		});
+	}
+}

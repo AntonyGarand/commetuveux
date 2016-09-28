@@ -18,11 +18,14 @@ if (isset($_POST['deletedID'])) {
 	}
 }
 
-print_r($_POST['updateForm']);
+//If user applies promotion to all services 
+if (isset($_POST['applyPromoId'])) {
+	$today = date('d-m-Y h:i:s');
+	
+}
 
 //If user updates promotion
-if (isset($_POST['updateForm'])) {
-	//die("Form sent");
+if (isset($_POST['updatePromo'])) {
 	$required = array('promoTitle', 'promoRabais');
     $errors = validatePost($required); 	//validate if array is not empty
 	if (empty($errors)) {
@@ -31,16 +34,14 @@ if (isset($_POST['updateForm'])) {
 		if (is_numeric($_POST['promoRabais']) && $_POST['promoRabais'] < 100 && $_POST['promoRabais'] > 0) {
 			//insert value in db
 			$rebate = $_POST['promoRabais'] / 100;
-			$updatePromo = "UPDATE promotion SET (promotion_titre=:title, rabais=:rebate) WHERE pk_promotion = :id";
+			$updatePromo = "UPDATE promotion SET promotion_titre=:title, rabais=:rebate WHERE pk_promotion=:id";
 			$stmt = $db->prepare($updatePromo);
 			$stmt->bindParam(':title', $_POST['promoTitle'], PDO::PARAM_STR);
 			$stmt->bindParam(':rebate', $rebate);
 			$stmt->bindParam(':id', $_POST['promoId']);
 			if (!($stmt->execute())) {
 				$errors[] = "Impossible de sauvegarder la promotion dans la base de données.";
-			}
-			else {
-				header('Location:promos.php');
+				die(print_r($stmt->errorInfo()));
 			}
 		}
 		else {
@@ -108,6 +109,7 @@ require_once 'template/navbar.inc.php';
 		<div class="gestionPromoContent">
 			<div class="gestionPromoMenu">
 				<div class="cornerContentWrapper" id="cornerMenu<?=$promotion['pk_promotion']?>" tabindex="<?=$promotion['pk_promotion'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},10000, this);">
+					<a href="#" onclick="applyToAll(<?=$promotion['pk_promotion']?>);return false;">Appliquer à tous les services</a><br/>
 					<a href="promos.php?updateid=<?=$promotion['pk_promotion']?>">Modifier la promotion</a><br/>
 					<a href="" onclick="deleteItem(<?=$promotion['pk_promotion']?>);return false;">Désactiver la promotion</a>
 				</div>
@@ -115,8 +117,8 @@ require_once 'template/navbar.inc.php';
 			</div>
 			
 			<?php if (isset($_GET['updateid']) && $_GET['updateid'] == $promotion['pk_promotion']) { ?>
-				<form id="updateForm" name="updateForm" action="promos.php" method="post">
-					<span class="hidden"><input type="text" name="promoId" value="<?=$promotion['pk_promotion']?>"/></span> 
+				<form id="updatePromo" name="updatePromo" action="promos.php" method="post">
+					<input type="hidden" name="promoId" value="<?=$promotion['pk_promotion']?>"/>
 					<input type="text" name="promoTitle" value="<?=$promotion['promotion_titre']?>"/>
 					<input type="text" name="promoRabais" value="<?=($promotion['rabais'] * 100)?>" /> %
 					<input type="submit" name="updatePromo" value="Confirmer" />
