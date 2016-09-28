@@ -18,6 +18,11 @@ if (isset($_POST['deletedID'])) {
 	}
 }
 
+//If user updates promotion
+if (isset($_POST['updateForm'])) {
+	//do stuff
+}
+
 //If user adds new promotion to DB
 if (isset($_POST['addPromo'])) {
 	$required = array('newPromoTitle', 'newPromoRebate');
@@ -72,18 +77,29 @@ require_once 'template/navbar.inc.php'; ?>
 		<div class="gestionPromoContent">
 			<div class="gestionPromoMenu">
 				<div class="cornerContentWrapper" id="cornerMenu<?=$promotion['pk_promotion']?>" tabindex="<?=$promotion['pk_promotion'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},10000, this);">
-					<a href="/modifierPromo.php?promoId=<?=$promotion['pk_promotion']?>">Modifier la promotion</a><br/>
+					<a href="promos.php?updateid=<?=$promotion['pk_promotion']?>">Modifier la promotion</a><br/>
 					<a href="" onclick="deleteItem(<?=$promotion['pk_promotion']?>);return false;">Désactiver la promotion</a>
 				</div>
 				<div class="corner" onclick="showMenu(<?=$promotion['pk_promotion']?>)"></div>
 			</div>
 			
-			<span class="hidden"><?=$promotion['pk_promotion']?></span> 
-			<span class="gestionPromoTitre"><?=$promotion['promotion_titre']?></span>
-			<span class="gestionPromoRabais"><?=($promotion['rabais'] * 100) . '%'?></span>
+			<?php if (isset($_GET['updateid']) && $_GET['updateid'] == $promotion['pk_promotion']) { ?>
+				<form id="updateForm" action="promos.php" method="post">
+					<span class="hidden"><?=$promotion['pk_promotion']?></span> 
+					<input type="text" name="promoTitle" value="<?=$promotion['promotion_titre']?>"/>
+					<input type="text" name="promoRabais" value="<?=($promotion['rabais'] * 100)?>" /> %
+					<input type="submit" name="updatePromo" value="Confirmer" />
+				</form>
+			<?php }
+			else { ?>
+				<span class="hidden"><?=$promotion['pk_promotion']?></span> 
+				<span id="gestionPromoTitre" class="gestionPromoTitre"><?=$promotion['promotion_titre']?></span>
+				<span id="gestionPromoRabais" class="gestionPromoRabais"><?=($promotion['rabais'] * 100) . '%'?></span>
+			<?php } ?>
+			
 		</div>
 	
-<?php } ?>
+<?php } ?>                                     
 
 <?php if (isset($_GET['add']) && $_GET['add']) { ?> 
 	<div class="gestionPromoContent">

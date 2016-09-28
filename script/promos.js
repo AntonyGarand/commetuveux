@@ -20,7 +20,8 @@ function deleteItem(id) {
 		  success: function(result, textStatus, jqXHR)
 			{
 			    console.log(result + "\n" + textStatus);//)
-				//data - response from server
+				window.location.replace("service.php");
+				
 			},
 			error: function (jqXHR, textStatus, errorThrown)
 			{
