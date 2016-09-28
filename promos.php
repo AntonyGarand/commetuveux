@@ -18,9 +18,38 @@ if (isset($_POST['deletedID'])) {
 	}
 }
 
+print_r($_POST['updateForm']);
+
 //If user updates promotion
 if (isset($_POST['updateForm'])) {
-	//do stuff
+	//die("Form sent");
+	$required = array('promoTitle', 'promoRabais');
+    $errors = validatePost($required); 	//validate if array is not empty
+	if (empty($errors)) {
+		//validate if rebate is valid
+		$_POST['promoRabais'] = floatval($_POST['promoRabais']);
+		if (is_numeric($_POST['promoRabais']) && $_POST['promoRabais'] < 100 && $_POST['promoRabais'] > 0) {
+			//insert value in db
+			$rebate = $_POST['promoRabais'] / 100;
+			$updatePromo = "UPDATE promotion SET (promotion_titre=:title, rabais=:rebate) WHERE pk_promotion = :id";
+			$stmt = $db->prepare($updatePromo);
+			$stmt->bindParam(':title', $_POST['promoTitle'], PDO::PARAM_STR);
+			$stmt->bindParam(':rebate', $rebate);
+			$stmt->bindParam(':id', $_POST['promoId']);
+			if (!($stmt->execute())) {
+				$errors[] = "Impossible de sauvegarder la promotion dans la base de données.";
+			}
+			else {
+				header('Location:promos.php');
+			}
+		}
+		else {
+			$errors[] = "Veuillez saisir un nombre valide pour le rabais entre 0 et 100.";
+		}
+	}
+	else {
+		$errors[] = "Veuillez saisir tous les champs.";
+	}
 }
 
 //If user adds new promotion to DB
@@ -54,7 +83,9 @@ if (isset($_POST['addPromo'])) {
 $promotionsQuery = 'SELECT * FROM promotion ORDER BY promotion_titre';
 $promotions = $db->query($promotionsQuery)->fetchAll();
 
-require_once 'template/navbar.inc.php'; ?>
+require_once 'template/navbar.inc.php'; 
+
+?>
 
 <!-- /**************************************************************************************************/
 /* Fichier ...................... : promos.php */
@@ -84,8 +115,8 @@ require_once 'template/navbar.inc.php'; ?>
 			</div>
 			
 			<?php if (isset($_GET['updateid']) && $_GET['updateid'] == $promotion['pk_promotion']) { ?>
-				<form id="updateForm" action="promos.php" method="post">
-					<span class="hidden"><?=$promotion['pk_promotion']?></span> 
+				<form id="updateForm" name="updateForm" action="promos.php" method="post">
+					<span class="hidden"><input type="text" name="promoId" value="<?=$promotion['pk_promotion']?>"/></span> 
 					<input type="text" name="promoTitle" value="<?=$promotion['promotion_titre']?>"/>
 					<input type="text" name="promoRabais" value="<?=($promotion['rabais'] * 100)?>" /> %
 					<input type="submit" name="updatePromo" value="Confirmer" />
