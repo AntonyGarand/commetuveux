@@ -8,7 +8,7 @@ if ($_SESSION['role'] !== 'admin') {
 
 //If user deletes promotion
 if (isset($_POST['deletedID'])) {
-	$today = date('d-m-Y h:i:s');
+	$today = date('Y-m-d 00:00:00');
 	$deactivatePromoQuery = 'UPDATE ta_promotion_service SET date_fin=:date WHERE fk_promotion=:promoID';
 	$stmt = $db->prepare($deactivatePromoQuery);
 	$stmt->bindParam(':date', $today);
@@ -20,8 +20,23 @@ if (isset($_POST['deletedID'])) {
 
 //If user applies promotion to all services 
 if (isset($_POST['applyPromoId'])) {
-	$today = date('d-m-Y h:i:s');
-	
+	$today = date('Y-m-d 00:00:00');
+	$inAWeek = date('Y-m-d 00:00:00', strtotime('+1 week'));
+	$allServicesQuery = 'SELECT pk_service FROM service';
+	$allServices = $db->query($allServicesQuery)->fetchAll();
+	$applyPromoQuery = 'INSERT INTO ta_promotion_service (fk_promotion, fk_service, date_debut, date_fin) VALUES(:promo, :service, :debut, :fin)';
+	foreach($allServices as $service) {
+		$stmt = $db->prepare($applyPromoQuery);
+		$stmt->bindParam(':debut', $today);
+		$stmt->bindParam(':fin', $inAWeek);
+		$stmt->bindParam(':promo', $_POST['applyPromoId']);
+		$stmt->bindParam(':service', $service['pk_service']);
+		if (!($stmt->execute())) {
+			$errors[] = "Impossible d'appliquer cette promotion à tous les services.";
+			break;
+		}
+	}
+	 
 }
 
 //If user updates promotion
@@ -108,8 +123,8 @@ require_once 'template/navbar.inc.php';
 	?>
 		<div class="gestionPromoContent">
 			<div class="gestionPromoMenu">
-				<div class="cornerContentWrapper" id="cornerMenu<?=$promotion['pk_promotion']?>" tabindex="<?=$promotion['pk_promotion'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},10000, this);">
-					<a href="#" onclick="applyToAll(<?=$promotion['pk_promotion']?>);return false;">Appliquer à tous les services</a><br/>
+				<div class="cornerContentWrapper" id="cornerMenu<?=$promotion['pk_promotion']?>" tabindex="<?=$promotion['pk_promotion'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},5000, this);">
+					<a href="" onclick="openModal(<?=$promotion['pk_promotion']?>);return false;" >Appliquer à tous les services</a><br/>
 					<a href="promos.php?updateid=<?=$promotion['pk_promotion']?>">Modifier la promotion</a><br/>
 					<a href="" onclick="deleteItem(<?=$promotion['pk_promotion']?>);return false;">Désactiver la promotion</a>
 				</div>
@@ -132,7 +147,18 @@ require_once 'template/navbar.inc.php';
 			
 		</div>
 	
-<?php } ?>                                     
+<?php } ?>       
+
+<!-- add promo to all modal windows -->
+<div id="applyToAllModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">x</span>
+    <?php include('modals/addPromo.php'); ?>
+  </div>
+
+</div>                              
 
 <?php if (isset($_GET['add']) && $_GET['add']) { ?> 
 	<div class="gestionPromoContent">

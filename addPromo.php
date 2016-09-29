@@ -47,7 +47,7 @@ if(isset($_POST['addPromo'])) {
 	}
 }
 
-//get promotion list and service id
+//get promotion list
 $promoListQuery = 'SELECT * FROM promotion';
 $promoList = $db->query($promoListQuery)->fetchAll();
 

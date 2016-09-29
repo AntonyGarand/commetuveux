@@ -32,9 +32,35 @@ function deleteItem(id) {
 	}
 }
 
-function applyToAll(id) {
-	if (confirm("Souhaitez-vous appliquer cette promotion à tous les services?")) {
-		//send ajax post request to delete date with service id
+// Get the modal
+var modal = document.getElementById('applyToAllModal');
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+// set correct id and percent to promotion 
+function openModal(promoId) {
+    modal.style.display = "block";
+	$('#promoName[value="' + promoId + '"]').prop('selected', true);
+	var percent = $('#promoName:selected').attr("data-percent");
+	$('#addPromoNb').html(percent + '%');
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+function applyToAll() {
+		var id = document.getElementById('promoName').value;
 		jQuery.ajax({
 		  url: "promos.php",
 		  type: "POST",
@@ -42,6 +68,7 @@ function applyToAll(id) {
 		  success: function(result, textStatus, jqXHR)
 			{
 			    console.log(result + "\n" + textStatus);//)
+				window.location.reload();
 				
 			},
 			error: function (jqXHR, textStatus, errorThrown)
@@ -51,4 +78,3 @@ function applyToAll(id) {
 			}
 		});
 	}
-}
