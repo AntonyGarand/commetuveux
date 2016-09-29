@@ -15,7 +15,7 @@ require_once 'template/navbar.inc.php'; ?>
 /* Date de mise à jour .......... : 2016-08-22 */
 /*******************************************************************************************************/
 -->
-<div class="addNewService"><a href="service.php?add=true">Ajouter un nouveau service</a></span></div>
+<div class="addNewService"><a href="creerService.php">Ajouter un nouveau service</a></span></div>
 <?php
 foreach ($products as $product) {
     ?>

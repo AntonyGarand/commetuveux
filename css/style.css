@@ -792,13 +792,58 @@ input[type="checkbox"]:checked + label span {
 	font-size:56pt;
 }
 
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: #000;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #000;
+    opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #000;
+    opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #000;
+}
+
+#tarif::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #09aac1;
+}
+#tarif:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #09aac1;
+    opacity:  1;
+}
+#tarif::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #09aac1;
+    opacity:  1;
+}
+#tarif:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color:    #09aac1;
+}
+
+#duree::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #FF9F07;
+}
+#duree:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #FF9F07;
+    opacity:  1;
+}
+#duree::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #FF9F07;
+    opacity:  1;
+}
+#duree:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color:    #FF9F07;
+}
+
 .addPromoDateWrapper {
-	width:70%;
+    width:70%;
 }
 
 .addPromoSubmitWrapper {
-	width:100%;
-	text-align:right;
+    width:100%;
+    text-align:right;
 }
 
 /* =============== Modal Element ==================== */
