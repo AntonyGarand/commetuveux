@@ -6,10 +6,9 @@
 			<div id="addPromoNb" class="addPromoNb">0%</div>
 			<div class="promoTitleWrapper">
 				<div class="promoListMenu">
-					<select id="promoName" name="promoName" disabled>
-						<option selected disabled>Choisir le titre</option>
+					<select id="promoName" name="promoName">
 						<?php foreach($promotions as $promo) {?>
-							<option  id="promo<?=$promo['pk_promotion']?>" data-percent="<?=$promo['rabais']?>" value="<?=$promo['pk_promotion']?>" ><?=$promo['promotion_titre']?></option>
+							<option id="promo<?=$promo['pk_promotion']?>" data-percent="<?=$promo['rabais']?>" value="<?=$promo['pk_promotion']?>"><?=$promo['promotion_titre']?></option>
 						<?php } ?>
 					</select>
 				</div>

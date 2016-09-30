@@ -42,8 +42,10 @@ var span = document.getElementsByClassName("close")[0];
 // set correct id and percent to promotion 
 function openModal(promoId) {
     modal.style.display = "block";
-	$('#promoName[value="' + promoId + '"]').prop('selected', true);
-	var percent = $('#promoName:selected').attr("data-percent");
+	console.log('#promoName[value="' + promoId + '"]');
+	$('#promoName').val(promoId).change();
+	var percent = $('#promoName').val(promoId).data("percent");
+	console.log(percent);
 	$('#addPromoNb').html(percent + '%');
 }
 
