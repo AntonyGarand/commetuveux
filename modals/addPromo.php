@@ -6,7 +6,7 @@
 			<div id="addPromoNb" class="addPromoNb">0%</div>
 			<div class="promoTitleWrapper">
 				<div class="promoListMenu">
-					<select id="promoName" name="promoName">
+					<select id="promoName" name="promoName" disabled>
 						<?php foreach($promotions as $promo) {?>
 							<option id="promo<?=$promo['pk_promotion']?>" data-percent="<?=$promo['rabais']?>" value="<?=$promo['pk_promotion']?>"><?=$promo['promotion_titre']?></option>
 						<?php } ?>
@@ -16,9 +16,9 @@
 	   </div>
 	   <div class="addPromoDateWrapper">
 			<p>Période de la promotion</p> <br/>
-			<input type="date" name="debut" placeholder="Date de début"/> à <input type="date" name="fin" placeholder="Date de fin"/>
+			<input type="date" id="debut" name="debut" placeholder="Date de début"/> à <input type="date" id="fin" name="fin" placeholder="Date de fin"/>
 			<p>Entrer un code s'il est requis pour appliquer la promotion lors de la création de la facture.</p>
-			<input type="text" name="codePromo" />
+			<input type="text" name="codePromo" id="codePromo" />
 	   </div>
 	   <div class="addPromoSubmitWrapper"><input type="submit" name="addPromo" value="Confirmer" onclick="applyToAll()"/></div>
    </form>

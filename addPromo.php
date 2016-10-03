@@ -98,8 +98,8 @@ require_once('template/navbar.inc.php');
 <script>
 	function changePercentage() {
 		var e = document.getElementById('promoName');
-		var percent = e.dataset['percent'];
-		console.log(percent);
-		document.getElementById('promoNb').innerHTML = percent + "%";
+		var promo = e.children[e.selectedIndex];
+		var percent = promo.getAttribute("data-percent");
+		document.getElementById('addPromoNb').innerHTML = percent * 100 + "%";
 	}
 </script>

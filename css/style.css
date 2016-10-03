@@ -1,4 +1,4 @@
-/**************************************************************************************************/
+ /**************************************************************************************************/
 /* Fichier ...................... : style.css */
 /* Titre ........................ : Lab Web */
 /* Auteur ....................... : Amélie Frappier et Antony Garand */
@@ -620,6 +620,12 @@ fieldset::after {
 }
 
 /* --------------- Gestion des promotions -------------- */
+.addNewPromo a, .addNewPromo a:active, .addNewPromo a:visited,
+.addNewService a, .addNewService a:active, .addNewService a:visited {
+	color: #09AAC1;
+	text-decoration:none;
+}
+
 .gestionPromoContent {
 	padding: 10px;
     border: 2px solid #FF9F07;
@@ -792,6 +798,17 @@ input[type="checkbox"]:checked + label span {
 	font-size:56pt;
 }
 
+.promoTitleWrapper {
+	width:100% !important;
+}
+
+#promoName {
+	color:#000708;
+	background-color:#FF9F07;
+	width:100% !important;
+	text-transform: uppercase;
+}
+
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color: #000;
 }
@@ -863,7 +880,7 @@ input[type="checkbox"]:checked + label span {
 /* Modal Content */
 .modal-content {
     background-color: #fefefe;
-    margin: auto;
+    margin: 0 auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;

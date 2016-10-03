@@ -20,21 +20,35 @@ if (isset($_POST['deletedID'])) {
 
 //If user applies promotion to all services 
 if (isset($_POST['applyPromoId'])) {
-	$today = date('Y-m-d 00:00:00');
-	$inAWeek = date('Y-m-d 00:00:00', strtotime('+1 week'));
-	$allServicesQuery = 'SELECT pk_service FROM service';
-	$allServices = $db->query($allServicesQuery)->fetchAll();
-	$applyPromoQuery = 'INSERT INTO ta_promotion_service (fk_promotion, fk_service, date_debut, date_fin) VALUES(:promo, :service, :debut, :fin)';
-	foreach($allServices as $service) {
-		$stmt = $db->prepare($applyPromoQuery);
-		$stmt->bindParam(':debut', $today);
-		$stmt->bindParam(':fin', $inAWeek);
-		$stmt->bindParam(':promo', $_POST['applyPromoId']);
-		$stmt->bindParam(':service', $service['pk_service']);
-		if (!($stmt->execute())) {
-			$errors[] = "Impossible d'appliquer cette promotion à tous les services.";
-			break;
+	
+	$required = array('applyPromoId', 'debut', 'fin');
+    $errors = validatePost($required); 	//validate if array is not empty
+	if (empty($errors)) {
+		if (strtotime($_POST['debut']) < strtotime($_POST['fin'])) {
+	
+			$allServicesQuery = 'SELECT pk_service FROM service';
+			$allServices = $db->query($allServicesQuery)->fetchAll();
+			$applyPromoQuery = 'INSERT INTO ta_promotion_service (fk_promotion, fk_service, date_debut, date_fin, code) VALUES(:promo, :service, :debut, :fin, :code)';
+			foreach($allServices as $service) {
+				$stmt = $db->prepare($applyPromoQuery);
+				$stmt->bindParam(':debut', $_POST['debut']);
+				$stmt->bindParam(':fin', $_POST['fin']);
+				$stmt->bindParam(':promo', $_POST['applyPromoId']);
+				$stmt->bindParam(':service', $service['pk_service']);
+				$stmt->bindParam(':code', isset($_POST['code']) ? $_POST['code'] : '');
+				if (!($stmt->execute())) {
+					$errors[] = "Impossible d'appliquer cette promotion à tous les services.";
+					break;
+				}
+			}
+			
 		}
+		else {
+			$errors[] = "La date de début doit être plus petite que la date de fin";
+		}
+	}
+	else {
+		$errors[] = "Veuillez saisir tous les champs requis.";
 	}
 	 
 }
@@ -140,9 +154,9 @@ require_once 'template/navbar.inc.php';
 				</form>
 			<?php }
 			else { ?>
-				<span class="hidden"><?=$promotion['pk_promotion']?></span> 
-				<span id="gestionPromoTitre" class="gestionPromoTitre"><?=$promotion['promotion_titre']?></span>
-				<span id="gestionPromoRabais" class="gestionPromoRabais"><?=($promotion['rabais'] * 100) . '%'?></span>
+				<div class="hidden"><?=$promotion['pk_promotion']?></div> 
+				<div id="gestionPromoTitre" class="gestionPromoTitre"><?=$promotion['promotion_titre']?></div>
+				<div id="gestionPromoRabais" class="gestionPromoRabais"><?=($promotion['rabais'] * 100) . '%'?></div>
 			<?php } ?>
 			
 		</div>
