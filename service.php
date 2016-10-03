@@ -93,7 +93,6 @@ foreach ($products as $product) {
             <div class="serviceShareIcons"><a href="http://facebook.com" target="_blank"><img src="img/icones/medias sociaux.jpeg" alt="Partager sur les médias sociaux..."/></a></div>
         </div>
     </div>
+    <?php } ?>
     <script src="script/service.js"></script>
-    <?php } 
-    include("template/footer.inc.php");
-?>
+<?php include("template/footer.inc.php"); ?>

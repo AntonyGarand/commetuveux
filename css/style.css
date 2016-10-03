@@ -308,8 +308,8 @@ fieldset::after {
     padding: 10px;
     font-weight: bold;
     text-align: left;
-    margin-left: -168px;
-    margin-top: -10px;
+    margin-left: -150px;
+    margin-top: -25px;
     background-color: #fff;
     position: absolute;
     z-index: 2;
@@ -329,6 +329,11 @@ fieldset::after {
     z-index: 2;
     border: 2px solid #ff9f07;
     box-shadow: 3px 3px 3px #555;
+}
+.gestionPromoMenu > .cornerContentWrapper{
+    margin:0;
+    top:0;
+    right:-35px;
 }
 .cornerContentWrapper:focus, .promoCornerContentWrapper{
     outline:none;

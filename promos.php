@@ -137,7 +137,7 @@ require_once 'template/navbar.inc.php';
 	?>
 		<div class="gestionPromoContent">
 			<div class="gestionPromoMenu">
-				<div class="cornerContentWrapper" id="cornerMenu<?=$promotion['pk_promotion']?>" tabindex="<?=$promotion['pk_promotion'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},5000, this);">
+				<div class="cornerContentWrapper" id="cornerMenu<?=$promotion['pk_promotion']?>" tabindex="<?=$promotion['pk_promotion'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},250, this);">
 					<a href="" onclick="openModal(<?=$promotion['pk_promotion']?>);return false;" >Appliquer à tous les services</a><br/>
 					<a href="promos.php?updateid=<?=$promotion['pk_promotion']?>">Modifier la promotion</a><br/>
 					<a href="" onclick="deleteItem(<?=$promotion['pk_promotion']?>);return false;">Désactiver la promotion</a>
