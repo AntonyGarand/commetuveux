@@ -316,6 +316,10 @@ fieldset::after {
     border: 2px solid #ff9f07;
     box-shadow: 3px 3px 3px #555;
 }
+.cornerContentWrapper > p {
+    cursor: pointer;
+    margin: 5px;
+}
 .promoCornerContentWrapper{
     display: none;
     width: 210px;

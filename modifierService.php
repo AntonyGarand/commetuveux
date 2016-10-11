@@ -56,7 +56,7 @@ function updateService(){
         ':description' => htmlspecialchars($_POST['description']),
         ':duree' => $_POST['duree'],
         ':tarif' => $_POST['tarif'],
-        ':actif' => $_POST['actif'] == 'on' ? '1' : '0',
+        ':actif' => isset($_POST['actif']) && $_POST['actif'] == 'on' ? '1' : '0',
         ':serviceId' => intval($_POST['serviceId'])
     );
     if(isset($imageName) && $imageName !== false){
@@ -103,11 +103,11 @@ function disableService(){
 function getService(){
     global $db;
 
-    if(!isset($_GET['serviceId']) ||!is_numeric($_GET['serviceId'])){
+    if(!isset($_REQUEST['serviceId']) || !is_numeric($_REQUEST['serviceId'])){
         return null;
     }
 
-    $serviceId = intval($_GET['serviceId']);
+    $serviceId = intval($_REQUEST['serviceId']);
     $selectServiceQuery = "SELECT * FROM SERVICE WHERE pk_service = $serviceId";
     $selectServiceStmt = $db->query($selectServiceQuery);
     if($selectServiceStmt->rowCount() !== 1){
@@ -135,7 +135,7 @@ if(isset($_POST['serviceUpdate'])){
     $id = isset($_POST['serviceId']) ? intval($_POST['serviceId']) : '';
     $titre = isset($_POST['titre']) ? htmlspecialchars($_POST['titre']) : '';
     $description = isset($_POST['description']) ? htmlspecialchars($_POST['description']) : '';
-    $image = isset($service['image']) ? $service['image'] : '';
+    $image = isset($imageName)&& $imageName !== false ? $imageName : isset($service['image']) ? $service['image'] : '';
     $duree = isset($_POST['duree']) ? intval($_POST['duree']) : '';
     $tarif = isset($_POST['tarif']) ? intval($_POST['tarif']) : '';
     $actif = isset($_POST['actif']) ? $_POST['actif'] == 'on' ? true : false : false;
@@ -157,7 +157,6 @@ if(isset($_POST['serviceUpdate'])){
     $actif = true;
 }
 
-require_once('template/navbar.inc.php');
 ?>
 <div class="service">
     <h1 id="serviceHeader">Vous pouvez modifier les informations du service</h1>
@@ -169,6 +168,7 @@ require_once('template/navbar.inc.php');
     <?php } ?>
     <form id="serviceUpdateForm" method="post" enctype="multipart/form-data">
         <input type="hidden" name="serviceId" value="<?=$id?>"/>
+        <input type="hidden" name="serviceUpdate" value="true"/>
         <div class="serviceImageSection">
             <div class="serviceImageWrapper">
                 <img src="<?=$image?>" class="serviceImage" alt="Service image"/>
@@ -186,7 +186,18 @@ require_once('template/navbar.inc.php');
             <input name="duree" type="number" placeholder="Durée du service" value="<?=intval($duree)?>" id="duree"/>
             <input name="tarif" type="number" placeholder="Tarif du service" value="<?=intval($tarif)?>" id="tarif"/>
             <div id="showService"><input name="actif" id="actif" type="checkbox" <?php if($actif) { echo "Checked"; }?>/><label for="actif"><span></span>Ce service sera affiché dans le catalogue</label></div>
-            <div class="serviceSubmit"><input type="submit" name="serviceUpdate" value="Confirmer"/></div>
+            <div class="serviceSubmit"><input type="button" onclick="let formData = new FormData($('#serviceUpdateForm')[0]);
+                $.ajax({
+                    url: 'modifierService.php',  //Server script to process data
+                    type: 'POST',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    complete: function(result){
+                        document.getElementById('modalFrame').innerHTML = result.responseText;
+                    } 
+                });" name="serviceUpdate" value="Confirmer" id="serviceSubmit"/></div>
         </div>
     </form>
 </div>
