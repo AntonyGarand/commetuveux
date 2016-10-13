@@ -29,7 +29,7 @@ foreach ($products as $product) {
         <div class="serviceMenu">
             <div class="cornerContentWrapper" id="cornerMenu<?=$product['pk_service']?>" tabindex="<?=$product['pk_service'] /*For the onblur to work*/?>" onblur="setTimeout(function(item){item.style.display='none';},100, this);">
                 <p onclick="editService(<?=$product['pk_service']?>)">Modifier le service</p>
-                <p onclick="modifierService(<?=$product['pk_service']?>)">Désactiver le service</p>
+                <p onclick="disableService(<?=$product['pk_service']?>)">Désactiver le service</p>
             </div>
             <div class="corner" onclick="showMenu(<?=$product['pk_service']?>)"></div>
         </div>
@@ -82,9 +82,9 @@ if (count($promotions) > 0) {
         } ?>
                 <div class="promotion <?=$class?>" id="promotion<?=$promotion['id']?>">
                     <div class="promotionMenuWrapper">
-                        <div class="promoCornerContentWrapper" id="cornerPromo<?=$promotion['id']?>" tabindex="<?=$promotion['id']+1000 /*For the onblur to work*/?>" onblur="this.style.display='none';">
-                            <a href="/modifierPromotion.php?promoId=<?=$promotion['id']?>">Modifier la promotion</a><br/>
-                            <a href="/desactiverPromotion.php?promoId=<?=$promotion['id']?>">Désactiver la promotion</a>
+                        <div class="promoCornerContentWrapper" id="cornerPromo<?=$promotion['id']?>" tabindex="<?=$promotion['id']+1000 /*For the onblur to work*/?>"  onblur="setTimeout(function(item){item.style.display='none';},100, this);">
+                            <a href="/promos.php?updateId=<?=$promotion['id']?>">Modifier la promotion</a><br/>
+                            <a href="/promos.php?updateId=<?=$promotion['id']?>&disable=true">Désactiver la promotion</a>
                         </div>
                         <div class="corner" onclick="showPromo(<?=$promotion['id']?>)"></div>
                     </div>

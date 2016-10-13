@@ -4,24 +4,24 @@ if ($_SESSION['role'] !== 'admin') {
     //TODO: Replace header with head and navbar, then do send a location header to redirect
     echo 'Forbidden';
     header('Location: index.php');
+    die();
 }
 
 //If user deletes promotion
 if (isset($_POST['deletedID'])) {
-	$today = date('Y-m-d 00:00:00');
-	$deactivatePromoQuery = 'UPDATE ta_promotion_service SET date_fin=:date WHERE fk_promotion=:promoID';
-	$stmt = $db->prepare($deactivatePromoQuery);
-	$stmt->bindParam(':date', $today);
-	$stmt->bindParam(':promoID', $_POST['deletedID']);
-	if (!($stmt->execute())) {
-		$errors[] = "Impossible de désactiver la promotion dans la base de données.";
-	}
+    $today = date('Y-m-d 00:00:00');
+    $deactivatePromoQuery = 'UPDATE ta_promotion_service SET date_fin=:date WHERE fk_promotion=:promoID';
+    $stmt = $db->prepare($deactivatePromoQuery);
+    $stmt->bindParam(':date', $today);
+    $stmt->bindParam(':promoID', $_POST['deletedID']);
+    if (!($stmt->execute())) {
+        $errors[] = "Impossible de désactiver la promotion dans la base de données.";
+    }
 }
 
 //If user applies promotion to all services 
 if (isset($_POST['applyPromoId'])) {
-	
-	$required = array('applyPromoId', 'debut', 'fin');
+    $required = array('applyPromoId', 'debut', 'fin');
     $errors = validatePost($required); 	//validate if array is not empty
 	if (empty($errors)) {
 		if (strtotime($_POST['debut']) < strtotime($_POST['fin'])) {
@@ -55,7 +55,7 @@ if (isset($_POST['applyPromoId'])) {
 
 //If user updates promotion
 if (isset($_POST['updatePromo'])) {
-	$required = array('promoTitle', 'promoRabais');
+    $required = array('promoTitle', 'promoRabais');
     $errors = validatePost($required); 	//validate if array is not empty
 	if (empty($errors)) {
 		//validate if rebate is valid

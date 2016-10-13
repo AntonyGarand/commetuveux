@@ -23,7 +23,6 @@ function updateService(){
     );
     $missingFields = validatePost($requiredFields);
     if(!empty($missingFields)){
-        die(var_dump($missingFields));
         return $missingFields;
     }
     $customErrors = array();
