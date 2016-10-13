@@ -7,7 +7,7 @@ if ($_SESSION['role'] !== 'admin') {
 }
 
 $baseInvoicesQuery = 'SELECT facture.pk_facture, facture.date_service, facture.no_confirmation, 
-				client.prenom, client.nom 
+				client.pk_client, client.prenom, client.nom 
 				FROM facture
 				INNER JOIN client ON client.pk_client=facture.fk_client  
 				ORDER BY facture.date_service DESC';
@@ -53,7 +53,7 @@ require_once 'template/navbar.inc.php';
 		</div>
 		
 		<div class="invoiceClientWrapper">
-			<span class="invoiceClient"><?=$invoice['prenom'] . ' ' . $invoice['nom']; ?></span> <br/>
+			<span class="invoiceClient" onclick="getClientInfo(<?=$invoice['pk_client']?>)"><?=$invoice['prenom'] . ' ' . $invoice['nom']; ?></span> <br/>
 			<span class="invoiceConfirmation"><?=strtoupper($invoice['no_confirmation']) ?></span> 
 		</div>
 		
@@ -109,20 +109,21 @@ require_once 'template/navbar.inc.php';
 			
 	</div>
 	
+	<!-- add promo to all modal windows -->
+<div id="clientInfoModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="clientInfoContent">
+		   <span id="clientNom" class="clientNom"></span>
+		   <span id="clientTelephone" class="clientTelephone"></span>
+		   <span id="clientAdresse" class="clientAdresse"></span>
+</div>
+  </div>
+
+</div>  
+	
 <?php } ?>
 
-<script>
-		function toggleDetail(elemId) {
-			elem = document.getElementById(elemId);
-			display = (getComputedStyle(elem, null).display);
-			link = document.getElementById('href' + elemId);
-			if (display === 'none') {
-				elem.style.display = 'inline-block';
-				link.innerHTML = 'Réduire';
-			}
-			else if (display === 'inline-block'){
-				elem.style.display = 'none';
-				link.innerHTML = 'Détail';
-			}
-		}
+<script src="script/facture.js">
 	</script>

@@ -909,3 +909,32 @@ input[type="checkbox"]:checked + label span {
     text-decoration: none;
     cursor: pointer;
 }
+
+/*Modal Client*/
+#clientInfoModal .modal-content {
+	border: 2px solid #FF9F07;
+	width:340px;
+	position:absolute;
+	top:140px;
+	left:33%;
+	background: -webkit-linear-gradient(#FFFAFB, #09AAC1); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#FFFAFB, #09AAC1); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#FFFAFB, #09AAC1); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#FFFAFB, #09AAC1); /* Standard syntax */
+}
+
+#clientInfoModal #clientNom {
+	font-weight: bold;
+}
+
+#clientInfoModal #clientTelephone {
+	color: #09AAC1;
+	float:right;
+	font-weight:bold;
+}
+
+#clientInfoModal #clientAdresse {
+	color: #FF9F07;
+	font-weight:bold;
+	margin-top:5px;
+}
