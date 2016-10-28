@@ -3,9 +3,71 @@ require_once 'template/header.inc.php';
 if ($_SESSION['role'] !== 'admin') {
     die(header('Location: index.php'));
 }
+
+//User opens modal to modify promotion
+if(isset($_GET['updatePromoId'])) {
+	$oldPromoQuery = "SELECT * FROM ta_promotion_service WHERE pk_promotion_service=:promoId";
+	$stmt = $db->prepare($oldPromoQuery);
+	$stmt->bindParam(':promoId', $_GET['updatePromoId']);
+	if ($stmt->execute()) {
+	
+		//Fetch current promo
+		$oldPromo = $stmt->fetchAll();
+		
+		//Get promotion list for dropdown menu
+		$promotionsQuery = 'SELECT * FROM promotion ORDER BY promotion_titre';
+		$promotions = $db->query($promotionsQuery)->fetchAll();
+		
+		//Send info as JSON to fill out modal
+		echo json_encode($oldPromo);
+	}
+}
+
+//If user deletes promotion
+if (isset($_POST['promoID'])) {
+	$today = date('Y-m-d 00:00:00');
+    $deactivatePromoQuery = 'UPDATE ta_promotion_service SET date_fin=:date WHERE pk_promotion_service=:promoID';
+    $stmt = $db->prepare($deactivatePromoQuery);
+	$stmt->bindParam(':date', $today);
+    $stmt->bindParam(':promoID', $_POST['promoID']);
+    if (!($stmt->execute())) {
+        $errors[] = "Impossible de désactiver la promotion dans la base de données.";
+    }
+}
+
+//If user updates a given promotion 
+if (isset($_POST['updateId'])) {
+    $required = array('updateId', 'debut', 'fin');
+    $errors = validatePost($required); 	//validate if array is not empty
+	if (empty($errors)) {
+		if (strtotime($_POST['debut']) < strtotime($_POST['fin'])) {
+			$updatePromoQuery = 'UPDATE ta_promotion_service SET(fk_promotion=:promo, date_debut=:debut, date_fin=:fin, code=:code) WHERE fk_promotion=:oldPromo AND fk_service=:service';
+			$stmt = $db->prepare($updatePromoQuery);
+			$stmt->bindParam(':debut', $_POST['debut']);
+			$stmt->bindParam(':fin', $_POST['fin']);
+			$stmt->bindParam(':promo', $_POST['newPromoId']);
+			$stmt->bindParam(':oldPromo', $_POST['updateId']);
+			$stmt->bindParam(':service', $service['pk_service']);
+			$stmt->bindParam(':code', isset($_POST['code']) ? $_POST['code'] : '');
+			if (!($stmt->execute())) {
+				$errors[] = "Impossible d'appliquer cette promotion à tous les services.";
+			}
+			
+		}
+		else {
+			$errors[] = "La date de début doit être plus petite que la date de fin";
+		}
+	}
+	else {
+		$errors[] = "Veuillez saisir tous les champs requis.";
+	}
+	 
+}
+
 $productsQuery = 'SELECT * FROM service ORDER BY pk_service';
 $products = $db->query($productsQuery)->fetchAll();
 require_once 'template/navbar.inc.php'; ?>
+
 <!--/**************************************************************************************************/
 /* Fichier ...................... : service.php */
 /* Titre ........................ : Lab Web */
@@ -82,9 +144,9 @@ if (count($promotions) > 0) {
         } ?>
                 <div class="promotion <?=$class?>" id="promotion<?=$promotion['id']?>">
                     <div class="promotionMenuWrapper">
-                        <div class="promoCornerContentWrapper" id="cornerPromo<?=$promotion['id']?>" tabindex="<?=$promotion['id']+1000 /*For the onblur to work*/?>"  onblur="setTimeout(function(item){item.style.display='none';},100, this);">
-                            <a href="/promos.php?updateId=<?=$promotion['id']?>">Modifier la promotion</a><br/>
-                            <a href="/promos.php?updateId=<?=$promotion['id']?>&disable=true">Désactiver la promotion</a>
+                        <div class="promoCornerContentWrapper" id="cornerPromo<?=$promotion['id']?>" tabindex="<?=$promotion['id']+1000 /*For the onblur to work*/?>"  onblur="setTimeout(function(item){item.style.display='none';},300, this);">
+                            <a href="#" onclick="openUpdatePromo(<?=$promotion['id']?>)">Modifier la promotion</a><br/>
+                            <a href="#" onclick="deletePromotion(<?=$promotion['id']?>)">Désactiver la promotion</a>
                         </div>
                         <div class="corner" onclick="showPromo(<?=$promotion['id']?>)"></div>
                     </div>
@@ -106,5 +168,17 @@ if (count($promotions) > 0) {
         </div>
     </div>
     <?php } ?>
+	
+	<!-- add promo to all modal windows -->
+<div id="updatePromoModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">x</span>
+    <?php include('modals/updatePromo.php'); ?>
+  </div>
+
+</div>       
+	
     <script src="script/service.js"></script>
 <?php include("template/footer.inc.php"); ?>
