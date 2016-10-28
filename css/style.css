@@ -881,20 +881,30 @@ input[type="checkbox"]:checked + label span {
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
+    text-align: center; /* Center the modal content */
+    overflow: auto; /* Enable scroll if needed */ 
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+#modalFrame {
+    width: 100%;
+    height: 100%;
 }
 
 /* Modal Content */
 .modal-content {
     background-color: #fefefe;
-    margin: 0 auto;
+    margin: 150px 0 0 0;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+    border: 4px solid #FF9F07;
+    width: 40%;
 }
 
+#modalTitle {
+    float: left;
+    display: inline-block;
+}
 /* The Close Button */
 .close {
     color: #aaa;
@@ -909,15 +919,40 @@ input[type="checkbox"]:checked + label span {
     text-decoration: none;
     cursor: pointer;
 }
+/* Modal catalogue */
+#modalTitle {
+    width: 75%;
+    font-size: 1.3em;
+    font-weight: 600;
+    display: inline-block;
+    text-align: left;
+}
+
+#modalPrice {
+    display: inline-block;
+    vertical-align: bottom;
+    width: 25%;
+    display: inline-block;
+    float: right;
+    color: #09AAC1;
+    font-weight: bold;
+}
+
+#modalDescription {
+    margin-top:35px;
+    display: block;
+    text-align: justify;
+    color: #FF9F07;
+}
 
 /*Modal Client*/
 #clientInfoModal .modal-content {
-	border: 2px solid #FF9F07;
-	width:340px;
-	position:absolute;
-	top:140px;
-	left:33%;
-	background: -webkit-linear-gradient(#FFFAFB, #09AAC1); /* For Safari 5.1 to 6.0 */
+    border: 2px solid #FF9F07;
+    width:340px;
+    position:absolute;
+    top:140px;
+    left:33%;
+    background: -webkit-linear-gradient(#FFFAFB, #09AAC1); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(#FFFAFB, #09AAC1); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(#FFFAFB, #09AAC1); /* For Firefox 3.6 to 15 */
     background: linear-gradient(#FFFAFB, #09AAC1); /* Standard syntax */
