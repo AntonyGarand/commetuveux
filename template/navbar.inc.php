@@ -19,7 +19,15 @@
                 <?php if ($_SESSION['role'] === 'admin') { //Admin ?>
                     <a href="logout.php">Se d&eacute;connecter</a>
                 <?php } elseif ($_SESSION['role'] === 'user') { //Usager ?>
-                    <a href="panier.php">Mon Panier(<?=$_SESSION['pannierQte']?>)</a>
+                    <a href="panier.php" id="cart">Mon Panier(<?php 
+                        $count = 0;
+                        if(isset($_COOKIE['cart'])){
+                            if(!$_COOKIE['cart'] == ""){
+                                $count = count(explode('|',$_COOKIE['cart']));
+                            }
+                        }
+                        echo $count;
+                    ?>)</a>
                     <a href="logout.php">Se d&eacute;connecter</a>
                 <?php } else { //Visiteur non authentifié ?>
                     <a href="login.php">S'identifier</a>
