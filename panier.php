@@ -16,6 +16,7 @@ if (isset($_GET['confirmpayment']) && $_GET['confirmpayment']) {
 	
 	$response = $paypal->GetExpressCheckoutDetails($requestParams);
 	$payerId=$_GET["PAYERID"];//Payer id returned by paypal
+	print_r($response); die();
 	
 	//Create request for DoExpressCheckoutPayment
 	$requestParams=array(
