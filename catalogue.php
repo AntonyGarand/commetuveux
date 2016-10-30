@@ -12,7 +12,20 @@ require_once 'template/navbar.inc.php';
 /* Date de mise en ligne ........ : Jamais */
 /* Date de mise à jour .......... : 2016-08-22 */
 /*******************************************************************************************************/
-    --><?php
+-->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close" style="cursor: pointer;" onclick="document.getElementsByClassName('modal')[0].style.display = 'none';">x</span>
+        <div id="modalFrame">
+            <input type="hidden" id="cartItemId"/>
+            <div id="modalTitle">Title</div>
+            <div id="modalPrice">Price</div>
+            <div id="modalDescription">Description</div>
+            <input type="button" value="Ajouter au panier" onclick="addCartItem()"/>
+        </div>
+    </div>
+</div>
+<?php
 foreach ($products as $product) {
 ?>
     <div class="catalogue" id="catalogue<?=$product['pk_service']?>">
