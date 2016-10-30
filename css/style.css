@@ -406,6 +406,30 @@ fieldset::after {
     font-weight: bold;
 }
 
+.serviceInformation {
+    width: 80%;
+}
+.serviceTitre {
+    font-size: 1.3em;
+    font-weight: bold;
+    max-width: 70%;
+    display: inline;
+}
+.serviceTarif {
+    display: inline;
+    max-width: 30%;
+    float: right;
+    color: #09AAC1;
+    font-weight: bold;
+}
+.serviceRemove {
+    text-decoration: underline;
+    position: absolute;
+    bottom:25px;
+    right: 25px;
+    font-weight: bold;
+}
+
 .serviceLengthWrapper {
     width:45%;
 }
@@ -788,34 +812,34 @@ input[type="checkbox"]:checked + label span {
 }
 
 .addPromoContent h3 {
-	padding-bottom:30px;
+    padding-bottom:30px;
 }
 
 .addPromoWrapper {
-	width:25%;
-	float:left;
-	margin:15px;
-	border:1px solid #000708;
+    width:25%;
+    float:left;
+    margin:15px;
+    border:1px solid #000708;
 }
 
 .addPromoNb {
-	width:100%;
-	padding-top:25px;
-	padding-bottom:25px;
-	color:#FF9F07;
-	text-align:center;
-	font-size:56pt;
+    width:100%;
+    padding-top:25px;
+    padding-bottom:25px;
+    color:#FF9F07;
+    text-align:center;
+    font-size:56pt;
 }
 
 .promoTitleWrapper {
-	width:100% !important;
+    width:100% !important;
 }
 
 #promoName {
-	color:#000708;
-	background-color:#FF9F07;
-	width:100% !important;
-	text-transform: uppercase;
+    color:#000708;
+    background-color:#FF9F07;
+    width:100% !important;
+    text-transform: uppercase;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
@@ -959,17 +983,17 @@ input[type="checkbox"]:checked + label span {
 }
 
 #clientInfoModal #clientNom {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 #clientInfoModal #clientTelephone {
-	color: #09AAC1;
-	float:right;
-	font-weight:bold;
+    color: #09AAC1;
+    float:right;
+    font-weight:bold;
 }
 
 #clientInfoModal #clientAdresse {
-	color: #FF9F07;
-	font-weight:bold;
-	margin-top:5px;
+    color: #FF9F07;
+    font-weight:bold;
+    margin-top:5px;
 }

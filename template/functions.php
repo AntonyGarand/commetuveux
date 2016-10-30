@@ -59,3 +59,11 @@ function randomString($length = 6) {
     }
     return $str;
 }
+
+function getCartItems(){
+    $items = array();
+    if(isset($_COOKIE['cart']) && is_string($_COOKIE['cart'])){
+        $items = explode('|',$_COOKIE['cart']);
+    }
+    return $items;
+}
