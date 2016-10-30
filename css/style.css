@@ -405,7 +405,6 @@ fieldset::after {
     color: #09AAC1;
     font-weight: bold;
 }
-
 .serviceInformation {
     width: 80%;
 }
@@ -440,6 +439,46 @@ fieldset::after {
 
 .addToCartWrapper {
     width:10%;
+}
+
+.sectionPromocode {
+    width: 50%;
+    padding: 15px;
+    border: 3px solid #960;
+}
+#validatePromocode{
+    float: right;
+}
+
+.sectionTotal {
+    width: 30%;
+    float: right;
+    text-align: right;
+}
+
+.sectionTotal > div, .sectionTotal > hr {
+    display: block;
+}
+
+#orderSubtotal {
+    font-size: 1em;
+    font-weight: 600;
+}
+
+#orderSpecial {
+    color: #f00;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.sectionTotal>hr{
+    border-color: #FF9F07;
+}
+
+#orderTotal {
+    color: #09AAC1;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 .addToCartBtn {

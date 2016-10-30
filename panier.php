@@ -39,6 +39,7 @@ if (isset($_GET['confirmpayment']) && $_GET['confirmpayment']) {
 }
 require_once 'template/navbar.inc.php';
 
+$orderTotal = 0;
 ?>
 <!DOCTYPE html>
 <!-- /**************************************************************************************************/
@@ -58,7 +59,8 @@ require_once 'template/navbar.inc.php';
                 $selectItemStmt = $db->prepare($selectItemQuery);
                 $selectItemStmt->execute(array(':id'=>$serviceId));
                 if($selectItemStmt->rowCount() == 1){
-                    $service = $selectItemStmt->fetch();?>
+                    $service = $selectItemStmt->fetch();
+                    $orderTotal += $service["tarif"]?>
                     <div class="service" id="service<?=$serviceId?>">
                         <div class="serviceImageWrapper">
                             <img class="serviceImage" src="<?=$service["image"]?>" alt="Image de <?=$service["service_titre"]?>"/>
@@ -73,11 +75,22 @@ require_once 'template/navbar.inc.php';
                 <?php }
             }
         ?>
-        <h2>Paiement</h2>
-        <form id="checkout" name="checkout" method="post" action="payment.php">
-            <div id="payment-form"></div>
-            <input type="submit" name="checkout" value="Payer">
-        </form>
+        <div class="sectionPromocode">
+            <span>Entrez le code promotionnel pour profiter d'un rabais additionnel</span>
+            <input type="text" id="promoCode"/><br/>
+            <input type="button" value="Valider"onclick="checkPromocode()" id="validatePromocode"/>
+        </div>
+        <div class="sectionTotal">
+            <div id="orderSubtotal">Sous-total : <?=$orderTotal?>$</div>
+            <div id="orderSpecial">rabais additionnel : <?=0?>$</div>
+            <hr/>
+            <div id="orderTotal">Total : <?=$orderTotal?>$</div>
+            <hr/>
+            <form id="checkout" name="checkout" method="post" action="payment.php">
+                <div id="payment-form"></div>
+                <input type="submit" name="checkout" value="Paiement"/>
+            </form>
+        </div>
     </div>
 </body>
 </html>
