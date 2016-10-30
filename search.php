@@ -50,8 +50,8 @@
                     <h2 class="serviceTitle"><?=htmlspecialchars($product['service_titre'])?></h2>
                     <p class="serviceDescription"><?=htmlspecialchars($product['service_description'])?></p>
                     <div class="servicePriceAndLengthWrapper">
-                        <span class="servicePriceWrapper"><p class="servicePrice">Tarif : <?=intval($product['tarif'])?>$</p></span>
-                        <span class="serviceLengthWrapper"><p class="serviceLength">Durée : <?=intval($product['duree'])?> h</p></span>
+                        <span class="servicePriceWrapper servicePrice">Tarif : <?=intval($product['tarif'])?>$</span>
+                        <span class="serviceLengthWrapper serviceLength">Durée : <?=intval($product['duree'])?> h</span>
                         <div class="serviceAddToCartWrapper">
                             <button class="addToCartBtn" onclick="addToCart(<?=intval($product['pk_service'])?>)"></button>
                         </div>

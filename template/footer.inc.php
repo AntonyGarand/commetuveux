@@ -9,4 +9,3 @@
 -->
 </div> <!-- end .container -->
 <script src="script/global.js"></script>
-</body>

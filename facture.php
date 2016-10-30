@@ -7,31 +7,26 @@ if ($_SESSION['role'] !== 'admin') {
 }
 
 $baseInvoicesQuery = 'SELECT facture.pk_facture, facture.date_service, facture.no_confirmation, 
-				client.pk_client, client.prenom, client.nom 
-				FROM facture
-				INNER JOIN client ON client.pk_client=facture.fk_client  
-				ORDER BY facture.date_service DESC';
+    client.pk_client, client.prenom, client.nom 
+    FROM facture
+    INNER JOIN client ON client.pk_client=facture.fk_client  
+    ORDER BY facture.date_service DESC';
 $baseInvoices = $db->query($baseInvoicesQuery)->fetchAll();
 for ($i = 0; $i < count($baseInvoices); $i++) {
-	$serviceQuery = 'SELECT service.service_titre, service.tarif, 
-					ta_facture_service.tarif_facture, 
-					ta_promotion_service.code, 
-					promotion.rabais, promotion.promotion_titre 
-					FROM service
-					LEFT JOIN ta_promotion_service ON ta_promotion_service.fk_service=service.pk_service
-					INNER JOIN ta_facture_service ON service.pk_service=ta_facture_service.fk_service 
-					LEFT JOIN promotion ON ta_promotion_service.fk_promotion=promotion.pk_promotion 
-					WHERE ta_facture_service.fk_facture=' .$baseInvoices[$i]['pk_facture'];
-	
-	$baseInvoices[$i]['services']=$db->query($serviceQuery)->fetchAll();
-	//$invoice = array_merge($invoice, );
+    $serviceQuery = 'SELECT service.service_titre, service.tarif, 
+        ta_facture_service.tarif_facture, 
+        ta_promotion_service.code, 
+        promotion.rabais, promotion.promotion_titre 
+        FROM service
+        LEFT JOIN ta_promotion_service ON ta_promotion_service.fk_service=service.pk_service
+        INNER JOIN ta_facture_service ON service.pk_service=ta_facture_service.fk_service 
+        LEFT JOIN promotion ON ta_promotion_service.fk_promotion=promotion.pk_promotion 
+        WHERE ta_facture_service.fk_facture=' .$baseInvoices[$i]['pk_facture'];
+    
+    $baseInvoices[$i]['services']=$db->query($serviceQuery)->fetchAll();
+    //$invoice = array_merge($invoice, );
 }
-
-
-require_once 'template/navbar.inc.php';
-
-//print_r($baseInvoices); //TODO: Remove when debug is done ?>
-
+require_once 'template/navbar.inc.php'; ?>
 <!-- /**************************************************************************************************/
 /* Fichier ...................... : facture.php */
 /* Titre ........................ : Lab Web */
@@ -40,90 +35,69 @@ require_once 'template/navbar.inc.php';
 /* Date de mise en ligne ........ : Jamais */
 /* Date de mise à jour .......... : 2016-08-22 */
 /*******************************************************************************************************/
--->
-
-<?php
-	foreach ($baseInvoices as $invoice) {
-	?>
-
-		<div class="invoiceContent">
-		
-		<div class="invoiceNbWrapper">
-			<span class="invoiceNb"><?=$invoice['pk_facture']?></span>
-		</div>
-		
-		<div class="invoiceClientWrapper">
-			<span class="invoiceClient" onclick="getClientInfo(<?=$invoice['pk_client']?>)"><?=$invoice['prenom'] . ' ' . $invoice['nom']; ?></span> <br/>
-			<span class="invoiceConfirmation"><?=strtoupper($invoice['no_confirmation']) ?></span> 
-		</div>
-		
-		<div class="invoiceDateWrapper">
-			<span class="invoiceDate"><?= date('d/m/Y',strtotime($invoice['date_service'])); ?></span> <br/>
-			<?php 
-				$invoiceTotal = 0;
-				foreach ($invoice['services'] as $service) {
-					if (isset($service['rabais'])) {
-						$invoiceTotal += $service['tarif_facture'] - ($service['tarif_facture'] * $service['rabais']); 
-					}
-					else {
-						$invoiceTotal += $service['tarif_facture'];
-					}
-				}
-			?>
-			<span class="invoiceTarif"><?=$invoiceTotal?>$</span>
-		</div>
-		
-		
-		<div class="invoiceDetail" id="<?=$invoice['pk_facture']?>">
-		
-			<?php foreach ($invoice['services'] as $service) {?>
-				<div class="invoiceService" id="invoiceService">
-					
-					<?php 
-						//Rebate on the promotion
-						$promoTarif = $service['tarif_facture'] * $service['rabais'];
-					?>
-						
-						<div class="invoiceServiceTitleWrapper">
-							<span class="invoiceServiceTitle"><?=$service['service_titre']?></span> <br/>
-							<?php if(isset($service['rabais'])) { ?>
-								<span class="invoiceServicePromoTitle"><?=$service['promotion_titre'] . '(' . $service['rabais'] * 100 . '%)'?></span>
-							<?php } ?>
-						</div>
-						
-						<div class="invoiceServiceRabaisWrapper">
-							<span class="invoiceServiceTarif"><?=number_format($service['tarif_facture'], 2) . '$'?></span> <br/>
-							<?php if(isset($service['rabais'])) { ?>
-								<span class="invoiceServicePromoTarif"><?='-' . number_format($promoTarif, 2) . '$'?></span>
-							<?php } ?>
-						</div>
-						
-					</div>
-			<?php } ?>
-		
-	</div>
-	
-		<div class="invoiceToggleWrapper">
-				<a class="invoiceToggle" href="#" id="href<?=$invoice['pk_facture']?>" onclick="toggleDetail(<?=$invoice['pk_facture']?>);">Détail</a>
-			</div>
-			
-	</div>
-	
-	<!-- add promo to all modal windows -->
-<div id="clientInfoModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <div class="clientInfoContent">
-		   <span id="clientNom" class="clientNom"></span>
-		   <span id="clientTelephone" class="clientTelephone"></span>
-		   <span id="clientAdresse" class="clientAdresse"></span>
+--><?php
+    foreach ($baseInvoices as $invoice) {
+    ?>
+        <div class="invoiceContent">
+        <div class="invoiceNbWrapper">
+            <span class="invoiceNb"><?=$invoice['pk_facture']?></span>
+        </div>
+        <div class="invoiceClientWrapper">
+            <span class="invoiceClient" onclick="getClientInfo(<?=$invoice['pk_client']?>)"><?=$invoice['prenom'] . ' ' . $invoice['nom']; ?></span> <br/>
+            <span class="invoiceConfirmation"><?=strtoupper($invoice['no_confirmation']) ?></span> 
+        </div>
+        <div class="invoiceDateWrapper">
+            <span class="invoiceDate"><?= date('d/m/Y',strtotime($invoice['date_service'])); ?></span> <br/>
+            <?php 
+                $invoiceTotal = 0;
+                foreach ($invoice['services'] as $service) {
+                    if (isset($service['rabais'])) {
+                        $invoiceTotal += $service['tarif_facture'] - ($service['tarif_facture'] * $service['rabais']); 
+                    }
+                    else {
+                        $invoiceTotal += $service['tarif_facture'];
+                    }
+                }
+            ?>
+            <span class="invoiceTarif"><?=$invoiceTotal?>$</span>
+        </div>
+    <div class="invoiceDetail" id="<?=$invoice['pk_facture']?>">
+    <?php foreach ($invoice['services'] as $service) {?>
+        <div class="invoiceService">
+            <?php 
+                //Rebate on the promotion
+                $promoTarif = $service['tarif_facture'] * $service['rabais'];
+            ?>
+            <div class="invoiceServiceTitleWrapper">
+                <span class="invoiceServiceTitle"><?=$service['service_titre']?></span> <br/>
+                <?php if(isset($service['rabais'])) { ?>
+                    <span class="invoiceServicePromoTitle"><?=$service['promotion_titre'] . '(' . $service['rabais'] * 100 . '%)'?></span>
+                <?php } ?>
+            </div>
+            <div class="invoiceServiceRabaisWrapper">
+                <span class="invoiceServiceTarif"><?=number_format($service['tarif_facture'], 2) . '$'?></span> <br/>
+                <?php if(isset($service['rabais'])) { ?>
+                    <span class="invoiceServicePromoTarif"><?='-' . number_format($promoTarif, 2) . '$'?></span>
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
 </div>
-  </div>
-
+    <div class="invoiceToggleWrapper">
+        <a class="invoiceToggle" href="#" id="href<?=$invoice['pk_facture']?>" onclick="toggleDetail(<?=$invoice['pk_facture']?>);">Détail</a>
+    </div>
+</div>
+<!-- add promo to all modal windows -->
+<div class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="clientInfoContent">
+            <span class="clientNom"></span>
+            <span class="clientTelephone"></span>
+            <span class="clientAdresse"></span>
+        </div>
+    </div>
 </div>  
-	
 <?php } ?>
-
-<script src="script/facture.js">
-	</script>
+<script src="script/facture.js"></script>
+<?php include('template/footer.inc.php') ?>

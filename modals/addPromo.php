@@ -16,7 +16,7 @@
 	   </div>
 	   <div class="addPromoDateWrapper">
 			<p>Période de la promotion</p> <br/>
-			<input type="date" id="debut" name="debut" placeholder="Date de début"/> à <input type="date" id="fin" name="fin" placeholder="Date de fin"/>
+			<input type="date" id="debut" name="debut"/> à <input type="date" id="fin" name="fin"/>
 			<p>Entrer un code s'il est requis pour appliquer la promotion lors de la création de la facture.</p>
 			<input type="text" name="codePromo" id="codePromo" />
 	   </div>

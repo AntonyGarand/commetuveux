@@ -105,7 +105,7 @@ require_once 'template/navbar.inc.php'; ?>
         <div id="modalFrame"> </div>
     </div>
 </div>
-<div class="addNewService"><a href="creerService.php">Ajouter un nouveau service</a></span></div>
+<div class="addNewService"><a href="creerService.php">Ajouter un nouveau service</a></div>
 <?php
 foreach ($products as $product) {
 ?>
@@ -125,15 +125,13 @@ foreach ($products as $product) {
                 <h2 class="serviceTitle"><?=htmlspecialchars($product['service_titre'])?></h2>
                 <p class="serviceDescription"><?=htmlspecialchars($product['service_description'])?></p>
                 <span class="servicePriceAndLengthWrapper">
-                    <span class="servicePriceWrapper"><p class="servicePrice">Tarif : <?=intval($product['tarif'])?>$</p></span>
-                    <span class="serviceLengthWrapper"><p class="serviceLength">Durée : <?=intval($product['duree'])?> h</p></span>
+                    <span class="servicePriceWrapper servicePrice">Tarif : <?=intval($product['tarif'])?>$</span>
+                    <span class="serviceLengthWrapper serviceLength">Durée : <?=intval($product['duree'])?> h</span>
                 </span>
             </div>
         </div>
     <div class="servicePromoAdmin">
-        <span class="servicePromoText">
-            <p class="promotionTitleText">Promotions :</p>
-        </span>
+        <span class="servicePromoText promotionTitleText"> Promotions : </span>
 <?php 
     $promotionQuery = 'SELECT 
         pk_promotion_service as id,
@@ -150,7 +148,7 @@ foreach ($products as $product) {
         ORDER BY date_debut';
 $promotions = $db->query($promotionQuery)->fetchAll();
 if (count($promotions) > 0) {
-    ?><span class="servicePromoContent"><span class="promotionWrapper"><?php
+    ?><div class="servicePromoContent"><div class="promotionWrapper"><?php
     foreach ($promotions as $promotion) {
         $startDate = strtotime($promotion['date_debut']);
         $endDate = strtotime($promotion['date_fin']);
@@ -177,20 +175,13 @@ if (count($promotions) > 0) {
                         <div class="promotionBoxBottom"><p class="promocodeText"><?=$promotion['code']?></p></div>
                     </div> 
                 </div>
-                <?php } ?></span></span><?php } ?>
-            <span class="promoPlusWrapper"><p class="promoPlus"><a href="addPromo.php?id=<?=$product['pk_service']?>">✚</a></p></span>
+                <?php } ?></div></div> <?php } ?>
+            <span class="promoPlusWrapper promoPlus"><a href="addPromo.php?id=<?=$product['pk_service']?>">✚</a></span>
             <div class="serviceShareIcons">
-                <img src="img/icones/medias sociaux.png" usemap="#image-map<?=$product['pk_service']?>"/></a>
+                <img src="img/icones/medias%20sociaux.png" usemap="#image-map<?=$product['pk_service']?>" alt="Partager sur les media sociaux"/>
                 <map name="image-map<?=$product['pk_service']?>">
                     <area target="_blank" alt="Partager sur Twitter" title="Partager sur Twitter" href="https://twitter.com/intent/tweet?text=Allez%20voir%20nos%20cours%20sur&url=http://weba.cegepsherbrooke.qc.ca/~tia16001/catalogue.php&hashtags=infoplusplus,coursInfo," coords="42,21,19" shape="circle">
-                    <area target="_blank" alt="Partager sur Facebook" title="Partager sur Facebook" data-href="http://weba.cegepsherbrooke.qc.ca/~tia16001/catalogue.php" href="https://www.facebook.com/dialog/feed?
-					app_id=115189402279734
-					&display=popup&amp;caption=<?=urlencode($product['service_titre']);?>
-					&image=<?=urlencode($product['image']);?>
-					&description=<?urlencode($product['service_description']);?>
-					&link=http%3A%2F%2Fweba.cegepsherbrooke.qc.ca%2F~tia16001%2Fcatalogue.php
-					&redirect_uri=http://weba.cegepsherbrooke.qc.ca/~tia16001/service.php"
-					coords="22,57,18" shape="circle">
+                    <area target="_blank" alt="Partager sur Facebook" title="Partager sur Facebook" data-href="http://weba.cegepsherbrooke.qc.ca/~tia16001/catalogue.php" href="https://www.facebook.com/dialog/feed?app_id=115189402279734&display=popup&amp;caption=<?=urlencode($product['service_titre']);?>&image=<?=urlencode($product['image']);?>&description=<?=urlencode($product['service_description']);?>&link=http%3A%2F%2Fweba.cegepsherbrooke.qc.ca%2F~tia16001%2Fcatalogue.php&redirect_uri=http://weba.cegepsherbrooke.qc.ca/~tia16001/service.php" coords="22,57,18" shape="circle">
                     <area target="_blank" alt="Partager sur Google+" title="Partager sur Google+" href="https://plus.google.com/share?url=http://weba.cegepsherbrooke.qc.ca/~tia16001/catalogue.php" coords="65,56,17" shape="circle">
                 </map>
             </div>

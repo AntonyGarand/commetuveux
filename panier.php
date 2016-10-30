@@ -41,7 +41,6 @@ require_once 'template/navbar.inc.php';
 
 $orderTotal = 0;
 ?>
-<!DOCTYPE html>
 <!-- /**************************************************************************************************/
 /* Fichier ...................... : panier.php */
 /* Titre ........................ : Lab Web */
@@ -50,7 +49,6 @@ $orderTotal = 0;
 /* Date de mise en ligne ........ : Jamais */
 /* Date de mise à jour .......... : 2016-08-22 */
 /*******************************************************************************************************/ -->
-<body>
     <div class="contenu">
         <?php 
             $items = getCartItems();
@@ -78,7 +76,7 @@ $orderTotal = 0;
         <div class="sectionPromocode">
             <span>Entrez le code promotionnel pour profiter d'un rabais additionnel</span>
             <input type="text" id="promoCode"/><br/>
-            <input type="button" value="Valider"onclick="checkPromocode()" id="validatePromocode"/>
+            <input type="button" value="Valider" onclick="checkPromocode()" id="validatePromocode"/>
         </div>
         <div class="sectionTotal">
             <div id="orderSubtotal">Sous-total : <?=$orderTotal?>$</div>
@@ -92,6 +90,4 @@ $orderTotal = 0;
             </form>
         </div>
     </div>
-</body>
-</html>
-
+    <?php include("template/footer.inc.php");

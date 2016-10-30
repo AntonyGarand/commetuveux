@@ -341,7 +341,7 @@ require_once 'template/navbar.inc.php';
             </div>
             <div class="right-column">
                 <input tabIndex="2" type="text" name="firstName" placeholder="Prénom" value="<?=$firstName?>" pattern=".{2,75}" title="Le prénom doit contenir entre 2 et 75 caractères inclusivement!" required/>
-                <select tabIndex="5" name="city" required><?php foreach ($cities as $city) {
+                <select tabIndex="5" name="city" required size="<?=count($cities)?>"><?php foreach ($cities as $city) {
                     //Populating the cities with the database-fetched values
                     echo '<option value="'.$city['pk_ville'].'"';
                     //If the current city is the selected one, keep its value

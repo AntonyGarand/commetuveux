@@ -36,8 +36,8 @@ foreach ($products as $product) {
             <h2 class="serviceTitle" id="serviceTitle<?=$product['pk_service']?>"><?=htmlspecialchars($product['service_titre'])?></h2>
             <p class="serviceDescription" id="serviceDescription<?=$product['pk_service']?>"><?=htmlspecialchars($product['service_description'])?></p>
             <div class="servicePriceAndLengthWrapper">
-                <span class="servicePriceWrapper"><p class="servicePrice" id="servicePrice<?=$product['pk_service']?>">Tarif : <?=intval($product['tarif'])?>$</p></span>
-                <span class="serviceLengthWrapper"><p class="serviceLength" id="serviceLength<?=$product['pk_service']?>">Durée : <?=intval($product['duree'])?> h</p></span>
+                <span class="servicePriceWrapper servicePrice" id="servicePrice<?=$product['pk_service']?>">Tarif : <?=intval($product['tarif'])?>$</span>
+                <span class="serviceLengthWrapper serviceLength" id="serviceLength<?=$product['pk_service']?>">Durée : <?=intval($product['duree'])?> h</span>
                 <div class="serviceAddToCartWrapper">
                     <button class="addToCartBtn" onclick="addToCart(<?=intval($product['pk_service'])?>)"></button>
                 </div>
