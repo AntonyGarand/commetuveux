@@ -77,6 +77,28 @@ require_once 'template/navbar.inc.php'; ?>
 /* Date de mise à jour .......... : 2016-08-22 */
 /*******************************************************************************************************/
 -->
+
+<!-- Load Facebook SDK for JavaScript -->
+	<div id="fb-root"></div>
+	<script>
+		window.fbAsyncInit = function() {
+		FB.init({
+		  appId      : '115189402279734',
+		  xfbml      : true,
+		  version    : 'v2.7'
+		});
+		FB.AppEvents.logPageView();
+		};
+
+		(function(d, s, id){
+		 var js, fjs = d.getElementsByTagName(s)[0];
+		 if (d.getElementById(id)) {return;}
+		 js = d.createElement(s); js.id = id;
+		 js.src = "//connect.facebook.net/en_US/sdk.js";
+		 fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+
 <div class="modal">
     <div class="modal-content">
         <span class="close" style="cursor: pointer;" onclick="document.getElementsByClassName('modal')[0].style.display = 'none';">x</span>
@@ -158,10 +180,17 @@ if (count($promotions) > 0) {
                 <?php } ?></span></span><?php } ?>
             <span class="promoPlusWrapper"><p class="promoPlus"><a href="addPromo.php?id=<?=$product['pk_service']?>">✚</a></p></span>
             <div class="serviceShareIcons">
-                <img src="img/icones/medias sociaux.jpeg" usemap="#image-map<?=$product['pk_service']?>"/></a>
+                <img src="img/icones/medias sociaux.png" usemap="#image-map<?=$product['pk_service']?>"/></a>
                 <map name="image-map<?=$product['pk_service']?>">
                     <area target="_blank" alt="Partager sur Twitter" title="Partager sur Twitter" href="https://twitter.com/intent/tweet?text=Allez%20voir%20nos%20cours%20sur&url=http://weba.cegepsherbrooke.qc.ca/~tia16001/catalogue.php&hashtags=infoplusplus,coursInfo," coords="42,21,19" shape="circle">
-                    <area target="_blank" alt="Partager sur Facebook" title="Partager sur Facebook" data-href="http://weba.cegepsherbrooke.qc.ca/~tia16001/catalogue.php" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fweba.cegepsherbrooke.qc.ca%2F%7Etia16001%2Fcatalogue.php&amp;src=sdkpreparse" coords="22,57,18" shape="circle">
+                    <area target="_blank" alt="Partager sur Facebook" title="Partager sur Facebook" data-href="http://weba.cegepsherbrooke.qc.ca/~tia16001/catalogue.php" href="https://www.facebook.com/dialog/feed?
+					app_id=115189402279734
+					&display=popup&amp;caption=<?=urlencode($product['service_titre']);?>
+					&image=<?=urlencode($product['image']);?>
+					&description=<?urlencode($product['service_description']);?>
+					&link=http%3A%2F%2Fweba.cegepsherbrooke.qc.ca%2F~tia16001%2Fcatalogue.php
+					&redirect_uri=http://weba.cegepsherbrooke.qc.ca/~tia16001/service.php"
+					coords="22,57,18" shape="circle">
                     <area target="_blank" alt="Partager sur Google+" title="Partager sur Google+" href="https://plus.google.com/share?url=http://weba.cegepsherbrooke.qc.ca/~tia16001/catalogue.php" coords="65,56,17" shape="circle">
                 </map>
             </div>
