@@ -129,4 +129,13 @@ function updatePromo(oldPromoId) {
 		});
 	}
 
+//shares on Facebook using a feed dialog	
+function shareToFB() {
+	FB.ui({
+		method: 'feed',
+		link: 'http://weba.cegepsherbrooke.qc.ca/~tia16001/service.php',
+		caption: 'An example caption',
+		}, function(response){});
+}
+
 
