@@ -1,8 +1,5 @@
 <?php
-
-	//TODO: Change to config once bug is resolved. I am aware this fix is terrible. :P
-    $db = new PDO('mysql:host=127.0.0.1;dbname=tia16001;charset=UTF8', "root", "");
-
+    require_once("../template/header.inc.php");
 	if (isset($_POST['clientId'])) {
 		$clientInfoQuery = "SELECT client.prenom, client.nom, client.telephone, adresse.no_civique, adresse.rue, adresse.code_postal, ville.ville 
 							FROM client 
