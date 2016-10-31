@@ -25,7 +25,7 @@ $orderParams = array(
 //Item settings
 $item = array(
     'PAYMENTREQUEST_0_AMT' => "20",
-    'PAYMENTREQUEST_0_CURRENCYCODE' => 'EUR',
+    'PAYMENTREQUEST_0_CURRENCYCODE' => 'USD',
     'PAYMENTREQUEST_0_ITEMAMT' => "20",
     'L_PAYMENTREQUEST_0_NAME0' => 'Item name',
     'L_PAYMENTREQUEST_0_DESC0' => 'Item description',

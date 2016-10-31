@@ -2,6 +2,7 @@
 require_once 'template/header.inc.php';
 require_once "librairies/DPayPal.php";
 $paypal = new DPayPal();
+$message = "";
 
 /* * * * * * * * * * * *
  * Paypal verification *
@@ -13,14 +14,15 @@ if(isset($_GET['token'])) {
 }
 
 //Fait le paiement si l'adresse de retour à été renvoyée au bon endroit
-if (isset($_GET['confirmpayment']) && $_GET['confirmpayment']) {
+if (isset($_GET['PayerID'])) {
+	
     $requestParams = array('TOKEN' => $_SESSION['paypaltoken']);
 
     $response = $paypal->GetExpressCheckoutDetails($requestParams);
-    $payerId=$_GET["PAYERID"];//Payer id returned by paypal
-    print_r($response); die();
+    $payerId=$_GET["PayerID"];//Payer id returned by paypal
+    //print_r($_GET); die();
 
-    //Create request for DoExpressCheckoutPayment
+ //Create request for DoExpressCheckoutPayment
     $requestParams=array(
         "TOKEN"=>$_SESSION['paypaltoken'],
         "PAYERID"=>$payerId,
@@ -33,12 +35,15 @@ if (isset($_GET['confirmpayment']) && $_GET['confirmpayment']) {
 
     if(is_array($transactionResponse) && $transactionResponse["ACK"]=="Success"){//Payment was successfull
         //Successful Payment
-        //empty cart and show successful message
+        $message = "Transaction complétée avec succès.";
+		
     }
     else{
         //Failure
-        //shows error message
+        $message = "Impossible de terminer la transaction";
     }
+	
+	unset($_SESSION['token']);
 }
 
 /* * * * * * * * * * * *
@@ -79,6 +84,7 @@ $orderTotal = 0;
 /* Date de mise à jour .......... : 2016-08-22 */
 /*******************************************************************************************************/ -->
     <div class="contenu">
+	<div class="message"><?=$message?></div>
         <?php 
             foreach($items as $serviceId){
                 $selectItemQuery = "SELECT * FROM service WHERE pk_service = :id";
