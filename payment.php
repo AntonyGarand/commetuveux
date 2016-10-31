@@ -8,8 +8,8 @@ $paypal = new DPayPal(); //Create an DPayPal object
 //All available parameters for SetExpressCheckout are available at https://developer.paypal.com/docs/classic/api/merchant/SetExpressCheckout_API_Operation_NVP/
  
 $requestParams = array(
-    'RETURNURL' => "http://localhost/commetuveux/panier.php?confirmpayment=true", //Enter URL of the page where you want to redirect your user after user enters PayPal login data and confirms order on PayPal page
-    'CANCELURL' => "http://localhost/commetuveux/panier.php?cancel=true"//Page you want to redirect user to, if user press cancel button on PayPal website
+    'RETURNURL' => SITE_URL . "panier.php?confirmpayment=true", //Enter URL of the page where you want to redirect your user after user enters PayPal login data and confirms order on PayPal page
+    'CANCELURL' => SITE_URL . "panier.php?cancel=true"//Page you want to redirect user to, if user press cancel button on PayPal website
 );
 //Order settings
 $orderParams = array(
