@@ -23,7 +23,7 @@ window.fbAsyncInit = function() {
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-//Adds an item to the cart
+//Shows the modal confirmation popup to add an item to the cart
 function addToCart(id){
     let title = document.getElementById('serviceTitle' + id).innerText,
         description = document.getElementById('serviceDescription' + id).innerText,    
@@ -47,6 +47,7 @@ function addToCart(id){
 
 }
 
+//Adds an item to the cart
 function addCartItem(){
     //Adding the item ID to the cookies
     let id= document.getElementById("cartItemId").value,
@@ -81,8 +82,8 @@ function setCookie(cname, cvalue) {
 }
 
 function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
     for(var i = 0; i < ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0) == ' ') {
@@ -93,4 +94,33 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+const text = $(".sectionPromocode > span")[0];
+function checkPromocode(){
+    const code = document.getElementById("promoCode").value
+    $.get("?promocode=" + code)
+        .done(function(ans){
+            //0 is error, invalid code
+            if(ans != '0'){
+                //Result is [promoId]|[discountValue]
+                const values = ans.split('|');
+                text.style.color = "green";
+                text.innerHTML = "Activation réussie!";
+                updatePromo(values[0],values[1], values[2], values[3], code);
+            } else {
+                //Show "Invalid promotion" message
+                text.style.color = "red";
+                text.innerHTML = "Erreur lors de l'activation! Veuillez réessayer.";
+            }
+    });
+}
+
+function updatePromo(serviceId, promotionName, discount, discountPercent, promocode){
+    const promoArea = $("#servicePromotion" + serviceId)[0];
+    promoArea.innerText = promotionName + " (" + discountPercent * 100 + "%)";
+    document.getElementById("servicePromotionPrice" + serviceId).innerHTML = "- " + discount;
+
+    document.getElementById("orderSpecial").innerHTML = "Rabais additionnel: " + discount + "$";
+    document.getElementById("orderTotal").innerHTML = "Total : " + (orderSubtotal - discount) + "$";
 }
