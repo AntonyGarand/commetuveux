@@ -124,3 +124,17 @@ function updatePromo(serviceId, promotionName, discount, discountPercent, promoc
     document.getElementById("orderSpecial").innerHTML = "Rabais additionnel: " + discount + "$";
     document.getElementById("orderTotal").innerHTML = "Total : " + (orderSubtotal - discount) + "$";
 }
+//Remove a service from its id from the cart
+function removeService(serviceId){
+    let cart = getCookie('cart').split('|');
+    const indexOfOldValue = cart.indexOf(serviceId+[]);
+    //If value is present, remove it
+    if(indexOfOldValue != -1){
+        //Removing old value
+        cart.splice(indexOfOldValue, 1);
+        console.log(cart);
+        setCookie("cart",cart.join('|'));
+    }
+    //Refresh the page to see changes
+    location.reload();
+}

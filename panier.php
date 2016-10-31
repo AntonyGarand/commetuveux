@@ -97,7 +97,7 @@ $orderTotal = 0;
                         </div>
                         <span class="servicePromotion" id="servicePromotion<?=$serviceId?>"></span>
                         <span id="servicePromotionPrice<?=$serviceId?>" style="font-weight:bold;float:right;color:red;"></span>
-                        <div class="serviceRemove">Retirer</div>
+                        <div class="serviceRemove" onclick="removeService(<?=$serviceId?>)" style="cursor: pointer;">Retirer</div>
                     </div>
                 <?php }
             }
