@@ -120,7 +120,7 @@ function updatePromo(serviceId, promotionName, discount, discountPercent, promoc
     const promoArea = $("#servicePromotion" + serviceId)[0];
     promoArea.innerText = promotionName + " (" + discountPercent * 100 + "%)";
     document.getElementById("servicePromotionPrice" + serviceId).innerHTML = "- " + discount;
-
+	document.getElementById("promoCodeValue").value = promocode;
     document.getElementById("orderSpecial").innerHTML = "Rabais additionnel: " + discount + "$";
     document.getElementById("orderTotal").innerHTML = "Total : " + (orderSubtotal - discount) + "$";
 }

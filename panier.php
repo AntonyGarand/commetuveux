@@ -121,6 +121,7 @@ $orderTotal = 0;
             <hr/>
             <form id="checkout" name="checkout" method="post" action="payment.php">
                 <div id="payment-form"></div>
+				<input type="hidden" name="promoCode" id="promoCodeValue"/> 
                 <input type="submit" name="checkout" value="Paiement"/>
             </form>
         </div>
