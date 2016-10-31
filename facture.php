@@ -86,18 +86,18 @@ require_once 'template/navbar.inc.php'; ?>
     <div class="invoiceToggleWrapper">
         <a class="invoiceToggle" href="#" id="href<?=$invoice['pk_facture']?>" onclick="toggleDetail(<?=$invoice['pk_facture']?>);">Détail</a>
     </div>
-</div>
+</div> 
+<?php } ?>
 <!-- add promo to all modal windows -->
-<div class="modal">
+<div id="clientInfoModal" class="modal">
     <!-- Modal content -->
     <div class="modal-content">
-        <div class="clientInfoContent">
-            <span class="clientNom"></span>
-            <span class="clientTelephone"></span>
-            <span class="clientAdresse"></span>
+        <div id="clientInfoContent" class="clientInfoContent">
+            <span id="clientNom" class="clientNom">trash</span>
+            <span id="clientTelephone" class="clientTelephone">trash</span>
+            <span id="clientAdresse" class="clientAdresse">trash</span>
         </div>
     </div>
-</div>  
-<?php } ?>
+</div> 
 <script src="script/facture.js"></script>
 <?php include('template/footer.inc.php') ?>

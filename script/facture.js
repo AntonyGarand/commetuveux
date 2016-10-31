@@ -25,26 +25,28 @@ window.onclick = function(event) {
 
 //gets client info for ajax info lookup
 function getClientInfo(id) {
-		jQuery.ajax({
-		  url: "modals/clientInfo.php",
-		  type: "POST",
-		  data: {clientId:id},
-		  success: function(json_data)
-			{
+	jQuery.ajax({
+	  url: "modals/clientInfo.php",
+	  type: "POST",
+	  data: {clientId:id},
+	  success: function(json_data)
+		{	
+			//fills data
+			var data_array = $.parseJSON(json_data);
 			
-				//fills data
-				var data_array = $.parseJSON(json_data);
-				$('#clientNom').html(data_array[0]['prenom'] + " " + data_array[0]['nom']);
-				$('#clientTelephone').html(data_array[0]['telephone']);
-				$('#clientAdresse').html(data_array[0]['no_civique'] + " " + data_array[0]['rue'] + ", " + data_array[0]['ville'] + ", " + data_array[0]['code_postal'] );
-				
-				//displays the modal
-				modal.style.display = "block";
-			},
-			error: function (jqXHR, textStatus, errorThrown)
-			{
-			console.log(errorThrown);//)
-		 
-			}
-		});
-	}
+			console.log(data_array);
+			
+			$('#clientNom').html(data_array[0]['prenom'] + " " + data_array[0]['nom']);
+			$('#clientTelephone').html(data_array[0]['telephone']);
+			$('#clientAdresse').html(data_array[0]['no_civique'] + " " + data_array[0]['rue'] + ", " + data_array[0]['ville'] + ", " + data_array[0]['code_postal'] );
+			
+			//displays the modal
+			modal.style.display = "block";
+		},
+		error: function (jqXHR, textStatus, errorThrown)
+		{
+		console.log(errorThrown);//)
+	 
+		}
+	});
+}

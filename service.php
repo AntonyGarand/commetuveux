@@ -14,12 +14,9 @@ if(isset($_GET['updatePromoId'])) {
 		//Fetch current promo
 		$oldPromo = $stmt->fetchAll();
 		
-		//Get promotion list for dropdown menu
-		$promotionsQuery = 'SELECT * FROM promotion ORDER BY promotion_titre';
-		$promotions = $db->query($promotionsQuery)->fetchAll();
-		
 		//Send info as JSON to fill out modal
 		echo json_encode($oldPromo);
+		exit;
 	}
 }
 
@@ -39,18 +36,21 @@ if (isset($_POST['promoID'])) {
 if (isset($_POST['updateId'])) {
     $required = array('updateId', 'debut', 'fin');
     $errors = validatePost($required); 	//validate if array is not empty
+	
 	if (empty($errors)) {
 		if (strtotime($_POST['debut']) < strtotime($_POST['fin'])) {
-			$updatePromoQuery = 'UPDATE ta_promotion_service SET(fk_promotion=:promo, date_debut=:debut, date_fin=:fin, code=:code) WHERE fk_promotion=:oldPromo AND fk_service=:service';
+			$updatePromoQuery = 'UPDATE ta_promotion_service SET fk_promotion=:promo, date_debut=:debut, date_fin=:fin, code=:code WHERE  pk_promotion_service=:id';
 			$stmt = $db->prepare($updatePromoQuery);
+			$stmt->bindParam(':promo', $_POST['promoId'], PDO::PARAM_INT);
 			$stmt->bindParam(':debut', $_POST['debut']);
 			$stmt->bindParam(':fin', $_POST['fin']);
-			$stmt->bindParam(':promo', $_POST['newPromoId']);
-			$stmt->bindParam(':oldPromo', $_POST['updateId']);
-			$stmt->bindParam(':service', $service['pk_service']);
-			$stmt->bindParam(':code', isset($_POST['code']) ? $_POST['code'] : '');
+			$stmt->bindParam(':code', isset($_POST['code']) ? $_POST['code'] : '', PDO::PARAM_STR);
+			$stmt->bindParam(':id', $_POST['updateId'], PDO::PARAM_INT);
 			if (!($stmt->execute())) {
-				$errors[] = "Impossible d'appliquer cette promotion à tous les services.";
+				$errors[] = "Impossible d'appliquer cette promotion à ce service.";
+			}
+			else {
+				return 'Yes';
 			}
 			
 		}
@@ -61,7 +61,48 @@ if (isset($_POST['updateId'])) {
 	else {
 		$errors[] = "Veuillez saisir tous les champs requis.";
 	}
-	 
+	
+	if(!empty($errors)) {
+		$exceptionText = implode(', ', $errors);
+		throw new Exception($exceptionText);
+	}
+}
+
+//If user adds a promotion to a given service 
+if (isset($_POST['addToServiceId'])) {
+    $required = array('addToServiceId', 'debut', 'fin');
+    $errors = validatePost($required); 	//validate if array is not empty
+	
+	if (empty($errors)) {
+		if (strtotime($_POST['debut']) < strtotime($_POST['fin'])) {
+			
+			$addPromoQuery = 'INSERT INTO ta_promotion_service (fk_promotion, fk_service, date_debut, date_fin, code) VALUES (:promo, :service, :debut, :fin, :code)';
+			$stmt = $db->prepare($addPromoQuery);
+			$stmt->bindParam(':promo', $_POST['promoId'], PDO::PARAM_INT);
+			$stmt->bindParam(':debut', $_POST['debut']);
+			$stmt->bindParam(':fin', $_POST['fin']);
+			$stmt->bindParam(':code', isset($_POST['code']) ? $_POST['code'] : '', PDO::PARAM_STR);
+			$stmt->bindParam(':service', $_POST['addToServiceId'], PDO::PARAM_INT);
+			if (!($stmt->execute())) {
+				$errors[] = "Impossible d'appliquer cette promotion à ce service.";
+			}
+			else {
+				return 'Yes';
+			}
+			
+		}
+		else {
+			$errors[] = "La date de début doit être plus petite que la date de fin";
+		}
+	}
+	else {
+		$errors[] = "Veuillez saisir tous les champs requis.";
+	}
+	
+	if(!empty($errors)) {
+		$exceptionText = implode(', ', $errors);
+		throw new Exception($exceptionText);
+	}
 }
 
 $productsQuery = 'SELECT * FROM service ORDER BY pk_service';
@@ -105,6 +146,9 @@ require_once 'template/navbar.inc.php'; ?>
         <div id="modalFrame"> </div>
     </div>
 </div>
+<?php if (!empty($errors)) { ?>
+            <p class="error"><?=implode('<br/>', $errors)?></p>
+        <?php } ?>
 <div class="addNewService"><a href="creerService.php">Ajouter un nouveau service</a></div>
 <?php
 foreach ($products as $product) {
@@ -176,7 +220,7 @@ if (count($promotions) > 0) {
                     </div> 
                 </div>
                 <?php } ?></div></div> <?php } ?>
-            <span class="promoPlusWrapper promoPlus"><a href="addPromo.php?id=<?=$product['pk_service']?>">✚</a></span>
+            <span class="promoPlusWrapper promoPlus"><a href="#" onclick="openAddPromoModal(<?=$product['pk_service']?>)">✚</a></span>
             <div class="serviceShareIcons">
                 <img src="img/icones/medias%20sociaux.png" usemap="#image-map<?=$product['pk_service']?>" alt="Partager sur les media sociaux"/>
                 <map name="image-map<?=$product['pk_service']?>">
@@ -189,7 +233,7 @@ if (count($promotions) > 0) {
     </div>
     <?php } ?>
 	
-	<!-- add promo to all modal windows -->
+	<!-- update promo modal windows -->
 <div id="updatePromoModal" class="modal">
 
   <!-- Modal content -->
@@ -198,7 +242,18 @@ if (count($promotions) > 0) {
     <?php include('modals/updatePromo.php'); ?>
   </div>
 
-</div>       
+</div>
+
+	<!-- add promo modal windows -->
+<div id="addPromoToServiceModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">x</span>
+    <?php include('modals/addPromoToService.php'); ?>
+  </div>
+
+</div>              
 	
-    <script src="script/service.js"></script>
+<script src="script/service.js"></script>
 <?php include("template/footer.inc.php"); ?>

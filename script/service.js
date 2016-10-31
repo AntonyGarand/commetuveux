@@ -4,6 +4,7 @@ function showMenu(id){
 function showPromo(id){
     showItem("#cornerPromo" + id);
 }
+
 function showItem(selector){
     let item = document.querySelector(selector);
     item.style.display="inline";
@@ -31,20 +32,37 @@ function disableService(id){
 
 // Get the modal
 var modal = document.getElementById('updatePromoModal');
+var addModal = document.getElementById('addPromoToServiceModal');
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks on the button, open the modal
+// When the user clicks on the button, open the modal for updating a promotion
 // set correct id and percent to promotion 
 function openModal(data) {
 
+	//change beginning and end inputs to date objects
+	// Split timestamp into [ Y, M, D, h, m, s ]
+	var d = data[0]['date_debut'].split(/[- :]/);
+	var f = data[0]['date_fin'].split(/[- :]/);
+
+	// Apply each element to the Date function
+	var debut = new Date(Date.UTC(d[0], d[1]-1, d[2], d[3], d[4], d[5]));
+	var fin = new Date(Date.UTC(f[0], f[1]-1, f[2], f[3], f[4], f[5]));
+
 	//fill modal with correct data
-	$('#serviceId').val(data[0]['fk_service']);
-	$('#promoServiceId').val(data[0]['pk_promotion_service']);
-	$('#debut').val(data[0]['date_debut']);
-	$('#fin').val(data[0]['date_fin']);
-	$('#codePromo').val(data[0]['code']);
+	$('#updateServiceId').val(data[0]['fk_service']);
+	$('#updatePromoServiceId').val(data[0]['pk_promotion_service']);
+	document.getElementById("debut").valueAsDate = debut;
+	document.getElementById("fin").valueAsDate = fin;
+	$('#updateCodePromo').val(data[0]['code']);
+	$('#updatePromoName').val(data[0]['fk_promotion']);
+	
+	//change percentage of box based on chosen promotion
+	var e = document.getElementById('updatePromoName');
+    var promo = e.children[e.selectedIndex];
+    var percent = promo.getAttribute("data-percent");
+    document.getElementById('updatePromoNb').innerHTML = percent * 100 + "%";
 	
     modal.style.display = "block";
 }
@@ -58,6 +76,13 @@ span.onclick = function() {
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
+    }
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == addModal) {
+        addModal.style.display = "none";
     }
 }
 
@@ -95,39 +120,84 @@ function openUpdatePromo(promoId) {
 		{
 			//fills data
 			var data_array = $.parseJSON(json_data);
+			
+			console.log(data_array);
+			
 			openModal(data_array);				
 		},
 		error: function (jqXHR, textStatus, errorThrown)
 		{
-		console.log(errorThrown);//)
-	 
+			console.log(errorThrown);//)
 		}
 	});
 }
 
-//when the client sends
-function updatePromo(oldPromoId) {
-		var id = document.getElementById('promoName').value;
-		var dateDebut = document.getElementById('debut').value;
-		var dateFin = document.getElementById('fin').value;
-		var code = document.getElementById('codePromo').value;
-		jQuery.ajax({
-		  url: "service.php",
-		  type: "POST",
-		  data: {oldPromoId:oldPromoId, debut:dateDebut, fin:dateFin, code:code},
-		  success: function(result, textStatus, jqXHR)
-			{
-			    console.log(result + "\n" + textStatus);//)
-				window.location.reload();
-				
-			},
-			error: function (jqXHR, textStatus, errorThrown)
-			{
-			console.log(errorThrown);//)
-		 
-			}
-		});
-	}
+//when the client sends a promo to update
+function updatePromo() { }
+		
+		
+	
+//update d'une promotion via AJAX	
+function updatePromoTest() {
+
+	//stocks values in variables
+	var id = document.getElementById('updatePromoServiceId').value;
+	var dateDebut = document.getElementById('updateDebut').value;
+	var dateFin = document.getElementById('updateFin').value;
+	var code = document.getElementById('updateCodePromo').value;
+	var promoId = document.getElementById('updatePromoName').value;
+	
+	//sends update via jQuery
+	jQuery.ajax({
+	  url: "service.php",
+	  type: "POST",
+	  data: {updateId:id, promoId:promoId, debut:dateDebut, fin:dateFin, code:code},
+	  success: function(result/*, textStatus, jqXHR*/)
+		{	
+			//console.log(result + "\n" + textStatus);//)
+			alert('Modification effectuée avec succès.');
+			window.location.reload();
+		},
+		error: function (error)
+		{
+			alert(error);
+			//console.log(error);//)
+		}
+	});
+}
+
+//opens the modal to add a given promo to a service
+function openAddPromoModal(id) {
+	$('#serviceId').val(id);
+	addModal.style.display = "block";
+}
+
+function addPromotion() {
+	//stocks values in variables
+	var id = document.getElementById('serviceId').value;
+	var dateDebut = document.getElementById('debut').value;
+	var dateFin = document.getElementById('fin').value;
+	var code = document.getElementById('codePromo').value;
+	var promoId = document.getElementById('promoName').value;
+	
+	//sends update via jQuery
+	jQuery.ajax({
+	  url: "service.php",
+	  type: "POST",
+	  data: {addToServiceId:id, promoId:promoId, debut:dateDebut, fin:dateFin, code:code},
+	  success: function(result/*, textStatus, jqXHR*/)
+		{	
+			//console.log(result + "\n" + textStatus);//)
+			alert('Ajout effectué avec succès.');
+			window.location.reload();
+		},
+		error: function (error)
+		{
+			alert(error);
+			//console.log(error);//)
+		}
+	});
+}
 
 //shares on Facebook using a feed dialog	
 function shareToFB() {

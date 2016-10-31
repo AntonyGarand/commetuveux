@@ -842,7 +842,7 @@ input[type="checkbox"]:checked + label span {
 }
 
 /* ---------------- Ajout service à promotion --------------------- */
-.addPromoContent {
+.addPromoContent, .updatePromoContent {
     padding: 10px;
     border: 2px solid #FF9F07;
     margin: 5px;
@@ -850,18 +850,18 @@ input[type="checkbox"]:checked + label span {
     width:100%;
 }
 
-.addPromoContent h3 {
+.addPromoContent h3, .updatePromoContent h3 {
     padding-bottom:30px;
 }
 
-.addPromoWrapper {
+.addPromoWrapper, .updatePromoWrapper {
     width:25%;
     float:left;
     margin:15px;
     border:1px solid #000708;
 }
 
-.addPromoNb {
+.addPromoNb, .updatePromoWrapper {
     width:100%;
     padding-top:25px;
     padding-bottom:25px;
@@ -926,11 +926,11 @@ input[type="checkbox"]:checked + label span {
     color:    #FF9F07;
 }
 
-.addPromoDateWrapper {
+.addPromoDateWrapper, .updatePromoDateWrapper {
     width:70%;
 }
 
-.addPromoSubmitWrapper {
+.addPromoSubmitWrapper, .updatePromoSubmitWrapper {
     width:100%;
     text-align:right;
 }
@@ -982,6 +982,13 @@ input[type="checkbox"]:checked + label span {
     text-decoration: none;
     cursor: pointer;
 }
+
+/* Update promotion modal */
+#updatePromoModal .modal-content, #addPromoToServiceModal .modal-content{
+	width:80% !important;
+	text-align:left !important;
+}
+
 /* Modal catalogue */
 #modalTitle {
     width: 75%;
@@ -1015,10 +1022,10 @@ input[type="checkbox"]:checked + label span {
     position:absolute;
     top:140px;
     left:33%;
-    background: -webkit-linear-gradient(#FFFAFB, #09AAC1); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#FFFAFB, #09AAC1); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#FFFAFB, #09AAC1); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#FFFAFB, #09AAC1); /* Standard syntax */
+    background: -webkit-linear-gradient(#FFFAFB, #7ddae8 75%, #09AAC1); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#FFFAFB, #7ddae8 75%, #09AAC1); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#FFFAFB, #7ddae8 75%, #09AAC1); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#FFFAFB, #7ddae8 75%, #09AAC1); /* Standard syntax */
 }
 
 #clientInfoModal #clientNom {
