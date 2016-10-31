@@ -15,7 +15,39 @@ if(isset($_GET['token'])) {
 
 //Fait le paiement si l'adresse de retour à été renvoyée au bon endroit
 if (isset($_GET['PayerID'])) {
-	
+    /*
+     * Checking the cart's content and coupons
+     */
+    $items = array_map('intval', getCartItems());
+    $selectCartItemsQuery = 'SELECT * FROM service WHERE pk_service IN (' . implode(',',$items) . ')';
+    $selectCartItemsStmt  = $db->query($selectCartItemsQuery);
+    //Empty cart items
+    if($selectCartItemsStmt->rowCount() < 1){
+        die(header("Location: catalogue.php"));    
+    }
+    $cartItems = $selectCartItemsStmt->fetchAll();
+    $totalPrice = 0;
+    array_walk($cartItems, function($item){global $totalPrice;$totalPrice += $item['tarif'];});
+    if(isset($_GET['coupon'])){
+        $promotion = array('discount'=>0,'service'=>0);
+        if(isset($_GET['promocode'])){
+            $code = strval($_GET['promocode']);
+            /*
+             * Select all service currently in the cart with an active promotion
+             */
+            $selectCodeQuery = 'SELECT * FROM promotion JOIN ta_promotion_service ON promotion.pk_promotion = ta_promotion_service.fk_promotion JOIN service ON ta_promotion_service.fk_service = service.pk_service
+            WHERE service.pk_service in ('. implode(',',$items) .') AND date_fin > NOW() AND actif = 1 AND code = :code ORDER BY tarif DESC';
+            $selectCodeStmt = $db->prepare($selectCodeQuery);
+            if($selectCodeStmt->execute(array(':code'=>$code))){
+                $promos = $selectCodeStmt->fetchAll();
+                if(count($promos)!==0){
+                    $promotion = $promos[0];
+                    $discount = $promotion['rabais'] * $promotion['tarif'];
+                    $totalPrice -= $discount;
+                }
+            }
+        }
+    }
     $requestParams = array('TOKEN' => $_SESSION['paypaltoken']);
 
     $response = $paypal->GetExpressCheckoutDetails($requestParams);
@@ -26,9 +58,9 @@ if (isset($_GET['PayerID'])) {
     $requestParams=array(
         "TOKEN"=>$_SESSION['paypaltoken'],
         "PAYERID"=>$payerId,
-        "PAYMENTREQUEST_0_AMT"=>"20",//Payment amount. This value should be sum of of item values, if there are more items in order
-        "PAYMENTREQUEST_0_CURRENCYCODE"=>"USD",//Payment currency
-        "PAYMENTREQUEST_0_ITEMAMT"=>"20"//Item amount
+        "PAYMENTREQUEST_0_AMT"=>$totalPrice,//Payment amount. This value should be sum of of item values, if there are more items in order0
+        "PAYMENTREQUEST_0_CURRENCYCODE"=>'CAD',//Payment currency
+        "PAYMENTREQUEST_0_ITEMAMT"=>$totalPrice//Item amount
     );
 
     $transactionResponse=$paypal->DoExpressCheckoutPayment($requestParams);//Execute transaction
